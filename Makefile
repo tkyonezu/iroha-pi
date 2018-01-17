@@ -34,7 +34,7 @@
 .PHONY: all help docker up dwon test clean
 
 IROHA_HOME := /opt/iroha
-BUILD_HOME := $(shell pwd)/../iroha
+BUILD_HOME := $(shell pwd)/../iroha-ee
 
 GITLOG := $(shell scripts/iroha-pi-gitlog.sh $(BUILD_HOME))
 
@@ -100,16 +100,16 @@ iroha-pi:
 	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/iroha-pi -f $(DOCKER) .
 
 iroha-pi-up:
-	cd docker && env COMPOSE_PROJECT_NAME=iroha-pi docker-compose -p iroha-pi -f $(COMPOSE) up -d
+	cd docker && env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) up -d
 
 iroha-pi-down:
-	cd docker && env COMPOSE_PROJECT_NAME=iroha-pi docker-compose -p iroha-pi -f $(COMPOSE) down
+	cd docker && env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) down
 
 test:
-	cd scripts && bash iroha--pitest.sh
+	cd scripts && bash iroha-pi-test.sh
 
 logs:
-	docker logs -f iroha-pi_node_1
+	docker logs -f irohapi_node_1
 
 clean:
 	-rm -fr docker/rel/iroha

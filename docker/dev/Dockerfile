@@ -1,8 +1,5 @@
 FROM ubuntu:16.04
 
-# libgpr.so => /usr/local/src/github.com/tkyonezu/iroha-pi/docker/rel/iroha/lib/libgpr.so
-# libcares.so.2 => /usr/local/src/github.com/tkyonezu/iroha-pi/docker/rel/iroha/lib/libcares.so.2
-
 ARG NUMCORE=${NUMCORE:-4}
 
 RUN apt-get update && apt-get -y upgrade
@@ -14,13 +11,13 @@ RUN apt-get -y --no-install-recommends install \
     git ssh tar gzip ca-certificates python3 python3-pip python3-setuptools \
     lcov \
     wget curl cmake file unzip gdb iputils-ping vim ccache \
-    gcovr vera++ cppcheck doxygen graphviz graphviz-dev \
+    gcovr vera++ cppcheck doxygen graphviz graphviz-dev rsync \
  && apt-get -y clean
 
 RUN pip3 install --upgrade pip \
  && pip3 install flask requests
 
-# install cmake 3.5.1
+# o install cmake 3.5.1
 RUN git clone https://gitlab.kitware.com/cmake/cmake.git /tmp/cmake \
  && (cd /tmp/cmake; git checkout 64130a7e793483e24c1d68bdd234f81d5edb2d51) \
  && (cd /tmp/cmake; /tmp/cmake/bootstrap --parallel=${NUMCORE} --enable-ccache) \
