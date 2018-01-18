@@ -1,4 +1,4 @@
-FROM hyperledger/iroha-pi-dev
+FROM ubuntu:16.04
 
 ARG GITLOG="${GITLOG}"
 
