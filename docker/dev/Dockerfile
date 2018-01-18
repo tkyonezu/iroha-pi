@@ -100,7 +100,7 @@ RUN git clone https://github.com/martinmoene/optional-lite /tmp/optional-lite \
  && cp -r /tmp/optional-lite/include/nonstd /usr/local/include \
  && rm -fr /tmp/optional-lite
 
-# o install libpq
+# o install libpq (postgresql)
 RUN git clone https://git.postgresql.org/git/postgresql.git /tmp/postgresql \
  && (cd /tmp/postgresql; git checkout 029386ccbddd0a33d481b94e511f5219b03e6636) \
  && (cd /tmp/postgresql; /tmp/postgresql/configure --without-readline --prefix=/usr/local) \
@@ -111,7 +111,7 @@ RUN git clone https://git.postgresql.org/git/postgresql.git /tmp/postgresql \
  && make -C /tmp/postgresql/src/include install; \
     rm -fr /tmp/postgresql
 
-# x install pqxx
+# x install libpqxx
 RUN git clone https://github.com/jtv/libpqxx /tmp/libpqxx \
  && (cd /tmp/libpqxx; git checkout 5b17abce5ac2b1a2f8278718405b7ade8bb30ae9) \
  && (cd /tmp/libpqxx; /tmp/libpqxx/configure --disable-documentation --with-pic) \
