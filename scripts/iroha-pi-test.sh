@@ -5,7 +5,7 @@ while read result name; do
     echo "=============================="
     echo "=== $name ==="
     echo "=============================="
-    docker exec iroha_node_1 /opt/iroha/test_bin/$name
+    docker exec irohapi_node_1 /opt/iroha/test_bin/$name
   # cat </dev/tty
   fi
 done <iroha-pi-test.lst

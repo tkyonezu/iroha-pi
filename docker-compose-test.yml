@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  node:
+    image: hyperledger/iroha-pi
+    ports:
+      - "50051:50051"
+    environment:
+      - IROHA_POSTGRES_USER=postgres
+      - IROHA_POSTGRES_PASSWORD=HelloW0rld
+      - CCACHE_DIR=/tmp/ccache
+    depends_on:
+      - redis
+      - postgres
+    volumes:
+      - ./example:/opt/iroha/config
+      - ../iroha-ee/build/test_bin:/opt/iroha/test_bin
+      - ccache-data:/tmp/ccache
+    working_dir: /opt/iroha
+
+  postgres:
+    image: postgres:9.5
+    environment:
+      - POSTGRES_USER=postgres
+      - IROHA_POSTGRES_PASSWORD=HelloW0rld
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:3.2.8
+
+volumes:
+  ccache-data:

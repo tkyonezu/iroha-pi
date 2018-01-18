@@ -5,6 +5,7 @@
 # - docker        - build iroha-pi runtime container
 # - up            - running iroha-pi container by docker-compose
 # - down          - stop and remove iroha-pi container by docker-compose
+# - testup        - running iroha-pi for test container by docker-compose
 # - test          - exec all test commands
 # - logs          - show logs of iroha-pi_node_1 container
 # - clean         - cleaning protobuf schemas and build directory
@@ -48,11 +49,13 @@ ifeq ($(UKERNEL),Linux)
     PROJECT := hyperledger
     DOCKER := Dockerfile
     COMPOSE := docker-compose.yml
+    COMPOSE_TEST := docker-compose-test.yml
   endif
   ifeq ($(UMACHINE),armv7l)
     PROJECT := arm32v7
     DOCKER := Dockerfile.arm32v7
     COMPOSE := docker-compose-arm32v7.yml
+    COMPOSE_TEST := docker-compose-test-arm32v7.yml
   endif
   NUMCORE := $(shell grep processor /proc/cpuinfo | wc -l)
 endif
@@ -61,6 +64,7 @@ ifeq ($(UKERNEL),Darwin)
   PROJECT := hyperledger
   DOCKER := Dockerfile
   COMPOSE := docker-compose.yml
+  COMPOSE_TEST := docker-compose-test.yml
   NUMCORE := $(shell system_profiler SPHardwareDatraType | grep Cores | grep 's/^.*Cores: //')
 endif
 
@@ -76,6 +80,7 @@ help:
 	@echo "docker        - build $(IROHA_IMG) runtime container"
 	@echo "up            - running $(IROHA_IMG) container by docker-compose"
 	@echo "down          - stop and remove $(IROHA_IMG) container by docker-compose"
+	@echo "testup        - running iroha-pi for test container by docker-compose"
 	@echo "test          - exec all test commands"
 	@echo "logs          - show logs of $(IROHA_IMG)_node_1 container"
 	@echo "clean         - cleaning protobuf schemas and build directory"
@@ -107,6 +112,10 @@ $(IROHA_IMG)-up:
 
 $(IROHA_IMG)-down:
 	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) down
+
+$(IROHA_IMG)-testup:
+	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE_TEST) up -d
+
 
 test:
 	cd scripts && bash $(IROHA_IMG)-test.sh
