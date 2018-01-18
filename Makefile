@@ -34,10 +34,11 @@
 
 .PHONY: all help docker up dwon test clean version
 
-IROHA_HOME := /opt/iroha
 BUILD_HOME := $(shell pwd)/../iroha-ee
+IROHA_HOME := /opt/iroha
+IROHA_IMG := iroha-pi
 
-GITLOG := $(shell scripts/iroha-pi-gitlog.sh $(BUILD_HOME))
+GITLOG := $(shell scripts/$(IROHA_IMG)-gitlog.sh $(BUILD_HOME))
 
 UKERNEL := $(shell uname -s)
 UMACHINE := $(shell uname -m)
@@ -67,57 +68,57 @@ ifeq ($(DOCKER), )
 $(error This platform "$(UKERNEL)/$(UMACHINE)" in not supported.)
 endif
 
-all: iroha-pi-dev iroha-pi-bld iroha-pi-rel iroha-pi
+all: $(IROHA_IMG)-dev $(IROHA_IMG)-bld $(IROHA_IMG)-rel $(IROHA_IMG)
 
 help:
 	@echo "help          - show make targets"
-	@echo "all (default) - buid iroha-pi-dev container, and build iroha-pi"
-	@echo "docker        - build iroha-pi runtime container"
-	@echo "up            - running iroha-pi container by docker-compose"
-	@echo "down          - stop and remove iroha-pi container by docker-compose"
+	@echo "all (default) - buid $(IROHA_IMG)-dev container, and build $(IROHA_IMG)"
+	@echo "docker        - build $(IROHA_IMG) runtime container"
+	@echo "up            - running $(IROHA_IMG) container by docker-compose"
+	@echo "down          - stop and remove $(IROHA_IMG) container by docker-compose"
 	@echo "test          - exec all test commands"
-	@echo "logs          - show logs of iroha-pi_node_1 container"
+	@echo "logs          - show logs of $(IROHA_IMG)_node_1 container"
 	@echo "clean         - cleaning protobuf schemas and build directory"
 	@echo "version       - show labels in container"
 
-docker: iroha-pi-rel iroha-pi
+docker: $(IROHA_IMG)-rel $(IROHA_IMG)
 
-up: iroha-pi-up
+up: $(IROHA_IMG)-up
 
-down: iroha-pi-down
+down: $(IROHA_IMG)-down
 
-iroha-pi-dev:
-	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/iroha-pi-dev -f $(DOCKER) .
+$(IROHA_IMG)-dev:
+	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/$(IROHA_IMG)-dev -f $(DOCKER) .
 
-iroha-pi-bld:
+$(IROHA_IMG)-bld:
 	rsync -av scripts $(BUILD_HOME)
-	docker run -t --rm --name iroha-pi-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/iroha-pi-dev /opt/iroha/scripts/iroha-pi-bld.sh $(NUMCORE)
+	docker run -t --rm --name $(IROHA_IMG)-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/$(IROHA_IMG)-bld.sh $(NUMCORE)
 
-iroha-pi-rel:
-	docker run -t --rm --name iroha-pi-rel -v $(BUILD_HOME):/opt/iroha -w /opt/iroha $(PROJECT)/iroha-pi-dev /opt/iroha/scripts/iroha-pi-rel.sh
+$(IROHA_IMG)-rel:
+	docker run -t --rm --name $(IROHA_IMG)-rel -v $(BUILD_HOME):/opt/iroha -w /opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/$(IROHA_IMG)-rel.sh
 	rsync -av ${BUILD_HOME}/docker/iroha docker/rel
 	rm -fr ${BUILD_HOME}/docker/iroha
 
-iroha-pi:
-	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/iroha-pi -f $(DOCKER) .
+$(IROHA_IMG):
+	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/$(IROHA_IMG) -f $(DOCKER) .
 
-iroha-pi-up:
-	cd docker && env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) up -d
+$(IROHA_IMG)-up:
+	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) up -d
 
-iroha-pi-down:
-	cd docker && env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) down
+$(IROHA_IMG)-down:
+	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) down
 
 test:
-	cd scripts && bash iroha-pi-test.sh
+	cd scripts && bash $(IROHA_IMG)-test.sh
 
 logs:
 	docker logs -f irohapi_node_1
 
 clean:
 	-rm -fr docker/rel/iroha
-	-rm ${BUILD_HOME}/scripts/iroha-pi*.sh
+	-rm ${BUILD_HOME}/scripts/$(IROHA_IMG)*.sh
 	-rm ${BUILD_HOME}/schema/*.{cc,h}
 	rm -fr ${BUILD_HOME}/build
 
 version:
-	docker inspect -f {{.Config.Labels}} hyperledger/iroha-pi
+	docker inspect -f {{.Config.Labels}} $(PROJECT)/$(IROHA_IMG)
