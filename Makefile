@@ -8,6 +8,7 @@
 # - test          - exec all test commands
 # - logs          - show logs of iroha-pi_node_1 container
 # - clean         - cleaning protobuf schemas and build directory
+# - version       - show labels in container
 #
 # - iroha-pi-dev  - build iroha-pi-dev container
 # - iroha-pi-bld  - build iroha-pi binaries
@@ -31,7 +32,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all help docker up dwon test clean
+.PHONY: all help docker up dwon test clean version
 
 IROHA_HOME := /opt/iroha
 BUILD_HOME := $(shell pwd)/../iroha-ee
@@ -77,6 +78,7 @@ help:
 	@echo "test          - exec all test commands"
 	@echo "logs          - show logs of iroha-pi_node_1 container"
 	@echo "clean         - cleaning protobuf schemas and build directory"
+	@echo "version       - show labels in container"
 
 docker: iroha-pi-rel iroha-pi
 
@@ -116,3 +118,6 @@ clean:
 	-rm ${BUILD_HOME}/scripts/iroha-pi*.sh
 	-rm ${BUILD_HOME}/schema/*.{cc,h}
 	rm -fr ${BUILD_HOME}/build
+
+version:
+	docker inspect -f {{.Config.Labels}} hyperledger/iroha-pi
