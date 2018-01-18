@@ -8,4 +8,4 @@ while read result name; do
     docker exec iroha_node_1 /opt/iroha/test_bin/$name
   # cat </dev/tty
   fi
-done <iroha-test.lst
+done <iroha-pi-test.lst
