@@ -89,7 +89,7 @@ iroha-pi-dev:
 
 iroha-pi-bld:
 	rsync -av scripts $(BUILD_HOME)
-	docker run -t --rm --name iroha-pi-bld -v $(BUILD_HOME):/opt/iroha hyperledger/iroha-pi-dev /opt/iroha/scripts/iroha-pi-bld.sh $(NUMCORE)
+	docker run -t --rm --name iroha-pi-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/iroha-pi-dev /opt/iroha/scripts/iroha-pi-bld.sh $(NUMCORE)
 
 iroha-pi-rel:
 	docker run -t --rm --name iroha-pi-rel -v $(BUILD_HOME):/opt/iroha -w /opt/iroha $(PROJECT)/iroha-pi-dev /opt/iroha/scripts/iroha-pi-rel.sh
