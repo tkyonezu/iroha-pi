@@ -12,7 +12,6 @@ services:
     depends_on:
       - redis
       - postgres
-    tty: true
     volumes:
       - ./example:/opt/iroha/config
       - ccache-data:/tmp/ccache

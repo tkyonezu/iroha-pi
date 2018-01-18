@@ -13,7 +13,7 @@ services:
       - redis
       - postgres
     volumes:
-      - /usr/local/src/github.com/tkyonezu/iroha-pi/example:/opt/iroha/config
+      - ./example:/opt/iroha/config
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
 
