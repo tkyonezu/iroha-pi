@@ -16,4 +16,4 @@ RUN apt update && \
 
 WORKDIR ${IROHA_HOME}
 
-CMD sleep 15; ${IROHA_HOME}/bin/irohad --config config/iroha.conf --genesis_block config/genesis.block --keypair_name config/node0
+CMD sleep 20; ${IROHA_HOME}/bin/irohad --config config/iroha.conf --genesis_block config/genesis.block --keypair_name config/node0
