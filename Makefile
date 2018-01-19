@@ -80,8 +80,10 @@ help:
 	@echo "docker        - build $(IROHA_IMG) runtime container"
 	@echo "up            - running $(IROHA_IMG) container by docker-compose"
 	@echo "down          - stop and remove $(IROHA_IMG) container by docker-compose"
+ifneq ($(UMACHINE),armv7l)
 	@echo "testup        - running iroha-pi for test container by docker-compose"
 	@echo "test          - exec all test commands"
+endif
 	@echo "logs          - show logs of $(IROHA_IMG)_node_1 container"
 	@echo "clean         - cleaning protobuf schemas and build directory"
 	@echo "version       - show labels in container"
@@ -92,7 +94,9 @@ up: $(IROHA_IMG)-up
 
 down: $(IROHA_IMG)-down
 
+ifneq ($(UMACHINE),armv7l)
 testup: $(IROHA_IMG)-testup
+endif
 
 $(IROHA_IMG)-dev:
 	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/$(IROHA_IMG)-dev -f $(DOCKER) .
@@ -115,11 +119,13 @@ $(IROHA_IMG)-up:
 $(IROHA_IMG)-down:
 	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) down
 
+ifneq ($(UMACHINE),armv7l)
 $(IROHA_IMG)-testup:
 	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE_TEST) up -d
 
 test:
 	cd scripts && bash $(IROHA_IMG)-test.sh
+endif
 
 logs:
 	docker logs -f irohapi_node_1
