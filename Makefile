@@ -33,7 +33,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-.PHONY: all help docker up dwon test clean version
+.PHONY: all help docker up dwon testup test clean version
 
 BUILD_HOME := $(shell pwd)/../iroha-ee
 IROHA_HOME := /opt/iroha
@@ -92,6 +92,8 @@ up: $(IROHA_IMG)-up
 
 down: $(IROHA_IMG)-down
 
+testup: $(IROHA_IMG)-testup
+
 $(IROHA_IMG)-dev:
 	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/$(IROHA_IMG)-dev -f $(DOCKER) .
 
@@ -115,7 +117,6 @@ $(IROHA_IMG)-down:
 
 $(IROHA_IMG)-testup:
 	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE_TEST) up -d
-
 
 test:
 	cd scripts && bash $(IROHA_IMG)-test.sh
