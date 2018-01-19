@@ -6,16 +6,14 @@ services:
     ports:
       - "50051:50051"
     environment:
-      - IROHA_POSTGRES_USER=postgres
-      - IROHA_POSTGRES_PASSWORD=HelloW0rld
       - CCACHE_DIR=/tmp/ccache
-    depends_on:
-      - redis
-      - postgres
     volumes:
       - ./example:/opt/iroha/config
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
+    depends_on:
+      - redis
+      - postgres
 
   postgres:
     image: arm32v7/postgres:9.5
