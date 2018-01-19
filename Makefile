@@ -65,7 +65,7 @@ ifeq ($(UKERNEL),Darwin)
   DOCKER := Dockerfile
   COMPOSE := docker-compose.yml
   COMPOSE_TEST := docker-compose-test.yml
-  NUMCORE := $(shell system_profiler SPHardwareDatraType | grep Cores | grep 's/^.*Cores: //')
+  NUMCORE := $(shell system_profiler SPHardwareDataType | grep Cores | sed 's/^.*Cores: //')
 endif
 
 ifeq ($(DOCKER), )
