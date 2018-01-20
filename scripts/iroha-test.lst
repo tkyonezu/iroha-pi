@@ -1,7 +1,9 @@
 #
-# iroha v1.0_alpha
+# iroha v1.0_alpha 2017/12/27
 #
-# 2017/12/27
+# Copyright Takeshi Yonezu. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
 #
 o address_validator_test
 x ametsuchi_test
