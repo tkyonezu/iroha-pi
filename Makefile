@@ -57,7 +57,7 @@ ifeq ($(UKERNEL),Linux)
     DOCKER := Dockerfile.arm32v7
     COMPOSE := docker-compose-arm32v7.yml
     COMPOSE_TEST := docker-compose-test-arm32v7.yml
-    NUMCORE := 3
+    NUMCORE := 2
   endif
 endif
 
