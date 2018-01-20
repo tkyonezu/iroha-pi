@@ -37,7 +37,7 @@
 
 BUILD_HOME := $(shell pwd)/../iroha-ee
 IROHA_HOME := /opt/iroha
-IROHA_IMG := iroha-pi
+IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 
 GITLOG := $(shell scripts/$(IROHA_IMG)-gitlog.sh $(BUILD_HOME))
 
