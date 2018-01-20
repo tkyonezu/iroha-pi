@@ -39,7 +39,7 @@ BUILD_HOME := $(shell pwd)/../iroha-ee
 IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 
-GITLOG := $(shell scripts/$(IROHA_IMG)-gitlog.sh $(BUILD_HOME))
+GITLOG := $(shell scripts/iroha-gitlog.sh $(BUILD_HOME))
 
 UKERNEL := $(shell uname -s)
 UMACHINE := $(shell uname -m)
@@ -72,69 +72,69 @@ ifeq ($(DOCKER), )
 $(error This platform "$(UKERNEL)/$(UMACHINE)" in not supported.)
 endif
 
-all: $(IROHA_IMG)-dev $(IROHA_IMG)-bld $(IROHA_IMG)-rel $(IROHA_IMG)
+all: iroha-dev iroha-bld iroha-rel iroha
 
 help:
 	@echo "help          - show make targets"
-	@echo "all (default) - buid $(IROHA_IMG)-dev container, and build $(IROHA_IMG)"
-	@echo "docker        - build $(IROHA_IMG) runtime container"
-	@echo "up            - running $(IROHA_IMG) container by docker-compose"
-	@echo "down          - stop and remove $(IROHA_IMG) container by docker-compose"
+	@echo "all (default) - buid iroha-dev container, and build iroha"
+	@echo "docker        - build iroha runtime container"
+	@echo "up            - running iroha container by docker-compose"
+	@echo "down          - stop and remove iroha container by docker-compose"
 ifneq ($(UMACHINE),armv7l)
 	@echo "testup        - running iroha for test container by docker-compose"
 	@echo "test          - exec all test commands"
 endif
-	@echo "logs          - show logs of $(IROHA_IMG)_node_1 container"
+	@echo "logs          - show logs of iroha_node_1 container"
 	@echo "clean         - cleaning protobuf schemas and build directory"
 	@echo "version       - show labels in container"
 
-docker: $(IROHA_IMG)-rel $(IROHA_IMG)
+docker: iroha-rel iroha
 
-up: $(IROHA_IMG)-up
+up: iroha-up
 
-down: $(IROHA_IMG)-down
+down: iroha-down
 
 ifneq ($(UMACHINE),armv7l)
-testup: $(IROHA_IMG)-testup
+testup: iroha-testup
 endif
 
-$(IROHA_IMG)-dev:
-	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/$(IROHA_IMG)-dev -f $(DOCKER) .
+iroha-dev:
+	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/iroha-dev -f $(DOCKER) .
 
-$(IROHA_IMG)-bld:
+iroha-bld:
 	rsync -av scripts $(BUILD_HOME)
-	docker run -t --rm --name $(IROHA_IMG)-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/$(IROHA_IMG)-bld.sh $(NUMCORE)
+	docker run -t --rm --name iroha-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/iroha-dev /opt/iroha/scripts/iroha-bld.sh $(NUMCORE)
 
-$(IROHA_IMG)-rel:
-	docker run -t --rm --name $(IROHA_IMG)-rel -v $(BUILD_HOME):/opt/iroha -w /opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/$(IROHA_IMG)-rel.sh
+iroha-rel:
+	docker run -t --rm --name iroha-rel -v $(BUILD_HOME):/opt/iroha -w /opt/iroha $(PROJECT)/iroha-dev /opt/iroha/scripts/iroha-rel.sh
 	rsync -av ${BUILD_HOME}/docker/iroha docker/rel
 	rm -fr ${BUILD_HOME}/docker/iroha
 
-$(IROHA_IMG):
-	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/$(IROHA_IMG) -f $(DOCKER) .
+iroha:
+	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/iroha -f $(DOCKER) .
 
-$(IROHA_IMG)-up:
-	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) up -d
+iroha-up:
+	env COMPOSE_PROJECT_NAME=iroha docker-compose -p iroha -f $(COMPOSE) up -d
 
-$(IROHA_IMG)-down:
-	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE) down
+iroha-down:
+	env COMPOSE_PROJECT_NAME=iroha docker-compose -p iroha -f $(COMPOSE) down
 
 ifneq ($(UMACHINE),armv7l)
-$(IROHA_IMG)-testup:
-	env COMPOSE_PROJECT_NAME=irohapi docker-compose -p irohapi -f $(COMPOSE_TEST) up -d
+iroha-testup:
+	env COMPOSE_PROJECT_NAME=iroha docker-compose -p iroha -f $(COMPOSE_TEST) up -d
 
 test:
-	cd scripts && bash $(IROHA_IMG)-test.sh
+	cd scripts && bash iroha-test.sh
 endif
 
 logs:
-	docker logs -f irohapi_node_1
+	docker logs -f iroha_node_1
 
 clean:
 	-rm -fr docker/rel/iroha
-	-rm ${BUILD_HOME}/scripts/$(IROHA_IMG)*.sh
+	-rm ${BUILD_HOME}/scripts/iroha*.sh
 	-rm ${BUILD_HOME}/schema/*.{cc,h}
 	rm -fr ${BUILD_HOME}/build
 
 version:
-	docker inspect -f {{.Config.Labels}} $(PROJECT)/$(IROHA_IMG)
+	docker inspect -f {{.Config.Labels}} $(PROJECT)/iroha
