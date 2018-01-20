@@ -1,7 +1,11 @@
 #!/bin/bash
 
 while read result name; do
-  if [[ "$result" == "o" ]]; then
+  if [ "$result" = "#" ]; then	# Skip comment line
+    continue
+  fi
+
+  if [ "$result" = "o" ]; then
     echo "=============================="
     echo "=== $name ==="
     echo "=============================="
