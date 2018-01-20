@@ -50,14 +50,15 @@ ifeq ($(UKERNEL),Linux)
     DOCKER := Dockerfile
     COMPOSE := docker-compose.yml
     COMPOSE_TEST := docker-compose-test.yml
+    NUMCORE := $(shell grep processor /proc/cpuinfo | wc -l)
   endif
   ifeq ($(UMACHINE),armv7l)
     PROJECT := arm32v7
     DOCKER := Dockerfile.arm32v7
     COMPOSE := docker-compose-arm32v7.yml
     COMPOSE_TEST := docker-compose-test-arm32v7.yml
+    NUMCORE := 3
   endif
-  NUMCORE := $(shell grep processor /proc/cpuinfo | wc -l)
 endif
 
 ifeq ($(UKERNEL),Darwin)
@@ -111,7 +112,7 @@ iroha-rel:
 	rm -fr ${BUILD_HOME}/docker/iroha
 
 iroha:
-	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/iroha -f $(DOCKER) .
+	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/$(IROHA_IMG) -f $(DOCKER) .
 
 iroha-up:
 	env COMPOSE_PROJECT_NAME=iroha docker-compose -p iroha -f $(COMPOSE) up -d
