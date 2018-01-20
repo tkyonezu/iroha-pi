@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# Copyright Takeshi Yonezu. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 
 if [ $# -eq 0 ]; then
   BUILD_HOME=$(pwd)/../iroha

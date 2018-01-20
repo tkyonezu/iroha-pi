@@ -1,4 +1,9 @@
 #!/bin/bash
+#
+# Copyright Takeshi Yonezu. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
 
 while read result name; do
   if [ "$result" = "#" ]; then	# Skip comment line

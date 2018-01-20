@@ -1,3 +1,8 @@
+# Copyright Takeshi Yonezu. All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
 FROM ubuntu:16.04
 
 ARG NUMCORE=${NUMCORE:-4}
