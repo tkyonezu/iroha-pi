@@ -2,7 +2,7 @@ version: '3'
 
 services:
   node:
-    image: arm32v7/iroha-pi
+    image: arm32v7/${IROHA_IMG}
     ports:
       - "50051:50051"
     environment:
