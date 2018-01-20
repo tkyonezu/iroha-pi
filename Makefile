@@ -1,25 +1,25 @@
 #---------------------------------------------------------------
 # This makefile defines the following targets
 #
-# - all (default) - buid iroha-pi-build container, and build iroha-pi
-# - docker        - build iroha-pi runtime container
-# - up            - running iroha-pi container by docker-compose
-# - down          - stop and remove iroha-pi container by docker-compose
-# - testup        - running iroha-pi for test container by docker-compose
+# - all (default) - buid iroha-build container, and build iroha
+# - docker        - build iroha runtime container
+# - up            - running iroha container by docker-compose
+# - down          - stop and remove iroha container by docker-compose
+# - testup        - running iroha for test container by docker-compose
 # - test          - exec all test commands
-# - logs          - show logs of iroha-pi_node_1 container
+# - logs          - show logs of iroha_node_1 container
 # - clean         - cleaning protobuf schemas and build directory
 # - version       - show labels in container
 #
-# - iroha-pi-dev  - build iroha-pi-dev container
-# - iroha-pi-bld  - build iroha-pi binaries
-# - iroha-pi-rel  - extract binaries, libraries from iroha-pi build
-# - iroha-pi      - build iroha-pi runtime container
+# - iroha-dev     - build iroha-dev container
+# - iroha-bld     - build iroha binaries
+# - iroha-rel     - extract binaries, libraries from iroha build
+# - iroha         - build iroha runtime container
 #
-# - iroha-pi-up   - running iroha-pi container by docker-compose
-# - iroha-pi-down - stop and remove iroha-pi container by docker-compose
+# - iroha-up      - running iroha container by docker-compose
+# - iroha-down    - stop and remove iroha container by docker-compose
 #---------------------------------------------------------------
-# Copyright 2017 Takeshi Yonezu All Rights Reserved.
+# Copyright 2017, 2018 Takeshi Yonezu All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -81,7 +81,7 @@ help:
 	@echo "up            - running $(IROHA_IMG) container by docker-compose"
 	@echo "down          - stop and remove $(IROHA_IMG) container by docker-compose"
 ifneq ($(UMACHINE),armv7l)
-	@echo "testup        - running iroha-pi for test container by docker-compose"
+	@echo "testup        - running iroha for test container by docker-compose"
 	@echo "test          - exec all test commands"
 endif
 	@echo "logs          - show logs of $(IROHA_IMG)_node_1 container"
