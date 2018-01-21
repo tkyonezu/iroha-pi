@@ -100,14 +100,14 @@ testup: iroha-testup
 endif
 
 iroha-dev:
-	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/iroha-dev -f $(DOCKER) .
+	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/$(IROHA_IMG)-dev -f $(DOCKER) .
 
 iroha-bld:
 	rsync -av scripts $(BUILD_HOME)
-	docker run -t --rm --name iroha-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/iroha-dev /opt/iroha/scripts/iroha-bld.sh $(NUMCORE)
+	docker run -t --rm --name iroha-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/iroha-bld.sh $(NUMCORE)
 
 iroha-rel:
-	docker run -t --rm --name iroha-rel -v $(BUILD_HOME):/opt/iroha -w /opt/iroha $(PROJECT)/iroha-dev /opt/iroha/scripts/iroha-rel.sh
+	docker run -t --rm --name iroha-rel -v $(BUILD_HOME):/opt/iroha -w /opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/iroha-rel.sh
 	rsync -av ${BUILD_HOME}/docker/iroha docker/rel
 	rm -fr ${BUILD_HOME}/docker/iroha
 
@@ -138,4 +138,4 @@ clean:
 	rm -fr ${BUILD_HOME}/build
 
 version:
-	docker inspect -f {{.Config.Labels}} $(PROJECT)/iroha
+	docker inspect -f {{.Config.Labels}} $(PROJECT)/$(IROHA_IMG)
