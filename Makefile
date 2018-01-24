@@ -35,7 +35,7 @@
 
 .PHONY: all help docker up dwon testup test clean version
 
-BUILD_HOME := $(shell pwd)/../iroha-ee
+BUILD_HOME := $(shell pwd)/../iroha
 IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 

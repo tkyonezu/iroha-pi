@@ -14,7 +14,7 @@ services:
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ./example:/opt/iroha/config
-      - ../iroha-ee/build/test_bin:/opt/iroha/test_bin
+      - ../irohae/build/test_bin:/opt/iroha/test_bin
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
     depends_on:
