@@ -39,7 +39,7 @@ BUILD_HOME := $(shell pwd)/../iroha
 IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 
-GITLOG := $(shell scripts/iroha-gitlog.sh $(BUILD_HOME))
+GITLOG := $(shell [ -d $(BUILD_HOME) ] && scripts/iroha-gitlog.sh $(BUILD_HOME))
 
 UKERNEL := $(shell uname -s)
 UMACHINE := $(shell uname -m)
