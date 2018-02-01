@@ -38,6 +38,7 @@
 BUILD_HOME := $(shell pwd)/../iroha
 IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
+COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
 
 GITLOG := $(shell [ -d $(BUILD_HOME) ] && scripts/iroha-gitlog.sh $(BUILD_HOME))
 
@@ -56,7 +57,6 @@ ifeq ($(UKERNEL),Linux)
     PROJECT := arm32v7
     DOCKER := Dockerfile.arm32v7
     COMPOSE := docker-compose-arm32v7.yml
-    COMPOSE_TEST := docker-compose-test-arm32v7.yml
     NUMCORE := 2
   endif
 endif
@@ -115,14 +115,14 @@ iroha:
 	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/$(IROHA_IMG) -f $(DOCKER) .
 
 iroha-up:
-	env COMPOSE_PROJECT_NAME=iroha docker-compose -p iroha -f $(COMPOSE) up -d
+	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
 
 iroha-down:
-	env COMPOSE_PROJECT_NAME=iroha docker-compose -p iroha -f $(COMPOSE) down
+	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
 
 ifneq ($(UMACHINE),armv7l)
 iroha-testup:
-	env COMPOSE_PROJECT_NAME=iroha docker-compose -p iroha -f $(COMPOSE_TEST) up -d
+	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE_TEST) up -d
 
 test:
 	cd scripts && bash iroha-test.sh
