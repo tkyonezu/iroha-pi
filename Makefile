@@ -41,7 +41,13 @@ IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
 
 BUILD_DATE := $(shell echo "`date`")
+
+ifneq ("$(wildcard .buildno)","")
+  $(shell echo "1000" >.buildno)
+endif
+
 BUILD_NO := $(shell echo "Build `cat .buildno`")
+
 GITLOG := $(shell [ -d $(BUILD_HOME) ] && scripts/iroha-gitlog.sh $(BUILD_HOME))
 
 UKERNEL := $(shell uname -s)
