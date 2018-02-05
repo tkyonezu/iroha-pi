@@ -23,6 +23,8 @@ RUN apt update && \
     useradd -ms /bin/bash iroha && \
     chown -R iroha:iroha ${IROHA_HOME}
 
+USER iroha
+
 WORKDIR ${IROHA_HOME}
 
 CMD ${IROHA_HOME}/bin/irohad --config config/iroha.conf --genesis_block config/genesis.block --keypair_name config/node0
