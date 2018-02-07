@@ -41,6 +41,7 @@ IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
 
 BUILD_DATE := $(shell echo "`date`")
+BUILD_HOST := $(shell hostname)
 
 ifneq ("$(wildcard .buildno)","")
   $(shell echo "1000" >.buildno)
@@ -120,7 +121,7 @@ iroha-rel:
 	sudo rm -fr ${BUILD_HOME}/docker/iroha
 
 iroha:
-	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" -t $(PROJECT)/$(IROHA_IMG) -f $(DOCKER) .
+	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(PROJECT)/$(IROHA_IMG) -f $(DOCKER) .
 	@scripts/build-no.sh
 
 iroha-up:
