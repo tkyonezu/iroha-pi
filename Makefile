@@ -35,7 +35,7 @@
 
 .PHONY: all help docker up dwon testup test clean version
 
-BUILD_HOME := $(shell pwd)/../iroha
+BUILD_HOME := $(shell pwd)/../iroha-ee
 IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
@@ -51,6 +51,8 @@ BUILD_NO := $(shell echo "Build `cat .buildno`")
 
 GITLOG := $(shell [ -d $(BUILD_HOME) ] && scripts/iroha-gitlog.sh $(BUILD_HOME))
 
+NUMCORE := $(shell scripts/numcore.sh)
+
 UKERNEL := $(shell uname -s)
 UMACHINE := $(shell uname -m)
 
@@ -60,13 +62,11 @@ ifeq ($(UKERNEL),Linux)
     DOCKER := Dockerfile
     COMPOSE := docker-compose.yml
     COMPOSE_TEST := docker-compose-test.yml
-    NUMCORE := $(shell grep processor /proc/cpuinfo | wc -l)
   endif
   ifeq ($(UMACHINE),armv7l)
     PROJECT := arm32v7
     DOCKER := Dockerfile.arm32v7
     COMPOSE := docker-compose-arm32v7.yml
-    NUMCORE := 2
   endif
 endif
 
@@ -75,7 +75,6 @@ ifeq ($(UKERNEL),Darwin)
   DOCKER := Dockerfile
   COMPOSE := docker-compose.yml
   COMPOSE_TEST := docker-compose-test.yml
-  NUMCORE := $(shell system_profiler SPHardwareDataType | grep Cores | sed 's/^.*Cores: //')
 endif
 
 ifeq ($(DOCKER), )
