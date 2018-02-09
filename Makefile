@@ -40,7 +40,7 @@ IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
 
-BUILD_DATE := $(shell echo "`date`")
+BUILD_DATE := $(shell env LANG=C echo "`date`")
 BUILD_HOST := $(shell hostname)
 
 ifneq ("$(wildcard .buildno)","")
