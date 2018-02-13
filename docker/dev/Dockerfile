@@ -44,13 +44,21 @@ RUN git clone https://github.com/google/protobuf /tmp/protobuf \
 RUN git clone https://github.com/gflags/gflags /tmp/gflags \
  && (cd /tmp/gflags; git checkout f8a0efe03aa69b3336d8e228b37d4ccb17324b88) \
  && cmake -H/tmp/gflags -B/tmp/gflags/build \
- && cmake --build /tmp/gflags/build --target install -- -j${PARALLELISM} \
+ && cmake --build /tmp/gflags/build --target install -- -j${NUMCORE} \
  && rm -rf /tmp/gflags
+
+# install c-ares
+RUN git clone https://github.com/c-ares/c-ares /tmp/c-ares \
+ && (cd /tmp/c-ares; git checkout 3be1924221e1326df520f8498d704a5c4c8d0cce) \
+ && cmake -H/tmp/c-ares -B/tmp/c-ares/build \
+ && cmake --build /tmp/c-ares/build --target install -- -j${NUMCORE} \
+ && ldconfig \
+ && rm -rf /tmp/c-ares
 
 # install grpc
 RUN git clone https://github.com/grpc/grpc /tmp/grpc \
- && (cd /tmp/grpc ; git checkout bfcbad3b86c7912968dc8e64f2121c920dad4dfb) \
- && (cd /tmp/grpc ; git submodule update --init third_party/benchmark) \
+ && (cd /tmp/grpc; git checkout bfcbad3b86c7912968dc8e64f2121c920dad4dfb) \
+ && (cd /tmp/grpc; git submodule update --init third_party/benchmark) \
  && cmake -DgRPC_ZLIB_PROVIDER=package -DgRPC_CARES_PROVIDER=package \
       -DgRPC_SSL_PROVIDER=package -DgRPC_PROTOBUF_PROVIDER=package \
       -DgRPC_GFLAGS_PROVIDER=package -DBUILD_SHARED_LIBS=ON \
@@ -82,7 +90,7 @@ RUN git clone https://github.com/miloyip/rapidjson /tmp/rapidjson \
 
 # install optional
 RUN git clone https://github.com/martinmoene/optional-lite /tmp/optional-lite \
- && (cd /tmp/optional-lite ; git checkout a0ddabb8b52e1eaaf0dd1515bb85698b747528e4) \
+ && (cd /tmp/optional-lite; git checkout a0ddabb8b52e1eaaf0dd1515bb85698b747528e4) \
  && cp -r /tmp/optional-lite/include/nonstd /usr/local/include \
  && rm -fr /tmp/optional-lite
 
@@ -125,11 +133,11 @@ RUN git clone https://github.com/01org/tbb /tmp/tbb \
 
 # install ed25519
 RUN git clone git://github.com/hyperledger/iroha-ed25519.git /tmp/ed25519 \
- && (cd /tmp/ed25519; git checkout e7188b8393dbe5ac54378610d53630bd4a180038); \
+ && (cd /tmp/ed25519; git checkout e7188b8393dbe5ac54378610d53630bd4a180038) \
  && cmake -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF -H/tmp/ed25519 \
       -B/tmp/ed25519/build \
- && cmake --build /tmp/ed25519/build --target install -- -j${NUMCORE}; \
- && ldconfig; \
+ && cmake --build /tmp/ed25519/build --target install -- -j${NUMCORE} \
+ && ldconfig \
  && rm -rf /tmp/ed25519
 
 WORKDIR /opt/iroha
