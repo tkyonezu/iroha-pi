@@ -47,7 +47,7 @@ ifeq ("$(wildcard $(BUILD_HOME))","")
   $(error $(BUILD_HOME) does'nt exist. Please clone it.)
 endif
 
-ifneq ("$(wildcard .buildno)","")
+ifeq ("$(wildcard .buildno)","")
   $(shell echo "1000" >.buildno)
 endif
 
