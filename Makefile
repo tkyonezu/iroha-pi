@@ -40,7 +40,22 @@ IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
 
+BUILD_DATE := $(shell echo "`env LANG=C date`")
+BUILD_HOST := $(shell hostname)
+
+ifeq ("$(wildcard $(BUILD_HOME))","")
+  $(error $(BUILD_HOME) does'nt exist. Please clone it.)
+endif
+
+ifeq ("$(wildcard .buildno)","")
+  $(shell echo "1000" >.buildno)
+endif
+
+BUILD_NO := $(shell echo "Build `cat .buildno`")
+
 GITLOG := $(shell [ -d $(BUILD_HOME) ] && scripts/iroha-gitlog.sh $(BUILD_HOME))
+
+NUMCORE := $(shell scripts/numcore.sh)
 
 UKERNEL := $(shell uname -s)
 UMACHINE := $(shell uname -m)
@@ -51,13 +66,11 @@ ifeq ($(UKERNEL),Linux)
     DOCKER := Dockerfile
     COMPOSE := docker-compose.yml
     COMPOSE_TEST := docker-compose-test.yml
-    NUMCORE := $(shell grep processor /proc/cpuinfo | wc -l)
   endif
   ifeq ($(UMACHINE),armv7l)
     PROJECT := arm32v7
     DOCKER := Dockerfile.arm32v7
     COMPOSE := docker-compose-arm32v7.yml
-    NUMCORE := 2
   endif
 endif
 
@@ -66,7 +79,6 @@ ifeq ($(UKERNEL),Darwin)
   DOCKER := Dockerfile
   COMPOSE := docker-compose.yml
   COMPOSE_TEST := docker-compose-test.yml
-  NUMCORE := $(shell system_profiler SPHardwareDataType | grep Cores | sed 's/^.*Cores: //')
 endif
 
 ifeq ($(DOCKER), )
@@ -112,7 +124,8 @@ iroha-rel:
 	sudo rm -fr ${BUILD_HOME}/docker/iroha
 
 iroha:
-	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" -t $(PROJECT)/$(IROHA_IMG) -f $(DOCKER) .
+	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(PROJECT)/$(IROHA_IMG) -f $(DOCKER) .
+	@scripts/build-no.sh
 
 iroha-up:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d

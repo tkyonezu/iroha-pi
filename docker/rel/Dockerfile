@@ -6,8 +6,14 @@
 FROM ubuntu:16.04
 
 ARG GITLOG="${GITLOG}"
+ARG BUILD_DATE="${BUILD_DATE}"
+ARG BUILD_NO="${BUILD_NO}"
+ARG BUILD_HOST="${BUILD_HOST}"
 
 LABEL GITLOG="${GITLOG}"
+LABEL BUILD_DATE="${BUILD_DATE}"
+LABEL BUILD_NO="${BUILD_NO}"
+LABEL BUILD_HOST="${BUILD_HOST}"
 
 ENV IROHA_HOME=/opt/iroha
 ENV LD_LIBRARY_PATH=${IROHA_HOME}/lib
@@ -18,6 +24,8 @@ RUN apt update && \
     apt upgrade -y && \
     useradd -ms /bin/bash iroha && \
     chown -R iroha:iroha ${IROHA_HOME}
+
+USER iroha
 
 WORKDIR ${IROHA_HOME}
 
