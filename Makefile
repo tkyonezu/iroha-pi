@@ -145,10 +145,12 @@ logs:
 	docker logs -f iroha_node_1
 
 clean:
-	-rm -fr docker/rel/iroha
-	-rm ${BUILD_HOME}/scripts/iroha*.sh
-	-rm ${BUILD_HOME}/schema/*.{cc,h}
-	rm -fr ${BUILD_HOME}/build
+	-sudo rm -fr docker/rel/iroha
+	-sudo rm ${BUILD_HOME}/scripts/iroha*.sh
+	-sudo rm ${BUILD_HOME}/schema/*.{cc,h}
+	-sudo rm -fr ${BUILD_HOME}/build
+	-sudo rm -fr ${BUILD_HOME}/external
+	-sudo rm -fr ${BUILD_HOME}/cmake-build-debug
 
 version:
 	docker inspect -f {{.Config.Labels}} $(PROJECT)/$(IROHA_IMG)
