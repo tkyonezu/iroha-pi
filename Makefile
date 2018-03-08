@@ -147,7 +147,8 @@ logs:
 clean:
 	-sudo rm -fr docker/rel/iroha
 	-sudo rm ${BUILD_HOME}/scripts/iroha*.sh
-	-sudo rm ${BUILD_HOME}/schema/*.{cc,h}
+	-sudo rm ${BUILD_HOME}/schema/*.cc
+	-sudo rm ${BUILD_HOME}/schema/*.h
 	-sudo rm -fr ${BUILD_HOME}/build
 	-sudo rm -fr ${BUILD_HOME}/external
 	-sudo rm -fr ${BUILD_HOME}/cmake-build-debug
