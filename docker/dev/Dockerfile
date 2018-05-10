@@ -130,7 +130,7 @@ RUN git clone https://git.postgresql.org/git/postgresql.git /tmp/postgresql \
  && cp src/backend/utils/fmgroids.h src/include/utils/fmgroids.h \
  && make -C src/bin/pg_config install \
  && make -C src/interfaces/libpq install \
- && make -C src/include install; \
+ && make -C src/include install \
  && ldconfig \
  && rm -fr /tmp/postgresql
 
