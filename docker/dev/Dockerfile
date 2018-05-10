@@ -12,7 +12,8 @@ RUN apt-get update && apt-get -y upgrade
 
 RUN apt-get -y --no-install-recommends install \
     automake build-essential ca-certificates ccache \
-    git libssl-dev rsync zlib1g-dev python3 python-software-properties \
+    git libssl-dev rsync zlib1g-dev libcurl4-openssl-dev \
+    python3 python-software-properties curl \
  && apt-get -y clean
 
 # install cmake 3.7.2
