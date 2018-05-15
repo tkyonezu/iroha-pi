@@ -16,9 +16,9 @@ RUN apt-get -y --no-install-recommends install \
     python3 python-software-properties curl \
  && apt-get -y clean
 
-# install cmake 3.7.2
+# install cmake 3.10.2
 RUN git clone https://gitlab.kitware.com/cmake/cmake.git /tmp/cmake \
- && (cd /tmp/cmake; git checkout 35413bf2c1b33980afd418030af27f184872af6b) \
+ && (cd /tmp/cmake; git checkout c1e087a9d3af74299d7681c9f9de59e5977a1539) \
  && (cd /tmp/cmake; /tmp/cmake/bootstrap --system-curl --parallel=${NUMCORE} --enable-ccache) \
  && make -j${NUMCORE} -C /tmp/cmake \
  && make -C /tmp/cmake install \
@@ -35,9 +35,9 @@ RUN git clone https://github.com/boostorg/boost /tmp/boost \
  && ldconfig \
  && rm -fr /tmp/boost
 
-# install protobuf
+# install protobuf v3.5.1
 RUN git clone https://github.com/google/protobuf /tmp/protobuf \
- && (cd /tmp/protobuf; git checkout 80a37e0782d2d702d52234b62dd4b9ec74fd2c95) \
+ && (cd /tmp/protobuf; git checkout 106ffc04be1abf3ff3399f54ccf149815b287dd9) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -Dprotobuf_BUILD_TESTS=OFF \
       -Dprotobuf_BUILD_SHARED_LIBS=ON \
@@ -69,8 +69,7 @@ RUN git clone https://github.com/c-ares/c-ares /tmp/c-ares \
 
 # install grpc
 RUN git clone https://github.com/grpc/grpc /tmp/grpc \
- && (cd /tmp/grpc; git checkout bfcbad3b86c7912968dc8e64f2121c920dad4dfb) \
- && (cd /tmp/grpc; git submodule update --init third_party/benchmark) \
+ && (cd /tmp/grpc; git checkout bd44e485f69d70ca4095cea92decd98de3892aa6) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DgRPC_BENCHMARK_PROVIDER="" \
       -DgRPC_ZLIB_PROVIDER=package \
@@ -81,11 +80,7 @@ RUN git clone https://github.com/grpc/grpc /tmp/grpc \
       -DBUILD_SHARED_LIBS=ON \
       -H/tmp/grpc \
       -B/tmp/grpc/.build \
- && cd /tmp/grpc/.build \
- && make -j${NUMCORE} gpr grpc grpc++ grpc_cpp_plugin \
- && cp libgpr.so libgrpc.so libgrpc++.so libgrpc_plugin_support.so /usr/local/lib \
- && cp grpc_cpp_plugin /usr/local/bin \
- && cp -R ../include /usr/local \
+ && cmake --build /tmp/grpc/.build --target install -- -j${NUMCORE} \
  && ldconfig \
  && rm -rf /tmp/grpc
 
