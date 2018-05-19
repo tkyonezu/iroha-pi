@@ -16,6 +16,11 @@ if [ "$(uname -m)" = "armv7l" ]; then
   TESTING="OFF"
 fi
 
+# Bug fix by implicit cast for std::max function.
+# 2018/05/19 by Takeshi Yonezu
+sed -i '/std::max/s/, pass_phrase/, (unsigned long)pass_phrase/' \
+  libs/crypto/keys_manager_impl.cpp
+
 cmake -H. -Bbuild -DTESTING=${TESTING}
 cmake --build build -- -j${NUMCORE}
 
