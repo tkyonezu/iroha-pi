@@ -2,6 +2,10 @@
 
 iroha-pi is an environment for building and running [hyperledger/iroha](https://github.com/hyperledger/iroha.git) more simple and easy way.
 
+When building a recent Hyperledger Iroha, it use a very large memory. It seems better to prepare about 10GB to 12GB as Virtual Memory space including swap memory.
+
+Therefore, when building in the VirtualBox environment, set TESTING=OFF to shorten the builid time.
+
 ## build hyperledger/iroha
 
 By executing make, execute the following contents. Also, the target environment is Linux/amd64, Linux/Darwin (MacOS) and Linux/armv7l (Raspberry Pi).
