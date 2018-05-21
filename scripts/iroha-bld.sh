@@ -14,7 +14,7 @@ fi
 TESTING="ON"
 
 if [ "$(uname -s)" != "Darwin" ]; then
-  PRODUCT_NAME=$(sudo dmidecode -s system-product-name | sed 's/\tProduct Name: //')
+  PRODUCT_NAME=$(sudo dmidecode -s system-product-name)
 
   if [ "$(uname -m)" = "armv7l" ]; then
     TESTING="OFF"
