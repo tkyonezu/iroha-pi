@@ -11,17 +11,7 @@ else
   NUMCORE=$1
 fi
 
-TESTING="ON"
-
-if [ "$(uname -s)" != "Darwin" ]; then
-  PRODUCT_NAME=$(sudo dmidecode -s system-product-name)
-
-  if [ "$(uname -m)" = "armv7l" ]; then
-    TESTING="OFF"
-  elif [ "${PRODUCT_NAME}" = "VirtualBox" ]; then
-    TESTING="OFF"
-  fi
-fi
+TESTING=$2
 
 # Bug fix by implicit cast for std::max function.
 # 2018/05/19 by Takeshi Yonezu
