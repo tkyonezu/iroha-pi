@@ -11,13 +11,16 @@ else
   NUMCORE=$1
 fi
 
-PRODUCT_NAME=$(sudo dmidecode -s system-product-name | sed 's/\tProduct Name: //')
-
 TESTING="ON"
-if [ "$(uname -m)" = "armv7l" ]; then
-  TESTING="OFF"
-elif [ "${PRODUCT_NAME}" = "VirtualBox" ]; then
-  TESTING="OFF"
+
+if [ "$(uname -s)" != "Darwin" ]; then
+  PRODUCT_NAME=$(sudo dmidecode -s system-product-name | sed 's/\tProduct Name: //')
+
+  if [ "$(uname -m)" = "armv7l" ]; then
+    TESTING="OFF"
+  elif [ "${PRODUCT_NAME}" = "VirtualBox" ]; then
+    TESTING="OFF"
+  fi
 fi
 
 # Bug fix by implicit cast for std::max function.
