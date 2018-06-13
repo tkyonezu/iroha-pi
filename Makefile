@@ -82,7 +82,7 @@ ifeq ($(UKERNEL),Darwin)
 endif
 
 ifeq ($(DOCKER), )
-$(error This platform "$(UKERNEL)/$(UMACHINE)" in not supported.)
+$(error This platform "$(UKERNEL)/$(UMACHINE)" is not supported.)
 endif
 
 TESTING := ON
