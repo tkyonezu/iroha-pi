@@ -33,12 +33,6 @@ elif [ "${UKERNEL}" = "Darwin" ]; then
   if [ "${UMACHINE}" = "x86_64" ]; then
     NUMCORE=$(system_profiler SPHardwareDataType | grep Cores |
       sed 's/^.*Cores: //')
-
-    # MacOS (Intel i7 support HyperThreading)
-    if [ "$(system_profiler SPHardwareDataType | grep "Processor Name:" |
-      sed 's/^.*Name: //')" = "Intel Core i7" ]; then
-      NUMCORE=$((NUMCORE*=2))
-    fi
   else
     NUMCORE=1
   fi

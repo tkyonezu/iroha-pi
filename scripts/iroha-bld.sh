@@ -11,9 +11,13 @@ else
   NUMCORE=$1
 fi
 
-TESTING="ON"
+TESTING=$2
+
+# Bug fix by implicit cast for std::max function.
+# 2018/05/19 by Takeshi Yonezu
 if [ "$(uname -m)" = "armv7l" ]; then
-  TESTING="OFF"
+  sed -i '/std::max/s/, pass_phrase/, (unsigned long)pass_phrase/' \
+    libs/crypto/keys_manager_impl.cpp
 fi
 
 cmake -H. -Bbuild -DTESTING=${TESTING}

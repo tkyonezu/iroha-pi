@@ -82,7 +82,23 @@ ifeq ($(UKERNEL),Darwin)
 endif
 
 ifeq ($(DOCKER), )
-$(error This platform "$(UKERNEL)/$(UMACHINE)" in not supported.)
+$(error This platform "$(UKERNEL)/$(UMACHINE)" is not supported.)
+endif
+
+TESTING := ON
+
+ifeq ($(UKERNEL),Darwin)
+  TESTING := OFF
+else
+  ifeq ($(UMACHINE),armv7l)
+    TESTING := OFF
+  else
+    PRODUCT_NAME := $(shell sudo dmidecode -s system-product-name)
+
+    ifeq ($(PRODUCT_NAME),VirtualBox)
+      TESTING := OFF
+    endif
+  endif
 endif
 
 all: iroha-dev iroha-bld iroha-rel iroha
@@ -116,7 +132,7 @@ iroha-dev:
 
 iroha-bld:
 	sudo rsync -av scripts $(BUILD_HOME)
-	docker run -t --rm --name iroha-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/iroha-bld.sh $(NUMCORE)
+	docker run -t --rm --name iroha-bld -v $(BUILD_HOME):/opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/iroha-bld.sh $(NUMCORE) $(TESTING)
 
 iroha-rel:
 	docker run -t --rm --name iroha-rel -v $(BUILD_HOME):/opt/iroha -w /opt/iroha $(PROJECT)/$(IROHA_IMG)-dev /opt/iroha/scripts/iroha-rel.sh
