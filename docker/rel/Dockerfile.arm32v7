@@ -23,7 +23,8 @@ COPY iroha ${IROHA_HOME}
 RUN apt update && \
     apt upgrade -y && \
     useradd -ms /bin/bash iroha && \
-    chown -R iroha:iroha ${IROHA_HOME}
+    chown -R iroha:iroha ${IROHA_HOME} && \
+    echo "PATH=\$PATH:/opt/iroha/bin" >>/home/iroha/.bashrc
 
 USER iroha
 
