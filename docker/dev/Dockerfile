@@ -67,7 +67,7 @@ RUN git clone https://github.com/c-ares/c-ares /tmp/c-ares \
  && ldconfig \
  && rm -rf /tmp/c-ares
 
-# install grpc
+# install grpc 1.11.0
 RUN git clone https://github.com/grpc/grpc /tmp/grpc \
  && (cd /tmp/grpc; git checkout bd44e485f69d70ca4095cea92decd98de3892aa6) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
