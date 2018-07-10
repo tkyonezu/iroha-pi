@@ -16,9 +16,9 @@ else
 fi
 
 
-if [ "${SYT}" == "MacOS" ]; then
+if [ "${SYST}" == "MacOS" ]; then
   TERM="/dev/ttys00"
-  n=$(tty | sed '|/dev/ttys||')
+  n=$(tty | sed 's|/dev/ttys||')
   n=$((n+=0))
 elif [ "${SYST}" == "Linux" ]; then
   TERM="/dev/pts/"
