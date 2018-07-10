@@ -75,10 +75,12 @@ sleep 1
 rx GetAccountAsset 8 admin@test 'hotcoin#test'
 
 tx TransferAsset 5 admin@test alice@test 'coolcoin#test' 50 2
+sleep 1
+rx GetAccountAsset 8 alice@test 'coolcoin#test'
 
 tx TransferAsset 5 admin@test alice@test 'hotcoin#test' 50000 5
 sleep 1
-rx GetAccountAsset 8 alice@test 'coolcoin#test'
+rx GetAccountAsset 8 alice@test 'hotcoin#test'
 
 tx TransferAsset 5 admin@test bob@test 'coolcoin#test' 50 2
 
