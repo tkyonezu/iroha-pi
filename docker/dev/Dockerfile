@@ -84,6 +84,16 @@ RUN git clone https://github.com/grpc/grpc /tmp/grpc \
  && ldconfig \
  && rm -rf /tmp/grpc
 
+# install gtest
+RUN git clone https://github.com/google/googletest /tmp/googletest \
+ && (cd /tmp/googletest; git checkout ec44c6c1675c25b9827aacd08c02433cccde7780) \
+ && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+      -H/tmp/googletest \
+      -B/tmp/googletest/build \
+ && cmake --build /tmp/googletest/build --target install -- -j${NUMCORE} \
+ && ldconfig \
+ && rm -rf /tmp/googletest
+
 # install spdlog v0.16.3
 RUN git clone https://github.com/gabime/spdlog /tmp/spdlog \
  && (cd /tmp/spdlog; git checkout ccd675a286f457068ee8c823f8207f13c2325b26) \
