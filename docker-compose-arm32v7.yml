@@ -8,6 +8,7 @@ version: '3'
 services:
   node:
     image: arm32v7/${IROHA_IMG}
+    user: "1000:998"
     ports:
       - "50051:50051"
     environment:
