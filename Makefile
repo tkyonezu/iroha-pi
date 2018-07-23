@@ -102,7 +102,7 @@ else
     ifeq ($(PRODUCT_NAME),VirtualBox)
       TESTING := OFF
     endif
-    ifeq ($(PRODUCT_NAME),"")
+    ifeq ($(PRODUCT_NAME),)
       TESTING := OFF
     endif
   endif
