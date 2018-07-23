@@ -62,6 +62,7 @@ NUMCORE := $(shell scripts/numcore.sh)
 
 UKERNEL := $(shell uname -s)
 UMACHINE := $(shell uname -m)
+URELEASE := $(shell uname -r)
 
 ifeq ($(UKERNEL),Linux)
   ifeq ($(UMACHINE),x86_64)
@@ -96,9 +97,12 @@ else
   ifeq ($(UMACHINE),armv7l)
     TESTING := OFF
   else
-    PRODUCT_NAME := $(shell sudo dmidecode -s system-product-name)
+    PRODUCT_NAME := $(shell sudo dmidecode -s system-product-name 2>/dev/null)
 
     ifeq ($(PRODUCT_NAME),VirtualBox)
+      TESTING := OFF
+    endif
+    ifeq ($(PRODUCT_NAME),"")
       TESTING := OFF
     endif
   endif
