@@ -13,8 +13,8 @@ services:
     environment:
       - CCACHE_DIR=/tmp/ccache
     volumes:
-      - ./example:/opt/iroha/config
-      - ../iroha/build/test_bin:/opt/iroha/test_bin
+      - ${PWD}/example:/opt/iroha/config
+      - ${PWD}/../iroha/build/test_bin:/opt/iroha/test_bin
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
     command: >

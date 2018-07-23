@@ -15,8 +15,8 @@ services:
     environment:
       - CCACHE_DIR=/tmp/ccache
     volumes:
-      - .:/opt/iroha/config
-      - ./block_store1:/tmp/block_store
+      - ${PWD}:/opt/iroha/config
+      - ${PWD}/block_store1:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
     command: >
@@ -33,8 +33,8 @@ services:
     environment:
       - CCACHE_DIR=/tmp/ccache
     volumes:
-      - .:/opt/iroha/config
-      - ./block_store2:/tmp/block_store
+      - ${PWD}:/opt/iroha/config
+      - ${PWD}/block_store2:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
     command: >
@@ -51,8 +51,8 @@ services:
     environment:
       - CCACHE_DIR=/tmp/ccache
     volumes:
-      - .:/opt/iroha/config
-      - ./block_store3:/tmp/block_store
+      - ${PWD}:/opt/iroha/config
+      - ${PWD}/block_store3:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
     command: >
@@ -69,8 +69,8 @@ services:
     environment:
       - CCACHE_DIR=/tmp/ccache
     volumes:
-      - .:/opt/iroha/config
-      - ./block_store4:/tmp/block_store
+      - ${PWD}:/opt/iroha/config
+      - ${PWD}/block_store4:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
     command: >
