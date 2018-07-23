@@ -38,7 +38,7 @@
 
 .PHONY: all help docker up dwon testup test clean version
 
-BUILD_HOME := $(shell pwd)/../iroha
+BUILD_HOME := $(PWD)/../iroha
 IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
