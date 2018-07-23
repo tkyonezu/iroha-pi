@@ -21,8 +21,12 @@ if [ "${SYST}" == "MacOS" ]; then
   n=$(tty | sed 's|/dev/ttys||')
   n=$((n+=0))
 elif [ "${SYST}" == "Linux" ]; then
-  TERM="/dev/pts/"
-  n=$(tty | sed 's|/dev/pts/||')
+  if echo $(uname -r) | grep -q Microsoft; then
+    TERM="/dev/tty"
+  else
+    TERM="/dev/pts/"
+  fi
+  n=$(tty | sed "s|${TERM}||")
 fi
 
 for i in $(seq 4); do
