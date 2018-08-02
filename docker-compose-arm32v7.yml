@@ -8,12 +8,13 @@ version: '3'
 services:
   node:
     image: arm32v7/${IROHA_IMG}
+    user: "1000:998"
     ports:
       - "50051:50051"
     environment:
       - CCACHE_DIR=/tmp/ccache
     volumes:
-      - ./example:/opt/iroha/config
+      - ${PWD}/example:/opt/iroha/config
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
     command: >

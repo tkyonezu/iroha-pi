@@ -8,6 +8,9 @@
 # - testup        - running iroha for test container by docker-compose
 # - test          - exec all test commands
 # - logs          - show logs of iroha_node_1 container
+# - up4           - running iroha container by docker-compose 4 nodes
+# - down4         - stop and remove iroha container by docker-compose 4 ndoes
+# - logs4         - show logs of iroha-node[1-4] containers
 # - clean         - cleaning protobuf schemas and build directory
 # - version       - show labels in container
 #
@@ -35,7 +38,7 @@
 
 .PHONY: all help docker up dwon testup test clean version
 
-BUILD_HOME := $(shell pwd)/../iroha
+BUILD_HOME := $(PWD)/../iroha
 IROHA_HOME := /opt/iroha
 IROHA_IMG := $(shell grep IROHA_IMG .env | cut -d"=" -f2)
 COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
@@ -59,6 +62,7 @@ NUMCORE := $(shell scripts/numcore.sh)
 
 UKERNEL := $(shell uname -s)
 UMACHINE := $(shell uname -m)
+URELEASE := $(shell uname -r)
 
 ifeq ($(UKERNEL),Linux)
   ifeq ($(UMACHINE),x86_64)
@@ -93,9 +97,12 @@ else
   ifeq ($(UMACHINE),armv7l)
     TESTING := OFF
   else
-    PRODUCT_NAME := $(shell sudo dmidecode -s system-product-name)
+    PRODUCT_NAME := $(shell sudo dmidecode -s system-product-name 2>/dev/null)
 
     ifeq ($(PRODUCT_NAME),VirtualBox)
+      TESTING := OFF
+    endif
+    ifeq ($(PRODUCT_NAME),)
       TESTING := OFF
     endif
   endif
@@ -114,6 +121,9 @@ ifneq ($(UMACHINE),armv7l)
 	@echo "test          - exec all test commands"
 endif
 	@echo "logs          - show logs of iroha_node_1 container"
+	@echo "up4           - running iroha container by docker-compose 4 nodes"
+	@echo "down4         - stop and remove iroha container by docker-compose 4 ndoes"
+	@echo "logs4         - show logs of iroha-node[1-4] containers"
 	@echo "clean         - cleaning protobuf schemas and build directory"
 	@echo "version       - show labels in container"
 
@@ -149,6 +159,13 @@ iroha-up:
 iroha-down:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
 
+up4:
+	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$i; chown 1000:1000 block_store$$i; done; else rm -f block_store*/0*; fi
+	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
+
+down4:
+	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
+
 ifneq ($(UMACHINE),armv7l)
 iroha-testup:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE_TEST) up -d
@@ -159,6 +176,9 @@ endif
 
 logs:
 	docker logs -f iroha_node_1
+
+logs4:
+	cd example/node4; bash logs4.sh
 
 clean:
 	-sudo rm -fr docker/rel/iroha

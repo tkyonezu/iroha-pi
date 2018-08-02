@@ -22,6 +22,13 @@ if [ "${UKERNEL}" = "Linux" ]; then
         NUMCORE=2
       fi
     fi
+
+    # Microsoft Windows Service for Linux
+    if echo $(uname -v) | grep -q Microsoft; then
+      if [ ${NUMCORE} -gt 2 ]; then
+        NUMCORE=2
+      fi
+    fi
   # Linux/armv7l (Raspberry Pi3)
   elif [ "${UMACHINE}" = "armv7l" ]; then
     NUMCORE=2
