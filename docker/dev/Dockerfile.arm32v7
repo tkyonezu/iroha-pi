@@ -139,17 +139,6 @@ RUN git clone https://git.postgresql.org/git/postgresql.git /tmp/postgresql \
  && ldconfig \
  && rm -fr /tmp/postgresql
 
-# install libpqxx
-RUN git clone https://github.com/jtv/libpqxx /tmp/libpqxx \
- && (cd /tmp/libpqxx; git checkout 5b17abce5ac2b1a2f8278718405b7ade8bb30ae9) \
- && curl -L -o /tmp/libpqxx/config/config.guess 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.guess;hb=6b2374c79506ee82a8b440f6d1ca293e2e2e2463' \
- && curl -L -o /tmp/libpqxx/config/config.sub 'http://git.savannah.gnu.org/gitweb/?p=config.git;a=blob_plain;f=config.sub;hb=6b2374c79506ee82a8b440f6d1ca293e2e2e2463' \
- && (cd /tmp/libpqxx; /tmp/libpqxx/configure --disable-documentation --with-pic) \
- && make -j${NUMCORE} -C /tmp/libpqxx \
- && make -C /tmp/libpqxx install \
- && ldconfig \
- && rm -fr /tmp/libpqxx
-
 # install tbb
 RUN git clone https://github.com/01org/tbb /tmp/tbb \
  && (cd /tmp/tbb; git checkout eb6336ad29450f2a64af5123ca1b9429ff6bc11d) \
