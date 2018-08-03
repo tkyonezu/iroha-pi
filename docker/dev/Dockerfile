@@ -139,25 +139,25 @@ RUN git clone https://git.postgresql.org/git/postgresql.git /tmp/postgresql \
  && ldconfig \
  && rm -fr /tmp/postgresql
 
-# install soci 3.2.3
-RUN git clone https://github.com/SOCI/soci /tmp/soci \
- && (cd /tmp/soci; git checkout 111b50af8c3876ea392367640b4bd83b4f903ab8) \
- && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -DWITH_BOOST=ON \
-      -DWITH_DB2=OFF \
-      -DWITH_FIREBIRD=OFF \
-      -DWITH_MYSQL=OFF \
-      -DWITH_ODBC=OFF \
-      -DWITH_ORACLE=OFF \
-      -DWITH_POSTGRESQL=ON \
-      -DWITH_SQLITE3=OFF \
-      -H/tmp/soci/src \
-      -B/tmp/soci/build \
-      -DCMAKE_PREFIX_PATH="/opt/dependencies/libpq" \
-      -DCMAKE_INSTALL_PREFIX=/opt/dependencies/soci \
- && cmake --build /tmp/soci/build --target install \
- && ldconfig \
- && rm -rf /tmp/soci
+## # install soci 3.2.3
+## RUN git clone https://github.com/SOCI/soci /tmp/soci \
+##  && (cd /tmp/soci; git checkout 111b50af8c3876ea392367640b4bd83b4f903ab8) \
+##  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+##       -DWITH_BOOST=ON \
+##       -DWITH_DB2=OFF \
+##       -DWITH_FIREBIRD=OFF \
+##       -DWITH_MYSQL=OFF \
+##       -DWITH_ODBC=OFF \
+##       -DWITH_ORACLE=OFF \
+##       -DWITH_POSTGRESQL=ON \
+##       -DWITH_SQLITE3=OFF \
+##       -H/tmp/soci/src \
+##       -B/tmp/soci/build \
+##       -DCMAKE_PREFIX_PATH=/usr/local/libpq \
+##       -DCMAKE_INSTALL_PREFIX=/usr/local/soci \
+##  && cmake --build /tmp/soci/build --target install \
+##  && ldconfig \
+##  && rm -rf /tmp/soci
 
 # install tbb
 RUN git clone https://github.com/01org/tbb /tmp/tbb \
