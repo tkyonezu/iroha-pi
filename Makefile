@@ -182,15 +182,17 @@ logs4:
 
 clean:
 	-sudo rm -fr docker/rel/iroha
-	-sudo rm ${BUILD_HOME}/scripts/iroha*.sh
-	-sudo rm ${BUILD_HOME}/scripts/build-no.sh
-	-sudo rm ${BUILD_HOME}/scripts/iroha-test.lst
-	-sudo rm ${BUILD_HOME}/scripts/numcore.sh
-	-sudo rm ${BUILD_HOME}/schema/*.cc
-	-sudo rm ${BUILD_HOME}/schema/*.h
-	-sudo rm -fr ${BUILD_HOME}/build
-	-sudo rm -fr ${BUILD_HOME}/external
-	-sudo rm -fr ${BUILD_HOME}/cmake-build-debug
+ifneq ("$(wildcard $(BUILD_HOME)/scripts/numcore.sh)","")
+	-sudo rm $(BUILD_HOME)/scripts/iroha*.sh
+	-sudo rm $(BUILD_HOME)/scripts/build-no.sh
+	-sudo rm $(BUILD_HOME)/scripts/iroha-test.lst
+	-sudo rm $(BUILD_HOME)/scripts/numcore.sh
+endif
+	-sudo rm $(BUILD_HOME)/shared_model/schema/*.cc
+	-sudo rm $(BUILD_HOME)/shared_model/schema/*.h
+	-sudo rm -fr $(BUILD_HOME)/build
+	-sudo rm -fr $(BUILD_HOME)/external
+	-sudo rm -fr $(BUILD_HOME)/cmake-build-debug
 
 version:
 	docker inspect -f {{.Config.Labels}} $(PROJECT)/$(IROHA_IMG)
