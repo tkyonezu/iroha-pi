@@ -17,4 +17,7 @@ cp -H ${LIBS} ${PI_HOME}/lib
 cp -r ${IROHA_HOME}/build/bin ${PI_HOME}
 ## cp -r ${IROHA_HOME}/build/test_bin ${PI_HOME}
 
+cd ${PI_HOME}/bin
+strip irohad iroha-cli
+
 exit 0
