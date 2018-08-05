@@ -141,7 +141,7 @@ RUN git clone https://git.postgresql.org/git/postgresql.git /tmp/postgresql \
 
 # install soci 3.2.3
 RUN git clone https://github.com/SOCI/soci /tmp/soci \
- && cd /tmp/soci; git checkout 111b50af8c3876ea392367640b4bd83b4f903ab8) \
+ && (cd /tmp/soci; git checkout 111b50af8c3876ea392367640b4bd83b4f903ab8) \
  && cmake \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DWITH_BOOST=ON \
