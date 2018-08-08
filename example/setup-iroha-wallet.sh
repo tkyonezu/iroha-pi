@@ -23,7 +23,7 @@ $5
 $6
 $7
 $8
-2
+3
 ${IROHA_IP}
 ${IROHA_PORT}
 EOF
@@ -50,21 +50,21 @@ ${IROHA_PORT}
 EOF
 }
 
-tx CreateAccount 12 alice test $(cat alice@test.pub)
+tx CreateAccount 10 alice test $(cat alice@test.pub)
 sleep 1
 rx GetAccountInformation 9 alice@test
 
-tx CreateAccount 12 bob test $(cat bob@test.pub)
+tx CreateAccount 10 bob test $(cat bob@test.pub)
 sleep 1
 rx GetAccountInformation 9 bob@test
 
-tx CreateAsset 14 coolcoin test 2
+tx CreateAsset 8 coolcoin test 2
 sleep 1
-rx GetAssetInformation 3 'coolcoin#test'
+rx GetAssetInformation 1 'coolcoin#test'
 
-tx CreateAsset 14 hotcoin test 5
+tx CreateAsset 8 hotcoin test 5
 sleep 1
-rx GetAssetInformation 3 'hotcoin#test'
+rx GetAssetInformation 1 'hotcoin#test'
 
 tx AddAssetQuantity 16 'coolcoin#test' 1000 0
 sleep 1
