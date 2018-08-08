@@ -188,10 +188,8 @@ ifneq ("$(wildcard $(BUILD_HOME)/scripts/numcore.sh)","")
 	-sudo rm $(BUILD_HOME)/scripts/iroha-test.lst
 	-sudo rm $(BUILD_HOME)/scripts/numcore.sh
 endif
-	-sudo rm $(BUILD_HOME)/shared_model/schema/*.cc
-	-sudo rm $(BUILD_HOME)/shared_model/schema/*.h
-	-sudo rm -fr $(BUILD_HOME)/build
 	-sudo rm -fr $(BUILD_HOME)/external
+	-sudo rm -fr $(BUILD_HOME)/build
 	-sudo rm -fr $(BUILD_HOME)/cmake-build-debug
 
 version:
