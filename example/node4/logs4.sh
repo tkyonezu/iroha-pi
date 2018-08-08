@@ -10,6 +10,8 @@ if [[ "$(uname -s)" == "Darwin"  && "$(uname -m)" == "x86_64" ]]; then
   SYST="MacOS"
 elif [[ "$(uname -s)" == "Linux" && "$(uname -m)" == "x86_64" ]]; then
   SYST="Linux"
+elif [[ "$(uname -s)" == "Linux" && "$(uname -m)" == "armv7l" ]]; then
+  SYST="RaspberryPi"
 else
   echo "($(uname -s)/$(uname -m)) Doesn't Support."
   exit 1
@@ -27,6 +29,8 @@ elif [ "${SYST}" == "Linux" ]; then
     TERM="/dev/pts/"
   fi
   n=$(tty | sed "s|${TERM}||")
+elif [ "${SYST}" == "RaspberryPi" ]; then
+  TERM="/dev/pts/"
 fi
 
 for i in $(seq 4); do
