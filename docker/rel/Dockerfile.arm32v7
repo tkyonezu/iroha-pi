@@ -21,10 +21,13 @@ ENV PATH PATH=${PATH}:/opt/iroha/bin
 
 COPY iroha ${IROHA_HOME}
 
-RUN apt update && \
-    apt upgrade -y && \
-    useradd -ms /bin/bash iroha && \
-    chown -R iroha:iroha ${IROHA_HOME}
+RUN apt update \
+ && apt upgrade -y \
+ && useradd -ms /bin/bash iroha \
+ && chown -R iroha:iroha ${IROHA_HOME}
+
+RUN groupadd -g 998 vboxsf \
+ && usermod -aG vboxsf iroha
 
 USER iroha
 

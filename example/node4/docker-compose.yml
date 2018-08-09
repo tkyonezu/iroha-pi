@@ -9,7 +9,6 @@ services:
 
   node1:
     image: hyperledger/${IROHA_IMG}
-    user: "1000:998"
     container_name: iroha-node1
     ports:
       - "50051:50051"
@@ -30,7 +29,6 @@ services:
 
   node2:
     image: hyperledger/${IROHA_IMG}
-    user: "1000:998"
     container_name: iroha-node2
     environment:
       - CCACHE_DIR=/tmp/ccache
@@ -49,7 +47,6 @@ services:
 
   node3:
     image: hyperledger/${IROHA_IMG}
-    user: "1000:998"
     container_name: iroha-node3
     environment:
       - CCACHE_DIR=/tmp/ccache
@@ -68,7 +65,6 @@ services:
 
   node4:
     image: hyperledger/${IROHA_IMG}
-    user: "1000:998"
     container_name: iroha-node4
     environment:
       - CCACHE_DIR=/tmp/ccache

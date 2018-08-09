@@ -160,7 +160,7 @@ iroha-down:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
 
 up4:
-	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$i; chown 1000:1000 block_store$$i; done; else rm -f block_store*/0*; fi
+	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$i; sudo chown $(id -u):$(id -g) block_store$$i; done; else rm -f block_store*/0*; fi
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
 
 down4:
@@ -182,15 +182,15 @@ logs4:
 
 clean:
 	-sudo rm -fr docker/rel/iroha
-	-sudo rm ${BUILD_HOME}/scripts/iroha*.sh
-	-sudo rm ${BUILD_HOME}/scripts/build-no.sh
-	-sudo rm ${BUILD_HOME}/scripts/iroha-test.lst
-	-sudo rm ${BUILD_HOME}/scripts/numcore.sh
-	-sudo rm ${BUILD_HOME}/schema/*.cc
-	-sudo rm ${BUILD_HOME}/schema/*.h
-	-sudo rm -fr ${BUILD_HOME}/build
-	-sudo rm -fr ${BUILD_HOME}/external
-	-sudo rm -fr ${BUILD_HOME}/cmake-build-debug
+ifneq ("$(wildcard $(BUILD_HOME)/scripts/numcore.sh)","")
+	-sudo rm $(BUILD_HOME)/scripts/iroha*.sh
+	-sudo rm $(BUILD_HOME)/scripts/build-no.sh
+	-sudo rm $(BUILD_HOME)/scripts/iroha-test.lst
+	-sudo rm $(BUILD_HOME)/scripts/numcore.sh
+endif
+	-sudo rm -fr $(BUILD_HOME)/external
+	-sudo rm -fr $(BUILD_HOME)/build
+	-sudo rm -fr $(BUILD_HOME)/cmake-build-debug
 
 version:
 	docker inspect -f {{.Config.Labels}} $(PROJECT)/$(IROHA_IMG)

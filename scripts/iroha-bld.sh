@@ -23,7 +23,7 @@ TESTING=$2
 ##     libs/crypto/keys_manager_impl.cpp
 ## fi
 
-cmake -H. -Bbuild -DTESTING=${TESTING}
+cmake -H. -Bbuild -DCMAKE_BUILD_TYPE=Release -DTESTING=${TESTING}
 cmake --build build -- -j${NUMCORE}
 
 exit 0
