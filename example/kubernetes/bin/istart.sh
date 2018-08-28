@@ -9,8 +9,9 @@ case $(hostname) in
   kubenode3)  COMPOSE="docker-compose-node3.yml";;
 esac
 
-cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
-echo "$ docker-compose -f ${COMPOSE} up -d"; \
+cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes
+[ -d block_store ] || mkdir block_store
+echo "$ docker-compose -f ${COMPOSE} up -d"
 docker-compose -f ${COMPOSE} up -d
 
 if [ "$(hostname)" = "kubemaster" ]; then
@@ -20,6 +21,7 @@ if [ "$(hostname)" = "kubemaster" ]; then
     COMPOSE=docker-compose-node$i.yml
 
     ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
+      [ -d block_store ] || mkdir block_store; \
       echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
       docker-compose -f ${COMPOSE} up -d)"
   done
