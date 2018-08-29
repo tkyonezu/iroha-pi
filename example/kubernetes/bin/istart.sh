@@ -10,8 +10,8 @@ case $(hostname) in
 esac
 
 cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes
-[ -d block_store ] || mkdir block_store
-echo "$ docker-compose -f ${COMPOSE} up -d"
+## if [ -d block_store ]; then rm -f block_store/0*; else mkdir block_store; fi
+## echo "$ docker-compose -f ${COMPOSE} up -d"
 docker-compose -f ${COMPOSE} up -d
 
 if [ "$(hostname)" = "kubemaster" ]; then
@@ -20,8 +20,12 @@ if [ "$(hostname)" = "kubemaster" ]; then
 
     COMPOSE=docker-compose-node$i.yml
 
+    ## ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
+    ##   if [ -d block_store ]; then rm -f block_store/*; else mkdir block_store; fi; \
+    ##   echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
+    ##   docker-compose -f ${COMPOSE} up -d)"
+
     ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
-      [ -d block_store ] || mkdir block_store; \
       echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
       docker-compose -f ${COMPOSE} up -d)"
   done
