@@ -12,7 +12,7 @@ echo ">>> $(hostname)"
 cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes
 
 if [ "$1" = "-c" ]; then
-  if [ -d block_store ]; then rm -f block_store/0*; \
+  if [ -d block_store ]; then rm -f block_store/*; \
   else mkdir block_store; chown $(id -u):$(id -g) block_store; fi
 fi
 
