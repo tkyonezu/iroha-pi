@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo ">>> $(hostname)"
-
 case $(hostname) in
   kubemaster) COMPOSE="docker-compose-node0.yml";;
   kubenode1)  COMPOSE="docker-compose-node1.yml";;
@@ -9,10 +7,12 @@ case $(hostname) in
   kubenode3)  COMPOSE="docker-compose-node3.yml";;
 esac
 
-cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
-echo "$ docker-compose -f ${COMPOSE} down"; \
-docker-compose -f ${COMPOSE} down; \
-echo "$ docker volume prune -f"; \
+echo ">>> $(hostname)"
+
+cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes
+echo "$ docker-compose -f ${COMPOSE} down"
+docker-compose -f ${COMPOSE} down
+echo "$ docker volume prune -f"
 docker volume prune -f
 
 if [ "$(hostname)" = "kubemaster" ]; then
@@ -24,7 +24,7 @@ if [ "$(hostname)" = "kubemaster" ]; then
     ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
       echo \"$ docker-compose -f ${COMPOSE} down\"; \
       docker-compose -f ${COMPOSE} down; \
-      echo \"$ docker volume prune -f\" \
+      echo \"$ docker volume prune -f\"; \
       docker volume prune -f)"
   done
 fi
