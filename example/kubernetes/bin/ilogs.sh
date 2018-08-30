@@ -1,5 +1,5 @@
 #!/bin/bash
 
-docker logs -f iroha_node_1 >/dev/pts/0 &
+docker logs -f iroha_node_1 &
 
 exit 0
