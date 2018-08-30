@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo ">>> $(hostname)"
-
 case $(hostname) in
   kubemaster) COMPOSE="docker-compose-node0.yml";;
   kubenode1)  COMPOSE="docker-compose-node1.yml";;
@@ -9,9 +7,16 @@ case $(hostname) in
   kubenode3)  COMPOSE="docker-compose-node3.yml";;
 esac
 
+echo ">>> $(hostname)"
+
 cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes
-## if [ -d block_store ]; then rm -f block_store/0*; else mkdir block_store; fi
-## echo "$ docker-compose -f ${COMPOSE} up -d"
+
+if [ "$1" = "-c" ]; then
+  if [ -d block_store ]; then rm -f block_store/0*; \
+  else mkdir block_store; chown $(id -u):$(id -g) block_store; fi
+fi
+
+echo "$ docker-compose -f ${COMPOSE} up -d"
 docker-compose -f ${COMPOSE} up -d
 
 if [ "$(hostname)" = "kubemaster" ]; then
@@ -20,14 +25,16 @@ if [ "$(hostname)" = "kubemaster" ]; then
 
     COMPOSE=docker-compose-node$i.yml
 
-    ## ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
-    ##   if [ -d block_store ]; then rm -f block_store/*; else mkdir block_store; fi; \
-    ##   echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
-    ##   docker-compose -f ${COMPOSE} up -d)"
-
-    ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
-      echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
-      docker-compose -f ${COMPOSE} up -d)"
+    if [ "$1" = "-c" ]; then
+      ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
+        if [ -d block_store ]; then rm -f block_store/*; else mkdir block_store; chown $(id -u):$(id -g) block_store; fi; \
+        echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
+        docker-compose -f ${COMPOSE} up -d)"
+    else
+      ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
+        echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
+        docker-compose -f ${COMPOSE} up -d)"
+    fi
   done
 fi
 
