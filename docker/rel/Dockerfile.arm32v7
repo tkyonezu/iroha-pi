@@ -29,6 +29,8 @@ RUN apt update \
 RUN groupadd -g 998 vboxsf \
  && usermod -aG vboxsf iroha
 
+RUN mkdir ${IROHA_HOME}/key; chown iroha:iroha ${IROHA_HOME}/key
+
 USER iroha
 
 WORKDIR ${IROHA_HOME}

@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 
-mkdir key
 cp config/admin_test.priv key/admin@test.priv
 cp config/admin_test.pub  key/admin@test.pub
 cp config/alice_test.priv key/alice@test.priv
