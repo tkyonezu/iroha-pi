@@ -24,12 +24,11 @@ COPY iroha ${IROHA_HOME}
 RUN apt update \
  && apt upgrade -y \
  && useradd -ms /bin/bash iroha \
+ && mkdir ${IROHA_HOME}/key \
  && chown -R iroha:iroha ${IROHA_HOME}
 
 RUN groupadd -g 998 vboxsf \
  && usermod -aG vboxsf iroha
-
-RUN mkdir ${IROHA_HOME}/key; chown iroha:iroha ${IROHA_HOME}/key
 
 USER iroha
 
