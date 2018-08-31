@@ -12,4 +12,4 @@ KEY=$(echo $KEY | cut -d'-' -f2)
 
 sleep 20
 
-irohad --genesis_block config/genesis.block --config config/iroha.conf --keypair_name config/kubenode$KEY
+irohad --genesis_block config/genesis.block --config config/iroha.conf --keypair_name config/kubenode$KEY --overwrite_ledger
