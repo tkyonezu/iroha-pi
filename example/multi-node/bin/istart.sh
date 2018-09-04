@@ -9,7 +9,7 @@ esac
 
 echo ">>> $(hostname)"
 
-cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes
+cd ~/github.com/tkyonezu/iroha-pi/example/multi-node
 
 if [ "$1" = "-c" ]; then
   if [ -d block_store ]; then rm -f block_store/*; \
@@ -26,12 +26,12 @@ if [ "$(hostname)" = "kubemaster" ]; then
     COMPOSE=docker-compose-node$i.yml
 
     if [ "$1" = "-c" ]; then
-      ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
+      ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/multi-node; \
         if [ -d block_store ]; then rm -f block_store/*; else mkdir block_store; chown $(id -u):$(id -g) block_store; fi; \
         echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
         docker-compose -f ${COMPOSE} up -d)"
     else
-      ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
+      ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/multi-node; \
         echo \"$ docker-compose -f ${COMPOSE} up -d\"; \
         docker-compose -f ${COMPOSE} up -d)"
     fi

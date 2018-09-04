@@ -9,7 +9,7 @@ esac
 
 echo ">>> $(hostname)"
 
-cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes
+cd ~/github.com/tkyonezu/iroha-pi/example/multi-node
 echo "$ docker-compose -f ${COMPOSE} down"
 docker-compose -f ${COMPOSE} down
 echo "$ docker volume prune -f"
@@ -21,7 +21,7 @@ if [ "$(hostname)" = "kubemaster" ]; then
 
     COMPOSE=docker-compose-node$i.yml
 
-    ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/kubernetes; \
+    ssh kubenode$i "(cd ~/github.com/tkyonezu/iroha-pi/example/multi-node; \
       echo \"$ docker-compose -f ${COMPOSE} down\"; \
       docker-compose -f ${COMPOSE} down; \
       echo \"$ docker volume prune -f\"; \
