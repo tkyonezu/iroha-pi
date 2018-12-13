@@ -54,6 +54,7 @@ EOF
 
 tx CreateAccount crt_acc alice test $(cat alice@test.pub)
 sleep ${WAIT_TIME}
+sleep ${WAIT_TIME}
 rx GetAccountInformation get_acc alice@test
 
 tx CreateAccount crt_acc bob test $(cat bob@test.pub)
