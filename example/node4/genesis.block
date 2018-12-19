@@ -37,7 +37,7 @@
                       "peerKey":"/jHXvC2+aVsc1ccG3ekC1ftubOS2DghBjIQv3vWAUjA="
                     }
                   }
-                };
+                },
                 {
                   "createRole":{
                     "roleName":"admin",
