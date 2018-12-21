@@ -16,9 +16,9 @@ RUN apt-get -y --no-install-recommends install \
     python3 python-software-properties curl \
  && apt-get -y clean
 
-# install cmake 3.10.2
+# install cmake 3.11.4
 RUN git clone https://gitlab.kitware.com/cmake/cmake.git /tmp/cmake \
- && (cd /tmp/cmake; git checkout c1e087a9d3af74299d7681c9f9de59e5977a1539) \
+ && (cd /tmp/cmake; git checkout 316bd45439ad8ced6b31bcb10303a788038387ef) \
  && (cd /tmp/cmake; /tmp/cmake/bootstrap --system-curl --parallel=${NUMCORE} --enable-ccache) \
  && make -j${NUMCORE} -C /tmp/cmake \
  && make -C /tmp/cmake install \
@@ -106,7 +106,8 @@ RUN git clone https://github.com/gabime/spdlog /tmp/spdlog \
 
 # install rxcpp
 RUN git clone https://github.com/Reactive-Extensions/RxCpp /tmp/RxCpp \
- && (cd /tmp/RxCpp; git checkout 1b2e0589f19cb34d8cd58803677701dcf2161876) \
+ # this version is chosen, because it fixes 100% node overload [IR-1736] bug
+ && (cd /tmp/RxCpp; git checkout a7d5856385f126e874db6010d9dbfd37290c61de) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -H/tmp/RxCpp \
       -B/tmp/RxCpp/build \

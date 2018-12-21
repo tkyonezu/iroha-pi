@@ -9,6 +9,6 @@ cp config/bob_test.pub    key/bob@test.pub
 
 KEY=$(echo $KEY | cut -d'-' -f2)
 
-sleep 20
+sleep 30
 
 irohad --genesis_block config/genesis.block --config config/iroha.conf --keypair_name config/kubenode$KEY --overwrite_ledger
