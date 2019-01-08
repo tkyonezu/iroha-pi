@@ -56,7 +56,7 @@ EOF
 }
 
 function st {
-  docker exec -i ${CONTAINER_NAME} iroha-cli \
+  iroha-cli \
     --account_name admin@test \
     --key_path /opt/iroha/config \
     <<EOF
