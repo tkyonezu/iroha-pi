@@ -58,7 +58,7 @@ EOF
 function st {
   iroha-cli \
     --account_name admin@test \
-    --key_path /opt/iroha/config \
+    --key_path ${KEY_PATH} \
     <<EOF
 st
 get_tx_info
