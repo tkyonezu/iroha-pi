@@ -1,6 +1,6 @@
 #!/bin/bash
 # 
-# Copyright (c) 2018, Takeshi Yonezu. All Rights Reserved.
+# Copyright (c) 2018, 2019, Takeshi Yonezu. All Rights Reserved.
 #
 
 CONTAINER_NAME="iroha-node1"
@@ -14,7 +14,7 @@ function tx {
   docker exec -i ${CONTAINER_NAME} iroha-cli \
     --account_name admin@test \
     --key_path /opt/iroha/config \
-    <<EOF | grep -E '(2018|^Congratulation|^Its)' | sed 's/^>.*: //' | tee /tmp/hash
+    <<EOF | grep -E '(^\[20|^Congratulation|^Its)' | sed 's/^>.*: //' | tee /tmp/hash
 tx
 $2
 $3
@@ -40,7 +40,7 @@ function rx {
   docker exec -i ${CONTAINER_NAME} iroha-cli \
     --account_name admin@test \
     --key_path /opt/iroha/config \
-    <<EOF | grep -E '(2018|^Congratulation|^Its)' | sed 's/^>.*: //'
+    <<EOF | grep -E '(^\[20|^Congratulation|^Its)' | sed 's/^>.*: //'
 qry
 $2
 $3
