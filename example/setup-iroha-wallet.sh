@@ -31,6 +31,7 @@ EOF
   hash=$(cat /tmp/hash| grep hash | cut -d' ' -f4)
   while st $hash | grep -q "A problem"; do
    sleep 1
+   echo -n "."
   done
 }
 
