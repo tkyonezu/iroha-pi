@@ -2,6 +2,8 @@
 
 cp config/admin_test.priv key/admin@test.priv
 cp config/admin_test.pub  key/admin@test.pub
+cp config/test_test.priv  key/test@test.priv
+cp config/test_test.pub   key/test@test.pub
 cp config/alice_test.priv key/alice@test.priv
 cp config/alice_test.pub  key/alice@test.pub
 cp config/bob_test.priv   key/bob@test.priv
