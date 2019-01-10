@@ -11,6 +11,15 @@ cp config/bob_test.pub    key/bob@test.pub
 
 KEY=$(echo $KEY | cut -d'-' -f2)
 
-sleep 30
+IROHA_CONF=${IROHA_CONF:-iroha.con}
+IROHA_NODE=${IROHA_NODE:-kubenode${KEY}}
 
-irohad --genesis_block config/genesis.block --config config/iroha.conf --keypair_name config/kubenode$KEY --overwrite_ledger
+PG_HOST=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*host=//' -e 's/ .*//')
+PG_PORT=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*port=//' -e 's/ .*//')
+
+/opt/iroha/bin/wait-for-it.sh -h ${PG_OPT} -t 30 -- true
+
+/opt/iroha/bin/irohad --config config/${IROHA_CONF} \
+  --genesis_block config/genesis.block \
+  --keypair_name config/${IROHA_NODE} \
+  --overwrite_ledger

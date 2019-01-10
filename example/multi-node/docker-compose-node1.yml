@@ -12,18 +12,13 @@ services:
       - "50051:50051"
       - "10001:10001"
     environment:
+      - IROHA_NODE=kubenode1
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
       - ${PWD}/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
-    command: >
-      bash -c "sleep 30;
-      /opt/iroha/bin/irohad --config config/iroha.conf
-      --genesis_block config/genesis.block
-      --keypair_name config/kubenode1
-      --overwrite_ledger"
     depends_on:
       - postgres
 

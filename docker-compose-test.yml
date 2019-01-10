@@ -17,11 +17,6 @@ services:
       - ${PWD}/../iroha/build/test_bin:/opt/iroha/test_bin
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
-    command: >
-      bash -c "sleep 10;
-      /opt/iroha/bin/irohad --config config/iroha.conf
-      --genesis_block config/genesis.block
-      --keypair_name config/node0"
     depends_on:
       - postgres
 
