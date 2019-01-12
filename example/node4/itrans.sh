@@ -27,7 +27,7 @@ ${IROHA_PORT}
 EOF
 }
 
-for i in $(seq 300); do
+for i in $(seq 200); do
   tx TransferAsset tran_ast alice@test bob@test 'hotcoin#test' 0.00001
 done
 
