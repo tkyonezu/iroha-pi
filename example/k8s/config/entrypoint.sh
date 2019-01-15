@@ -21,7 +21,7 @@ PG_PORT=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*port=//' -e 's/ 
 
 # Raspberry Pi, Wait until PostgreSQL is stabilized
 if [ "$(uname -m)" = "armv7l" ]; then
-  sleep 20
+  sleep 30
 fi
 
 /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
