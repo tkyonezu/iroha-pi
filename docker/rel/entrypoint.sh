@@ -2,6 +2,8 @@
 
 IROHA_CONF=${IROHA_CONF:-iroha.conf}
 IROHA_NODE=${IROHA_NODE:-node0}
+IROHA_BLOCK=$(cat config/${IROHA_CONF} | grep block_store_path |
+  sed -e 's/^.*: "//' -e 's/".*$//')
 
 PG_HOST=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*host=//' -e 's/ .*//')
 PG_PORT=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*port=//' -e 's/ .*//')
@@ -13,7 +15,11 @@ if [ "$(uname -m)" = "armv7l" ]; then
   sleep 30
 fi
 
-/opt/iroha/bin/irohad --config config/${IROHA_CONF} \
-  --genesis_block config/genesis.block \
-  --keypair_name config/${IROHA_NODE} \
-  --overwrite_ledger
+if [ -f ${IROHA_BLOCK}0000000000000001 ]; then
+  /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
+    --keypair_name config/${IROHA_NODE}
+else
+  /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
+    --genesis_block config/genesis.block \
+    --keypair_name config/${IROHA_NODE}
+fi
