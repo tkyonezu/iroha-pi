@@ -10,7 +10,7 @@
                   "addPeer":{
                     "peer":{
                       "address":"iroha-node1:10001",
-                      "peerKey":"oUe8/rsBVOEagZ8ZXpQGhCSy3XJov8GUgaVEou7Ljkw="
+                      "peerKey":"a147bcfebb0154e11a819f195e94068424b2dd7268bfc19481a544a2eecb8e4c"
                     }
                   }
                 },
@@ -18,7 +18,7 @@
                   "addPeer":{
                     "peer":{
                       "address":"iroha-node2:10001",
-                      "peerKey":"LMzaplqEitIC/u3EN31j8I9AM1TBPwQxBw4sYQW8wUQ="
+                      "peerKey":"2cccdaa65a848ad202feedc4377d63f08f403354c13f0431070e2c6105bcc144"
                     }
                   }
                 },
@@ -26,7 +26,7 @@
                   "addPeer":{
                     "peer":{
                       "address":"iroha-node3:10001",
-                      "peerKey":"L5bIY+vMGyfisM5KsKJRULRliglyHnmgr5I8jwg8nLU="
+                      "peerKey":"2f96c863ebcc1b27e2b0ce4ab0a25150b4658a09721e79a0af923c8f083c9cb5"
                     }
                   }
                 },
@@ -34,7 +34,7 @@
                   "addPeer":{
                     "peer":{
                       "address":"iroha-node4:10001",
-                      "peerKey":"/jHXvC2+aVsc1ccG3ekC1ftubOS2DghBjIQv3vWAUjA="
+                      "peerKey":"fe31d7bc2dbe695b1cd5c706dde902d5fb6e6ce4b60e08418c842fdef5805230"
                     }
                   }
                 },
@@ -113,14 +113,14 @@
                   "createAccount":{
                     "accountName":"admin",
                     "domainId":"test",
-                    "publicKey":"MToH5jhHdu2VRHcQ0V5ZFIRzzPwFKmgTF6cqafKkmRA="
+                    "publicKey":"313a07e6384776ed95447710d15e59148473ccfc052a681317a72a69f2a49910"
                   }
                 },
                 {
                   "createAccount":{
                     "accountName":"test",
                     "domainId":"test",
-                    "publicKey":"cW/lBfafGFEaGwg5Faqf9z7zbmaIGZ85WXUNs4uPS/w="
+                    "publicKey":"716fe505f69f18511a1b083915aa9ff73ef36e6688199f3959750db38b8f4bfc"
                   }
                 },
                 {
@@ -143,7 +143,7 @@
       ],
       "txNumber":1,
       "height":"1",
-      "prevBlockHash":"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+      "prevBlockHash":"0000000000000000000000000000000000000000000000000000000000000000"
     }
   }
 }

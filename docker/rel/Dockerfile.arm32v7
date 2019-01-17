@@ -34,4 +34,6 @@ USER iroha
 
 WORKDIR ${IROHA_HOME}
 
-CMD ${IROHA_HOME}/bin/irohad --config config/iroha.conf --genesis_block config/genesis.block --keypair_name config/node0
+COPY entrypoint.sh wait-for-it.sh /opt/iroha/bin/
+
+ENTRYPOINT ["/opt/iroha/bin/entrypoint.sh"]

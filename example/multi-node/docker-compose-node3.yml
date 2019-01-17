@@ -8,27 +8,24 @@ version: '3'
 services:
   node:
     image: arm32v7/${IROHA_IMG}
+    restart: always
     ports:
       - "50051:50051"
       - "10001:10001"
     environment:
+      - IROHA_NODE=kubenode3
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
       - ${PWD}/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha
-    command: >
-      bash -c "sleep 30;
-      /opt/iroha/bin/irohad --config config/iroha.conf
-      --genesis_block config/genesis.block
-      --keypair_name config/kubenode3
-      --overwrite_ledger"
     depends_on:
       - postgres
 
   postgres:
     image: arm32v7/postgres:9.5
+    restart: always
     environment:
       - POSTGRES_USER=iroha
       - POSTGRES_PASSWORD=HelloW0rld

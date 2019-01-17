@@ -3,7 +3,7 @@
 # Copyright (c) 2018, 2019, Takeshi Yonezu. All Rights Reserved.
 #
 
-CONTAINER_NAME="iroha_node_1"
+CONTAINER_NAME="iroha-node1"
 
 IROHA_IP=0.0.0.0
 IROHA_PORT=50051
@@ -83,26 +83,14 @@ rx GetAccountInformation get_acc alice@test
 tx CreateAccount crt_acc bob test $(cat bob@test.pub)
 rx GetAccountInformation get_acc bob@test
 
-tx CreateAsset crt_ast coolcoin test 2
-rx GetAssetInformation get_ast_info 'coolcoin#test'
-
 tx CreateAsset crt_ast hotcoin test 5
 rx GetAssetInformation get_ast_info 'hotcoin#test'
-
-tx AddAssetQuantity add_ast_qty 'coolcoin#test' 1000 0
-rx GetAccountAsset get_acc_ast admin@test 'coolcoin#test'
 
 tx AddAssetQuantity add_ast_qty 'hotcoin#test' 1000 0
 rx GetAccountAsset get_acc_ast admin@test 'hotcoin#test'
 
-tx TransferAsset tran_ast admin@test alice@test 'coolcoin#test' 500.00
-rx GetAccountAsset get_acc_ast alice@test 'coolcoin#test'
-
 tx TransferAsset tran_ast admin@test alice@test 'hotcoin#test' 500.00000
 rx GetAccountAsset get_acc_ast alice@test 'hotcoin#test'
-
-tx TransferAsset tran_ast admin@test bob@test 'coolcoin#test' 500.00
-rx GetAccountAsset get_acc_ast bob@test 'coolcoin#test'
 
 tx TransferAsset tran_ast admin@test bob@test 'hotcoin#test' 500.00000
 rx GetAccountAsset get_acc_ast bob@test 'hotcoin#test'

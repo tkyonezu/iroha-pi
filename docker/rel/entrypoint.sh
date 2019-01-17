@@ -1,18 +1,7 @@
-#!/usr/bin/env bash
-
-cp config/admin_test.priv key/admin@test.priv
-cp config/admin_test.pub  key/admin@test.pub
-cp config/test_test.priv  key/test@test.priv
-cp config/test_test.pub   key/test@test.pub
-cp config/alice_test.priv key/alice@test.priv
-cp config/alice_test.pub  key/alice@test.pub
-cp config/bob_test.priv   key/bob@test.priv
-cp config/bob_test.pub    key/bob@test.pub
-
-KEY=$(echo $KEY | cut -d'-' -f2)
+#!/bin/bash
 
 IROHA_CONF=${IROHA_CONF:-iroha.conf}
-IROHA_NODE=${IROHA_NODE:-kubenode${KEY}}
+IROHA_NODE=${IROHA_NODE:-node0}
 IROHA_BLOCK=$(cat config/${IROHA_CONF} | grep block_store_path |
   sed -e 's/^.*: "//' -e 's/".*$//')
 
@@ -25,7 +14,6 @@ PG_PORT=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*port=//' -e 's/ 
 if [ "$(uname -m)" = "armv7l" ]; then
   sleep 30
 fi
-
 
 if [ -f ${IROHA_BLOCK}0000000000000001 ]; then
   /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
