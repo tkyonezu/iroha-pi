@@ -8,6 +8,7 @@ version: '3'
 services:
   node:
     image: arm32v7/${IROHA_IMG}
+    restart: always
     ports:
       - "50051:50051"
       - "10001:10001"
@@ -24,6 +25,7 @@ services:
 
   postgres:
     image: arm32v7/postgres:9.5
+    restart: always
     environment:
       - POSTGRES_USER=iroha
       - POSTGRES_PASSWORD=HelloW0rld
