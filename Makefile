@@ -162,6 +162,7 @@ iroha-down:
 ##	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$i; sudo chown $(id -u):$(id -g) block_store$$i; done; else rm -f block_store*/0*; fi
 
 up4:
+	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$i; sudo chown $(id -u):$(id -g) block_store$$i; done; fi
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
 
 down4:
