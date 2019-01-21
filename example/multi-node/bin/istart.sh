@@ -12,8 +12,12 @@ echo ">>> $(hostname)"
 cd ~/github.com/tkyonezu/iroha-pi/example/multi-node
 
 if [ "$1" = "-c" ]; then
-  if [ -d block_store ]; then rm -f block_store/*; \
-  else mkdir block_store; chown $(id -u):$(id -g) block_store; fi
+  rm -f block_store/*
+fi
+
+if [ ! -d block_store ]; then
+  mkdir block_store
+  chown $(id -u):$(id -g) block_store
 fi
 
 echo "$ docker-compose -f ${COMPOSE} up -d"
