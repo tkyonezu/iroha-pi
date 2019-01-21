@@ -13,7 +13,7 @@ services:
       - "50051:50051"
       - "10001:10001"
     environment:
-      - IROHA_NODE=kubenode2
+      - IROHA_NODE=iroha2
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
