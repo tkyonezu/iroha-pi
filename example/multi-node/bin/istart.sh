@@ -4,13 +4,13 @@ echo ">>> $(hostname)"
 
 cd ~/github.com/tkyonezu/iroha-pi/example/multi-node
 
-if [ "$1" = "-c" ]; then
-  if [ -d block_store ]; then
+if [ -d block_store ]; then
+  if [ "$1" = "-c" ]; then
     rm -f block_store/*
-  else
-    mkdir block_store
-    chown $(id -u):$(id -g) block_store
   fi
+else
+  mkdir block_store
+  chown $(id -u):$(id -g) block_store
 fi
 
 COMPOSE=$(echo "docker-compose-node$(echo "$(hostname)" | sed 's/iroha//').yml")
