@@ -6,12 +6,11 @@ cd ~/github.com/tkyonezu/iroha-pi/example/multi-node
 echo "$ ls -l blick_store"
 ls -l block_store
 
-if [ "$(hostname)" = "iroha1" ]; then
+if [ "$(hostname)" = "iroha0" ]; then
   for i in $(seq 3); do
-    n=$((i+1))
-    echo ">>> iroha$n"
+    echo ">>> iroha${i}"
 
-    ssh iroha$n "(cd ~/github.com/tkyonezu/iroha-pi/example/multi-node; \
+    ssh iroha${i} "(cd ~/github.com/tkyonezu/iroha-pi/example/multi-node; \
       echo \"$ ls -l block_store\"; \
       ls -l block_store)"
   done
