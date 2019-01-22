@@ -6,10 +6,14 @@ cd ~/github.com/tkyonezu/iroha-pi/example/multi-node
 
 if [ -d block_store ]; then
   if [ "$1" = "-c" ]; then
+    echo "$ rm -f block_store/*"
     rm -f block_store/*
   fi
 else
+  echo "$ mkdir block_store"
   mkdir block_store
+
+  echo "$ chown $(id -u):$(id -g) block_store"
   chown $(id -u):$(id -g) block_store
 fi
 
