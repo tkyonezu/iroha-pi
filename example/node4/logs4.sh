@@ -34,5 +34,5 @@ elif [ "${SYST}" == "RaspberryPi" ]; then
 fi
 
 for i in $(seq 4); do
-  docker logs -f iroha-node${i} >${TERM}$((n + i - 1)) &
+  docker logs -f iroha-node$((i-1)) >${TERM}$((n + i - 1)) &
 done

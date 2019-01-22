@@ -3,7 +3,7 @@
 # Copyright (c) 2018, 2019, Takeshi Yonezu. All Rights Reserved.
 #
 
-CONTAINER_NAME="iroha-node1"
+CONTAINER_NAME="iroha-node0"
 
 IROHA_IP=0.0.0.0
 IROHA_PORT=50051

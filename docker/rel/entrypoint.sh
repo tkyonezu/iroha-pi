@@ -1,7 +1,7 @@
 #!/bin/bash
 
 IROHA_CONF=${IROHA_CONF:-iroha.conf}
-IROHA_NODE=${IROHA_NODE:-node0}
+IROHA_NODEKEY=${IROHA_NODEKEY:-node0}
 IROHA_BLOCK=$(cat config/${IROHA_CONF} | grep block_store_path |
   sed -e 's/^.*: "//' -e 's/".*$//')
 
@@ -17,9 +17,9 @@ fi
 
 if [ -f ${IROHA_BLOCK}0000000000000001 ]; then
   /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
-    --keypair_name config/${IROHA_NODE}
+    --keypair_name config/${IROHA_NODEKEY}
 else
   /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
     --genesis_block config/genesis.block \
-    --keypair_name config/${IROHA_NODE}
+    --keypair_name config/${IROHA_NODEKEY}
 fi
