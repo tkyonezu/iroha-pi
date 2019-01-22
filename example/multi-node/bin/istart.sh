@@ -24,7 +24,7 @@ docker-compose -f ${COMPOSE} up -d
 
 if [ "$(hostname)" = "iroha0" ]; then
   for i in $(seq 3); do
-    ssh iroha${i} bash ~/bin/istart.sh
+    ssh iroha${i} bash ~/bin/istart.sh $*
   done
 fi
 
