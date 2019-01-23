@@ -13,8 +13,8 @@ else
   echo "$ mkdir block_store"
   mkdir block_store
 
-  echo "$ chown $(id -u):$(id -g) block_store"
-  chown $(id -u):$(id -g) block_store
+  echo "$ sudo chown $(id -u):$(id -g) block_store"
+  sudo chown $(id -u):$(id -g) block_store
 fi
 
 COMPOSE=$(echo "docker-compose-node$(echo "$(hostname)" | sed 's/iroha//').yml")
