@@ -21,8 +21,8 @@ fi
 docker run -t --rm --name iroha-pi -v $(pwd):/opt/iroha/config \
   ${PROJECT}/iroha-pi bash -c "cd /opt/iroha/config; \
     for i in \$(seq ${INSTANCE_NO}) ; do
-      /opt/iroha/bin/iroha-cli --new_account --name node\${i} \
-      --pass_phrase magicseed\${i}; \
+      /opt/iroha/bin/iroha-cli --new_account --name node\$((i-1)) \
+      --pass_phrase magicseed\$((i-1)); \
     done"
 
 exit 0
