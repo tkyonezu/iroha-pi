@@ -162,7 +162,7 @@ iroha-down:
 
 up4:
 	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$((i-1)); sudo chown $(id -u):$(id -g) block_store$$((i-1)); done; fi
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
+	cd example/node4; COMPOSE_HTTP_TIMEOUT=120 docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
 
 down4:
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
