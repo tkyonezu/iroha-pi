@@ -6,6 +6,12 @@
 IROHA_IP=0.0.0.0
 IROHA_PORT=50051
 
+if [ $# -gt 0 ]; then
+  TRAN_NO=$1
+fi
+
+TRAN_NO=${TRAN_NO:-200}
+
 function tx {
   echo -e "\n>>> $1 ($3 $4 $5 $6 $7 $8) <<<" | sed 's/ *)/)/'
 
@@ -27,7 +33,7 @@ ${IROHA_PORT}
 EOF
 }
 
-for i in $(seq 200); do
+for i in $(seq ${TRAN_NO}); do
   tx TransferAsset tran_ast alice@test bob@test 'hotcoin#test' 0.00001
 done
 
