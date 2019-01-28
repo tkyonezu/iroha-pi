@@ -9,14 +9,14 @@ if [ $# -eq 0 ]; then
       break
     fi
 
-    echo ">>> $i <<<"
+    echo ">>> $i ($(python -m json.tool $i | grep commands | wc -l)) <<<"
     python -m json.tool $i
   done | more
 else
   if [ -f *$1 ]; then
     BLOCK=$(ls *$1 2>/dev/null)
 
-    echo ">>> ${BLOCK} <<<"
+    echo ">>> ${BLOCK} ($(python -m json.tool ${BLOCK} | grep commands | wc -l)) <<<"
     python -m json.tool ${BLOCK} | more
   else
     echo "block: $1 not found."
