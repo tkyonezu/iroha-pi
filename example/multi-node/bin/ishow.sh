@@ -14,8 +14,10 @@ if [ $# -eq 0 ]; then
   done | more
 else
   if [ -f *$1 ]; then
-    echo ">>> *$1 <<<"
-    python -m json.tool *$1
+    BLOCK=$(ls *$1 2>/dev/null)
+
+    echo ">>> ${BLOCK} <<<"
+    python -m json.tool ${BLOCK} | more
   else
     echo "block: $1 not found."
     exit 1
