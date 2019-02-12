@@ -15,7 +15,7 @@ services:
       - "50051:50051"
     environment:
       - IROHA_CONF=iroha0.conf
-      - IROHA_NODE=node0
+      - IROHA_NODEKEY=node0
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
@@ -31,7 +31,7 @@ services:
     restart: always
     environment:
       - IROHA_CONF=iroha1.conf
-      - IROHA_NODE=node1
+      - IROHA_NODEKEY=node1
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
@@ -47,7 +47,7 @@ services:
     restart: always
     environment:
       - IROHA_CONF=iroha2.conf
-      - IROHA_NODE=node2
+      - IROHA_NODEKEY=node2
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
@@ -63,7 +63,7 @@ services:
     restart: always
     environment:
       - IROHA_CONF=iroha3.conf
-      - IROHA_NODE=node3
+      - IROHA_NODEKEY=node3
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
