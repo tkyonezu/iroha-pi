@@ -158,15 +158,15 @@ iroha-up:
 
 iroha-down:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
-
-##	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$i; sudo chown $(id -u):$(id -g) block_store$$i; done; else rm -f block_store*/0*; fi
+	docker volume prune -f
 
 up4:
-	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$i; sudo chown $(id -u):$(id -g) block_store$$i; done; fi
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
+	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$((i-1)); sudo chown $(id -u):$(id -g) block_store$$((i-1)); done; fi
+	cd example/node4; COMPOSE_HTTP_TIMEOUT=120 docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
 
 down4:
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
+	docker volume prune -f
 
 ifneq ($(UMACHINE),armv7l)
 iroha-testup:

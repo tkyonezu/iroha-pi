@@ -12,7 +12,7 @@ cp config/bob_test.pub    key/bob@test.pub
 KEY=$(echo $KEY | cut -d'-' -f2)
 
 IROHA_CONF=${IROHA_CONF:-iroha.conf}
-IROHA_NODE=${IROHA_NODE:-kubenode${KEY}}
+IROHA_NODE=${IROHA_NODE:-node${KEY}}
 IROHA_BLOCK=$(cat config/${IROHA_CONF} | grep block_store_path |
   sed -e 's/^.*: "//' -e 's/".*$//')
 
