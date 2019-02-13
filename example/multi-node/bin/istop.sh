@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
+
 echo ">>> $(hostname)"
 
 COMPOSE=$(echo "docker-compose-node$(echo "$(hostname)" | sed 's/iroha//').yml")

@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
+
 IROHA_CONF=${IROHA_CONF:-iroha.conf}
 IROHA_NODEKEY=${IROHA_NODEKEY:-node0}
 IROHA_BLOCK=$(cat config/${IROHA_CONF} | grep block_store_path |
@@ -16,9 +19,13 @@ if [ "$(uname -m)" = "armv7l" ]; then
 fi
 
 if [ -f ${IROHA_BLOCK}0000000000000001 ]; then
+  echo "$ /opt/iroha/bin/irohad --config config/${IROHA_CONF} --keypair_name config/${IROHA_NODEKEY}"
+
   /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
     --keypair_name config/${IROHA_NODEKEY}
 else
+  echo "$ /opt/iroha/bin/irohad --config config/${IROHA_CONF} --genesis_block config/genesis.block --keypair_name config/${IROHA_NODEKEY}"
+
   /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
     --genesis_block config/genesis.block \
     --keypair_name config/${IROHA_NODEKEY}

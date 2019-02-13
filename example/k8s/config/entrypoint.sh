@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
+#
 
 cp config/admin_test.priv key/admin@test.priv
 cp config/admin_test.pub  key/admin@test.pub
@@ -28,9 +32,13 @@ fi
 
 
 if [ -f ${IROHA_BLOCK}0000000000000001 ]; then
+  echo "$ /opt/iroha/bin/irohad --config config/${IROHA_CONF} --keypair_name config/${IROHA_NODE}"
+
   /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
     --keypair_name config/${IROHA_NODE}
 else
+  echo "$ /opt/iroha/bin/irohad --config config/${IROHA_CONF} --genesis_block config/genesis.block --keypair_name config/${IROHA_NODE}"
+
   /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
     --genesis_block config/genesis.block \
     --keypair_name config/${IROHA_NODE}

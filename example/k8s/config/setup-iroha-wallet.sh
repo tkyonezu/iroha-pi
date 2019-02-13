@@ -1,6 +1,7 @@
 #!/bin/bash
 # 
-# Copyright (c) 2018,2019 , Takeshi Yonezu. All Rights Reserved.
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
 #
 
 KEY_PATH=/opt/iroha/key
