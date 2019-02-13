@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
+
 IROHA_CONF=${IROHA_CONF:-iroha.conf}
 IROHA_NODEKEY=${IROHA_NODEKEY:-node0}
 IROHA_BLOCK=$(cat config/${IROHA_CONF} | grep block_store_path |

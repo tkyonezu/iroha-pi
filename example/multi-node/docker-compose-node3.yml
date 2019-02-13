@@ -1,4 +1,5 @@
-# Copyright Takeshi Yonezu. All Rights Reserved.
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
 #
 # SPDX-License-Identifier: Apache-2.0
 #

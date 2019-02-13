@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+#
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
+#
 
 cp config/admin_test.priv key/admin@test.priv
 cp config/admin_test.pub  key/admin@test.pub

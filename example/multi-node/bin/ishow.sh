@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
+
 cd ~/github.com/tkyonezu/iroha-pi/example/multi-node/block_store
 
 if [ $# -eq 0 ]; then

@@ -22,7 +22,8 @@
 # - iroha-up      - running iroha container by docker-compose
 # - iroha-down    - stop and remove iroha container by docker-compose
 #---------------------------------------------------------------
-# Copyright 2017, 2018 Takeshi Yonezu All Rights Reserved.
+# Copyright (c) 2017-2019 Takeshi Yonezu
+# All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
