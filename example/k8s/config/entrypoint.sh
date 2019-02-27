@@ -30,16 +30,8 @@ if [ "$(uname -m)" = "armv7l" ]; then
   sleep 30
 fi
 
+echo "$ /opt/iroha/bin/irohad --config config/${IROHA_CONF} --genesis_block config/genesis.block --keypair_name config/${IROHA_NODE}"
 
-if [ -f ${IROHA_BLOCK}0000000000000001 ]; then
-  echo "$ /opt/iroha/bin/irohad --config config/${IROHA_CONF} --keypair_name config/${IROHA_NODE}"
-
-  /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
-    --keypair_name config/${IROHA_NODE}
-else
-  echo "$ /opt/iroha/bin/irohad --config config/${IROHA_CONF} --genesis_block config/genesis.block --keypair_name config/${IROHA_NODE}"
-
-  /opt/iroha/bin/irohad --config config/${IROHA_CONF} \
-    --genesis_block config/genesis.block \
-    --keypair_name config/${IROHA_NODE}
-fi
+/opt/iroha/bin/irohad --config config/${IROHA_CONF} \
+  --genesis_block config/genesis.block \
+  --keypair_name config/${IROHA_NODE}
