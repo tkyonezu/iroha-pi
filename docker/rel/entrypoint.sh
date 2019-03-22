@@ -18,8 +18,8 @@ if [ "$(uname -m)" = "armv7l" ]; then
   sleep 30
 fi
 
-echo "$ /opt/iroha/bin/irohad --config config/${IROHA_CONF} --genesis_block config/genesis.block --keypair_name config/${IROHA_NODEKEY}"
+cd config
 
-/opt/iroha/bin/irohad --config config/${IROHA_CONF} \
-  --genesis_block config/genesis.block \
-  --keypair_name config/${IROHA_NODEKEY}
+echo "$ irohad --genesis_block genesis.block --config ${IROHA_CONF} --keypair_name ${IROHA_NODEKEY}"
+
+irohad --genesis_block genesis.block --config ${IROHA_CONF} --keypair_name ${IROHA_NODEKEY}
