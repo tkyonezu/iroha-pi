@@ -77,6 +77,11 @@ ifeq ($(UKERNEL),Linux)
     DOCKER := Dockerfile.arm32v7
     COMPOSE := docker-compose-arm32v7.yml
   endif
+  ifeq ($(UMACHINE),aarch64)
+    PROJECT := arm64v8
+    DOCKER := Dockerfile.arm64v8
+    COMPOSE := docker-compose-arm64v8.yml
+  endif
 endif
 
 ifeq ($(UKERNEL),Darwin)
@@ -95,7 +100,7 @@ TESTING := ON
 ifeq ($(UKERNEL),Darwin)
   TESTING := OFF
 else
-  ifeq ($(UMACHINE),armv7l)
+  ifneq ($(UMACHINE),x86_64)
     TESTING := OFF
   else
     PRODUCT_NAME := $(shell sudo dmidecode -s system-product-name 2>/dev/null)
@@ -134,7 +139,7 @@ up: iroha-up
 
 down: iroha-down
 
-ifneq ($(UMACHINE),armv7l)
+ifeq ($(UMACHINE),x86_64)
 testup: iroha-testup
 endif
 
@@ -173,7 +178,7 @@ down4:
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
 	docker volume prune -f
 
-ifneq ($(UMACHINE),armv7l)
+ifeq ($(UMACHINE),x86_64)
 iroha-testup:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE_TEST) up -d
 
