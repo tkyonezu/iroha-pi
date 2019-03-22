@@ -175,6 +175,7 @@ RUN git clone git://github.com/hyperledger/iroha-ed25519.git /tmp/ed25519 \
  && (cd /tmp/ed25519; git checkout b61a1e77af5dc458ed6a5aee395d5b22775a4917) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DTESTING=OFF \
+      -DEDIMPL=ref10 -DHASH=sha3_brainhub -DRANDOM=dev_urandom -DBUILD=SHARED \
       -H/tmp/ed25519 \
       -B/tmp/ed25519/build \
  && cmake --build /tmp/ed25519/build --target install -- -j${NUMCORE} \
