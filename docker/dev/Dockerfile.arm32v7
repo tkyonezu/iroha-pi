@@ -170,9 +170,9 @@ RUN git clone https://github.com/01org/tbb /tmp/tbb \
  && ldconfig \
  && rm -fr /tmp/tbb
 
-# install ed25519
+# install ed25519 2.0.1
 RUN git clone git://github.com/hyperledger/iroha-ed25519.git /tmp/ed25519 \
- && (cd /tmp/ed25519; git checkout f42953c631fae93011612f6b1ee33f1f88c3f8af) \
+ && (cd /tmp/ed25519; git checkout b61a1e77af5dc458ed6a5aee395d5b22775a4917) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DTESTING=OFF \
       -H/tmp/ed25519 \
