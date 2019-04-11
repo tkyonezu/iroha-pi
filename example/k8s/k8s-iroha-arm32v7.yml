@@ -31,7 +31,7 @@ spec:
       terminationGracePeriodSeconds: 7
       containers:
       - name: postgres
-        image: arm32v7/postgres:9.5
+        image: postgres:9.5
         imagePullPolicy: IfNotPresent
         ports:
         - containerPort: 5432

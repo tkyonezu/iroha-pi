@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM arm32v7/ubuntu:16.04
+FROM ubuntu:16.04
 
 ARG NUMCORE=${NUMCORE:-4}
 ARG CMAKE_BUILD_TYPE=Release
@@ -170,12 +170,9 @@ RUN git clone https://github.com/01org/tbb /tmp/tbb \
  && ldconfig \
  && rm -fr /tmp/tbb
 
-# install ed25519 2.0.1
+# install ed25519 2.0.1 with hotfix for linux/x86_64 support
 RUN git clone git://github.com/hyperledger/iroha-ed25519.git /tmp/ed25519 \
-# In ed25519 2.0.0 and later, we will use 1.3.1 for the arm processor due to
-# portability issues. 2019/03/25 Takeshi Yonezu
-#&& (cd /tmp/ed25519; git checkout b61a1e77af5dc458ed6a5aee395d5b22775a4917) \
- && (cd /tmp/ed25519; git checkout 1.3.1) \
+ && (cd /tmp/ed25519; git checkout b28501f8c5c7e552aebf9d7a831153472c2aa7e3) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DTESTING=OFF \
       -DHASH=sha3_brainhub \

@@ -21,7 +21,7 @@ services:
       - postgres
 
   postgres:
-    image: arm32v7/postgres:9.5
+    image: postgres:9.5
     environment:
       - POSTGRES_USER=iroha
       - POSTGRES_PASSWORD=HelloW0rld
