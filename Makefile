@@ -74,12 +74,12 @@ ifeq ($(UKERNEL),Linux)
   endif
   ifeq ($(UMACHINE),armv7l)
     PROJECT := arm32v7
-    DOCKER := Dockerfile.arm32v7
+    DOCKER := Dockerfile
     COMPOSE := docker-compose-arm32v7.yml
   endif
   ifeq ($(UMACHINE),aarch64)
     PROJECT := arm64v8
-    DOCKER := Dockerfile.arm64v8
+    DOCKER := Dockerfile
     COMPOSE := docker-compose-arm64v8.yml
   endif
 endif
@@ -144,7 +144,7 @@ testup: iroha-testup
 endif
 
 iroha-dev:
-	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/$(IROHA_IMG)-dev -f $(DOCKER) .
+	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(PROJECT)/$(IROHA_IMG)-dev .
 
 iroha-bld:
 	sudo rsync -av scripts $(BUILD_HOME)
