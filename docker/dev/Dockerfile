@@ -182,6 +182,4 @@ RUN git clone git://github.com/hyperledger/iroha-ed25519.git /tmp/ed25519 \
  && ldconfig \
  && rm -rf /tmp/ed25519
 
-WORKDIR /opt/iroha
-
 CMD ["/bin/bash"]
