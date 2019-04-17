@@ -6,7 +6,7 @@
 IROHA_CONF=${IROHA_CONF:-iroha.conf}
 IROHA_BLOCK=$(cat config/${IROHA_CONF} | grep block_store_path |
   sed -e 's/^.*: "//' -e 's/".*$//')
-IROHA_GENESIS~${IROHA_GETNESIS:-genesis.block}
+IROHA_GENESIS=${IROHA_GETNESIS:-genesis.block}
 IROHA_NODEKEY=${IROHA_NODEKEY:-node0}
 
 PG_HOST=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*host=//' -e 's/ .*//')
