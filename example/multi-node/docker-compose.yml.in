@@ -15,7 +15,7 @@ services:
       - "10001:10001"
     environment:
       - IROHA_NODEKEY=node0
-      - IROHA_GENESIS=genesis.block1st
+      - IROHA_GENESIS=genesis.block.1st
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
