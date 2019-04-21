@@ -6,8 +6,8 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-if [ $# -lt 1 ]; then
-  echo "Usage: iroha-1st.sh <ip-address>"
+if [ $# -lt 2 ]; then
+  echo "Usage: iroha-1st.sh <ip-address> <node-name>"
   exit 1
 fi
 
@@ -18,10 +18,17 @@ case $(uname -m) in
   *) echo "$(uname -s)/$(uname -m) does'nt support." exit 1;;
 esac
 
+IMAGE=$(cat .env | grep IROHA_IMG | sed 's/IROHA_IMG=//')
+
 cd example/multi-node
 
 cat genesis.block.in | sed "s/IP_ADDRESS/$1/" >genesis.block.1st
-cat docker-compose.yml.in | sed "s/ARCH/${ARCH}/" >docker-compose.yml
+
+cat docker-compose.yml.in |
+  sed -e "s|IMAGE: .*|image: ${ARCH}/${IMAGE}|" \
+      -e "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=$2/" >docker-compose.yml
+
+exit 0
 
 echo "$ docker-compose -f docker-compose.yml up -d"
 docker-compose -f docker-compose.yml up -d

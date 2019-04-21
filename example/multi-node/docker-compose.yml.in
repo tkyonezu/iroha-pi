@@ -8,7 +8,7 @@ version: '3'
 
 services:
   node:
-    image: ARCH/${IROHA_IMG}
+    IMAGE: ${ARCH}/${IROHA_IMG}
     restart: always
     ports:
       - "50051:50051"
