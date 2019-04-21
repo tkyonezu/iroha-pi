@@ -28,8 +28,6 @@ cat docker-compose.yml.in |
   sed -e "s|IMAGE: .*|image: ${ARCH}/${IMAGE}|" \
       -e "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=$2/" >docker-compose.yml
 
-exit 0
-
 echo "$ docker-compose -f docker-compose.yml up -d"
 docker-compose -f docker-compose.yml up -d
 
