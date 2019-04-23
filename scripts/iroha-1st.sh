@@ -6,14 +6,11 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-if [ $# -eq 1 -a $1 = "down" ]; then
+if [[ $# -eq 1 && ("$1" = "down" || "$1" = "restart")]]; then
   cd example/multi-node
 
-  echo "$ docker-compose -f docker-compose.yml down"
-  docker-compose -f docker-compose.yml down
-
-  echo "$ docker volume prune -f"
-  docker volume prune -f
+  echo "$ docker-compose -f docker-compose.yml $1"
+  docker-compose -f docker-compose.yml $1
 
   exit 0
 fi
