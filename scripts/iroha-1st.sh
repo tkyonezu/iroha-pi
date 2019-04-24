@@ -16,19 +16,23 @@ if [[ $# -eq 1 && ("$1" = "down" || "$1" = "restart")]]; then
 fi
 
 if [ $# -lt 1 ]; then
-  echo "Usage: iroha-1st.sh <ip-address> [ <node-name> ]"
-  exit 1
+  IROHA_IP=127.0.0.1
 fi
-
-cd example/multi-node
-
-cat genesis.block.in | sed "s/IP_ADDRESS/$1/" >genesis.block.1st
 
 if [ $# -ge 2 ]; then
   IROHA_NODEKEY=$2
 else
   IROHA_NODEKEY=node0
 fi
+
+cd example/multi-node
+
+if [ -f block_store/0000000000000001 ]; then
+  echo ">> ERROR: genesis_block exist!!"
+  exit 1
+fi
+
+cat genesis.block.in | sed "s/IP_ADDRESS/${IROHA_IP}/" >genesis.block.1st
 
 cat docker-compose.yml.in |
   sed "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=${IROHA_NODEKEY}/" >docker-compose.yml
