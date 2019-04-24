@@ -22,7 +22,7 @@ services:
       - ${PWD}:/opt/iroha/config
       - ${PWD}/block_store0:/tmp/block_store
       - ccache-data:/tmp/ccache
-    working_dir: /opt/iroha
+    working_dir: /opt/iroha/config
     depends_on:
       - postgres0
 
@@ -38,7 +38,7 @@ services:
       - ${PWD}:/opt/iroha/config
       - ${PWD}/block_store1:/tmp/block_store
       - ccache-data:/tmp/ccache
-    working_dir: /opt/iroha
+    working_dir: /opt/iroha/config
     depends_on:
       - postgres1
 
@@ -54,7 +54,7 @@ services:
       - ${PWD}:/opt/iroha/config
       - ${PWD}/block_store2:/tmp/block_store
       - ccache-data:/tmp/ccache
-    working_dir: /opt/iroha
+    working_dir: /opt/iroha/config
     depends_on:
       - postgres2
 
@@ -70,7 +70,7 @@ services:
       - ${PWD}:/opt/iroha/config
       - ${PWD}/block_store3:/tmp/block_store
       - ccache-data:/tmp/ccache
-    working_dir: /opt/iroha
+    working_dir: /opt/iroha/config
     depends_on:
       - postgres3
 

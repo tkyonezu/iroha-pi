@@ -20,7 +20,7 @@ services:
       - ${PWD}:/opt/iroha/config
       - ${PWD}/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
-    working_dir: /opt/iroha
+    working_dir: /opt/iroha/config
     depends_on:
       - postgres
 

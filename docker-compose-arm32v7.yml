@@ -16,7 +16,7 @@ services:
     volumes:
       - ${PWD}/example:/opt/iroha/config
       - ccache-data:/tmp/ccache
-    working_dir: /opt/iroha
+    working_dir: /opt/iroha/config
     depends_on:
       - postgres
 

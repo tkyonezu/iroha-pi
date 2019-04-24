@@ -33,7 +33,7 @@ RUN groupadd -g 998 vboxsf \
 
 USER iroha
 
-WORKDIR /opt/iroha
+WORKDIR /opt/iroha/config
 
 COPY entrypoint.sh wait-for-it.sh ${IROHA_HOME}/bin/
 
