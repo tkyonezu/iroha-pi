@@ -12,6 +12,14 @@ if [[ $# -eq 1 && ("$1" = "down" || "$1" = "restart")]]; then
   echo "$ docker-compose -f docker-compose.yml $1"
   docker-compose -f docker-compose.yml $1
 
+  if [ "$1" = "down" ]; then
+    echo ">>> Clear genesis_block."
+    rm -f example/multi-node/block_store/0*
+
+    echo "$ docker volume prune -f"
+    docker volume prune -f
+  fi
+
   exit 0
 fi
 
@@ -28,7 +36,6 @@ if [ $# -eq 1 -a  "$1" = "clean" ]; then
 fi
 
 if [ -f block_store/0000000000000001 ]; then
-
   echo ">> ERROR: old genesis_block exist!!"
   exit 1
 fi

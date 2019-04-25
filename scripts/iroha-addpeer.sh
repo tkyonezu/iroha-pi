@@ -23,12 +23,6 @@ fi
 
 cd example/multi-node
 
-if [ -f block_store/0000000000000001 ]; then
-  rm -f block_store/0*
-
-  echo ">> WARN: clear old genesis_block!!"
-fi
-
 if [ $# -ge 1 ]; then
   IROHA_NODEKEY=$1
 else
