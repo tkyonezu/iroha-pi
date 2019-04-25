@@ -42,8 +42,8 @@ fi
 cat genesis.block.in | sed "s/IP_ADDRESS/${IROHA_IP}/" >genesis.block.1st
 
 cat docker-compose.yml.in |
-  sed "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=${IROHA_NODEKEY}/" \
-  sed "s/IROHA_GENESIS=.*/IROHA_GENESIS=genesis.block.1st" >docker-compose.yml
+  sed -e "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=${IROHA_NODEKEY}/" \
+      -e "s/IROHA_GENESIS=.*/IROHA_GENESIS=genesis.block.1st/" >docker-compose.yml
 
 echo "$ docker-compose -f docker-compose.yml up -d"
 docker-compose -f docker-compose.yml up -d
