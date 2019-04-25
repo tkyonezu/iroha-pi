@@ -27,7 +27,14 @@ fi
 
 cd example/multi-node
 
+if [ $# -eq 1 -a  "$1" = "clean" ]; then
+  rm -f block_store/0*
+
+  exit 0
+fi
+
 if [ -f block_store/0000000000000001 ]; then
+
   echo ">> ERROR: genesis_block exist!!"
   exit 1
 fi
