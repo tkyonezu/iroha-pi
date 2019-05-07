@@ -107,7 +107,7 @@ RUN git clone https://github.com/gabime/spdlog /tmp/spdlog \
 
 # install rxcpp
 RUN git clone https://github.com/Reactive-Extensions/RxCpp /tmp/RxCpp \
- && (cd /tmp/RxCpp; git checkout 795587fa311fa41050111a830d91b183d8e53ff9) \
+ && (cd /tmp/RxCpp; git checkout f38fb8e3c30b01b07c57e08039b2942f1685224d) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -H/tmp/RxCpp \
       -B/tmp/RxCpp/build \
@@ -142,9 +142,12 @@ RUN git clone https://git.postgresql.org/git/postgresql.git /tmp/postgresql \
 
 # install soci 3.2.3
 RUN git clone https://github.com/SOCI/soci /tmp/soci \
- && (cd /tmp/soci; git checkout 111b50af8c3876ea392367640b4bd83b4f903ab8) \
+ && (cd /tmp/soci; git checkout 1f2343e32822549df85660c0eb7acea3f0e5ed8d) \
  && cmake \
       -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+      -DSOCI_CXX_C11=ON \
+      -DSOCI_TESTS=OFF \
+      -DSOCI_EMPTY=OFF \
       -DWITH_BOOST=ON \
       -DWITH_DB2=OFF \
       -DWITH_FIREBIRD=OFF \
