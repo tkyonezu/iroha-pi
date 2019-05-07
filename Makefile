@@ -69,25 +69,21 @@ ifeq ($(UKERNEL),Linux)
   ifeq ($(UMACHINE),x86_64)
     PROJECT := hyperledger
     DOCKER := Dockerfile
-    COMPOSE := docker-compose.yml
     COMPOSE_TEST := docker-compose-test.yml
   endif
   ifeq ($(UMACHINE),armv7l)
     PROJECT := arm32v7
     DOCKER := Dockerfile
-    COMPOSE := docker-compose.yml
   endif
   ifeq ($(UMACHINE),aarch64)
     PROJECT := arm64v8
     DOCKER := Dockerfile
-    COMPOSE := docker-compose.yml
   endif
 endif
 
 ifeq ($(UKERNEL),Darwin)
   PROJECT := hyperledger
   DOCKER := Dockerfile
-  COMPOSE := docker-compose.yml
   COMPOSE_TEST := docker-compose-test.yml
 endif
 
@@ -160,22 +156,22 @@ iroha:
 	@scripts/build-no.sh
 
 iroha-up:
-	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
+	docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 
 iroha-down:
-	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
+	docker-compose -p $(COMPOSE_PROJECT_NAME) down
 	docker volume prune -f
 
 up4:
 	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$((i-1)); sudo chown $(id -u):$(id -g) block_store$$((i-1)); done; fi
 ifeq ($(UMACHINE),armv7l)
-	cd example/node4; COMPOSE_HTTP_TIMEOUT=120 docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
+	cd example/node4; COMPOSE_HTTP_TIMEOUT=120 docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 else
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) up -d
+	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 endif
 
 down4:
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE) down
+	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) down
 	docker volume prune -f
 
 ifeq ($(UMACHINE),x86_64)
