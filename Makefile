@@ -75,12 +75,12 @@ ifeq ($(UKERNEL),Linux)
   ifeq ($(UMACHINE),armv7l)
     PROJECT := arm32v7
     DOCKER := Dockerfile
-    COMPOSE := docker-compose-arm32v7.yml
+    COMPOSE := docker-compose.yml
   endif
   ifeq ($(UMACHINE),aarch64)
     PROJECT := arm64v8
     DOCKER := Dockerfile
-    COMPOSE := docker-compose-arm64v8.yml
+    COMPOSE := docker-compose.yml
   endif
 endif
 
