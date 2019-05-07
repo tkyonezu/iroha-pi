@@ -107,8 +107,7 @@ RUN git clone https://github.com/gabime/spdlog /tmp/spdlog \
 
 # install rxcpp
 RUN git clone https://github.com/Reactive-Extensions/RxCpp /tmp/RxCpp \
- # this version is chosen, because it fixes 100% node overload [IR-1736] bug
- && (cd /tmp/RxCpp; git checkout a7d5856385f126e874db6010d9dbfd37290c61de) \
+ && (cd /tmp/RxCpp; git checkout 795587fa311fa41050111a830d91b183d8e53ff9) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -H/tmp/RxCpp \
       -B/tmp/RxCpp/build \
@@ -170,9 +169,9 @@ RUN git clone https://github.com/01org/tbb /tmp/tbb \
  && ldconfig \
  && rm -fr /tmp/tbb
 
-# install ed25519 2.0.1 with hotfix for linux/x86_64 support
+# install ed25519 2.0.2
 RUN git clone git://github.com/hyperledger/iroha-ed25519.git /tmp/ed25519 \
- && (cd /tmp/ed25519; git checkout b28501f8c5c7e552aebf9d7a831153472c2aa7e3) \
+ && (cd /tmp/ed25519; git checkout eb4c0fce900e2468b94bb9e9498af626bb66c039) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -DTESTING=OFF \
       -DHASH=sha3_brainhub \
