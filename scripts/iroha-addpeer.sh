@@ -32,8 +32,6 @@ case "$1" in
     echo "$ rm -f example/multi-node/block_store/0*"
     rm -f example/multi-node/block_store/0*
     exit 0;;
-  *)
-    usage;;
 esac
 
 cd example/multi-node
