@@ -42,6 +42,19 @@ case "$1" in
     exit 0;;
 esac
 
+echo "Cleanup current block_store data:"
+echo "$ rm -f block_store/0*"
+rm -f block_store/0*
+
+echo "Current node:"
+echo "    $(grep IROHA_NODEKEY docker-compose.yml | sed 's/.*IROHA_NODEKEY=//')"
+
+PEERS=$(grep address genesis.block | sed 's/.*address":"/    /' | sed 's/",//')
+echo "Peers:"
+echo "${PEERS}"
+
+exit 0
+
 cat docker-compose.yml.in |
   sed -e "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=${1}/" >docker-compose.yml
 
