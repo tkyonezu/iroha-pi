@@ -16,28 +16,34 @@ if [ $# -eq 0 ]; then
   usage
 fi
 
+cd example/multi-node
+
 case "$1" in
   logs)
     echo "$ docker logs -f iroha_node_1 &"
     docker logs -f iroha_node_1 &
     exit 0;;
-  restart|down)
-    cd example/multi-node
-
+  restart)
     echo "$ docker-compose -f docker-compose.yml $1"
     docker-compose -f docker-compose.yml $1
 
     exit 0;;
+  down)
+    echo "$ docker-compose -f docker-compose.yml $1"
+    docker-compose -f docker-compose.yml $1
+
+    echo "$ docker volume prune -f"
+    docker volume prune -f
+
+    exit 0;;
   clean)
-    echo "$ rm -f example/multi-node/block_store/0*"
-    rm -f example/multi-node/block_store/0*
+    echo "$ rm -f block_store/0*"
+    rm -f block_store/0*
     exit 0;;
 esac
 
-cd example/multi-node
-
 cat docker-compose.yml.in |
-  sed -e "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=${IROHA_NODEKEY}/" >docker-compose.yml
+  sed -e "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=${1}/" >docker-compose.yml
 
 echo "$ docker-compose -f docker-compose.yml up -d"
 docker-compose -f docker-compose.yml up -d
