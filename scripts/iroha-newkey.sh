@@ -22,7 +22,7 @@ eval $(grep IROHA_IMG .env)
 docker run --rm \
   -v $(pwd)/example/multi-node:/opt/iroha/config \
   --entrypoint iroha-cli \
-  ${IROHA_ARC}/${IROHA_IMG \
+  ${IROHA_ARC}/${IROHA_IMG} \
   --new_account --account_name $1
 
 exit 0
