@@ -30,6 +30,7 @@ RUN apt update \
 COPY entrypoint.sh wait-for-it.sh ${IROHA_HOME}/bin/
 
 RUN chown -R iroha:iroha ${IROHA_HOME} \
+ && chmod 755 ${IROHA_HOME}/bin/* \
  && groupadd -g 998 vboxsf \
  && usermod -aG vboxsf iroha
 
