@@ -36,6 +36,6 @@ RUN chown -R iroha:iroha ${IROHA_HOME} \
 
 USER iroha
 
-WORKDIR /opt/iroha/config
+WORKDIR ${IROHA_HOME}/config
 
 ENTRYPOINT ["/opt/iroha/bin/entrypoint.sh"]
