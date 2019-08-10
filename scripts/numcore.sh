@@ -31,7 +31,7 @@ if [ "${UKERNEL}" = "Linux" ]; then
       fi
     fi
   # Linux/armv7l (Raspberry Pi3) or Linux/aarch64 (Ubuntu for arm64)
-  elif [ "${UMACHINE}" = "armv7l" -o "${UMACHINE}" = "aarch64" ]]; then
+  elif [ "${UMACHINE}" = "armv7l" -o "${UMACHINE}" = "aarch64" ]; then
     NUMCORE=2
   else
     NUMCORE=1
