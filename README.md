@@ -1,5 +1,7 @@
 # Iroha-pi
 
+The current iroha-pi uses multi-platform postgres. Therefore, before executing iroha, execute `scripts/iroha-env.sh` to rewrite the .env file.h
+
 iroha-pi is an environment for building and running [hyperledger/iroha](https://github.com/hyperledger/iroha.git) more simple and easy way.
 
 When building a recent Hyperledger Iroha, it use a very large memory. It seems better to prepare about 10GB to 12GB as Virtual Memory space including swap memory.
