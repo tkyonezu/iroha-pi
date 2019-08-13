@@ -1,6 +1,6 @@
 # Iroha-pi
 
-The current iroha-pi uses multi-platform postgres. Therefore, before executing iroha, execute `scripts/iroha-env.sh` to rewrite the .env file.h
+The current iroha-pi uses multi-platform postgres. Therefore, before executing iroha, execute `scripts/iroha-env.sh` to rewrite the `.env` file.
 
 iroha-pi is an environment for building and running [hyperledger/iroha](https://github.com/hyperledger/iroha.git) more simple and easy way.
 
