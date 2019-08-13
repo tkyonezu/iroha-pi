@@ -86,24 +86,38 @@ RUN git clone https://github.com/grpc/grpc /tmp/grpc \
  && ldconfig \
  && rm -rf /tmp/grpc
 
-# install gtest 2019-01-04
-RUN git clone https://github.com/google/googletest /tmp/googletest \
- && (cd /tmp/googletest; git checkout b6cd405286ed8635ece71c72f118e659f4ade3fb) \
- && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -H/tmp/googletest \
-      -B/tmp/googletest/build \
- && cmake --build /tmp/googletest/build --target install -- -j${NUMCORE} \
- && ldconfig \
- && rm -rf /tmp/googletest
+## # install gtest 2019-01-04
+## RUN git clone https://github.com/google/googletest /tmp/googletest \
+##  && (cd /tmp/googletest; git checkout b6cd405286ed8635ece71c72f118e659f4ade3fb) \
+##  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+##       -H/tmp/googletest \
+##       -B/tmp/googletest/build \
+##  && cmake --build /tmp/googletest/build --target install -- -j${NUMCORE} \
+##  && ldconfig \
+##  && rm -rf /tmp/googletest
 
-# install spdlog v0.16.3
+# install fmtlib 5.3.0
+RUN git clone git://github.com/fmtlib/fmt.git /tmp/fmt \
+ && cd /tmp/fmt; git checkout 9e554999ce02cf86fcdfe74fe740c4fe3f5a56d5 \
+ && mkdir build; cd build \
+ && cmake \
+      -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
+      -DBUILD_SHARED_LIBS=TRUE \
+      -DFMT_TEST=OFF .. \
+ && cmake --build /tmp/fmt/build --target install -- -j${NUMCORE} \
+ && ldconfig \
+ && cd /tmp; rm -fr /tmp/fmt
+
+# install spdlog v1.3.1
 RUN git clone https://github.com/gabime/spdlog /tmp/spdlog \
- && (cd /tmp/spdlog; git checkout ccd675a286f457068ee8c823f8207f13c2325b26) \
+ && (cd /tmp/spdlog; git checkout a7148b718ea2fabb8387cb90aee9bf448da63e65) \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
-      -DSPDLOG_BUILD_TESTING=OFF \
+      -DSPDLOG_BUILD_BENCH=OFF \
+      -DSPDLOG_BUILD_TESTS=OFF \
+      -DSPDLOG_FMT_EXTERNAL=ON \
       -H/tmp/spdlog \
       -B/tmp/spdlog/build \
- && cmake --build /tmp/spdlog/build --target install \
+ && cmake --build /tmp/spdlog/build --target install -- -j${NUMCORE} \
  && rm -rf /tmp/spdlog
 
 # install rxcpp
@@ -112,7 +126,7 @@ RUN git clone https://github.com/Reactive-Extensions/RxCpp /tmp/RxCpp \
  && cmake -DCMAKE_BUILD_TYPE=${CMAKE_BUILD_TYPE} \
       -H/tmp/RxCpp \
       -B/tmp/RxCpp/build \
- && cmake --build /tmp/RxCpp/build --target install \
+ && cmake --build /tmp/RxCpp/build --target install -- -j${NUMCORE} \
  && rm -fr /tmp/RxCpp
 
 # install rapidjson
@@ -122,7 +136,7 @@ RUN git clone https://github.com/miloyip/rapidjson /tmp/rapidjson \
       -DRAPIDJSON_BUILD_EXAMPLES=OFF \
       -H/tmp/rapidjson \
       -B/tmp/rapidjson/build \
- && cmake --build /tmp/rapidjson/build --target install \
+ && cmake --build /tmp/rapidjson/build --target install -- -j${NUMCORE} \
  && ldconfig \
  && rm -fr /tmp/rapidjson
 
@@ -159,7 +173,7 @@ RUN git clone https://github.com/SOCI/soci /tmp/soci \
       -DWITH_SQLITE3=OFF \
       -H/tmp/soci \
       -B/tmp/soci/build \
- && cmake --build /tmp/soci/build --target install \
+ && cmake --build /tmp/soci/build --target install -- -j${NUMCORE} \
  && ldconfig \
  && rm -rf /tmp/soci
 
