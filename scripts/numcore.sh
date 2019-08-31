@@ -42,6 +42,7 @@ elif [ "${UKERNEL}" = "Darwin" ]; then
     NUMCORE=$(system_profiler SPHardwareDataType | grep Cores |
       sed 's/^.*Cores: //')
 ##  NUMCORE=$(sysctl -n hw.ncpu)
+    NUMCORE=2	# Force set to Core=2
   else
     NUMCORE=1
   fi
