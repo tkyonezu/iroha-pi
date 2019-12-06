@@ -18,7 +18,10 @@ ${IROHA_HOME}/bin/wait-for-it.sh -h ${PG_HOST} -p ${PG_PORT} -t 60 -- true
 
 # Raspberry Pi, Wait until PostgreSQL is stabilized
 if [ "$(uname -m)" = "armv7l" ]; then
-  sleep 30
+  # Raspberry Pi 4B doesn't need sleep
+  if ! grep ^Model /proc/cpuinfo | grep -q "Raspberry Pi 4"; then
+    sleep 30
+  fi
 fi
 
 if [ -f ${IROHA_BLOCK}0000000000000002 ]; then
