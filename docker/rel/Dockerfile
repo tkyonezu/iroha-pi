@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ARG GITLOG="${GITLOG}"
 ARG BUILD_DATE="${BUILD_DATE}"
