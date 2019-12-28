@@ -22,8 +22,13 @@ IROHA_NODE=${IROHA_NODE:-node${KEY}}
 IROHA_BLOCK=$(cat config/${IROHA_CONF} | grep block_store_path |
   sed -e 's/^.*: "//' -e 's/".*$//')
 
-PG_HOST=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*host=//' -e 's/ .*//')
-PG_PORT=$(cat config/${IROHA_CONF} | grep pg_opt | sed -e 's/^.*port=//' -e 's/ .*//')
+if grep -q pg_opt ${IROHA_CONF}; then
+  PG_HOST=$(cat ${IROHA_CONF} | grep pg_opt | sed -e 's/^.*host=//' -e 's/ .*//')
+  PG_PORT=$(cat ${IROHA_CONF} | grep pg_opt | sed -e 's/^.*port=//' -e 's/ .*//')
+else
+  PG_HOST=$(cat ${IROHA_CONF} | grep host | sed -e 's/^.*host" *: *"//' -e 's/".*//')
+  PG_PORT=$(cat ${IROHA_CONF} | grep "[^_]port" | sed -e 's/^.*port" *: *//' -e 's/,.*//')
+fi
 
 /opt/iroha/bin/wait-for-it.sh -h ${PG_HOST} -p ${PG_PORT} -t 60 -- true
 
