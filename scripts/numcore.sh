@@ -10,10 +10,10 @@ UKERNEL=$(uname -s)
 UMACHINE=$(uname -m)
 
 if [ "${UKERNEL}" = "Linux" ]; then
+  NUMCORE=$(grep processor /proc/cpuinfo | wc -l)
+
   # Linux/x86_64
   if [ "${UMACHINE}" = "x86_64" ]; then
-    NUMCORE=$(grep processor /proc/cpuinfo | wc -l)
-
     # Intel(R) Atom(TM)
     CPU_MODEL=$(grep "^model name" /proc/cpuinfo |
       sed 1q | sed 's/^model name.*: //' | awk '{ print $1 " " $2 }')
@@ -30,10 +30,10 @@ if [ "${UKERNEL}" = "Linux" ]; then
         NUMCORE=2
       fi
     fi
-  # Linux/armv7l (Raspberry Pi3) or Linux/aarch64 (Ubuntu for arm64)
-  elif [ "${UMACHINE}" = "armv7l" -o "${UMACHINE}" = "aarch64" ]; then
+  # Linux/armv7l (Raspberry Pi3)
+  elif [ "${UMACHINE}" = "armv7l" ]; then
     NUMCORE=2
-  else
+  elif [ "${UMACHINE}" != "aarch64" ]; then
     NUMCORE=1
   fi
 elif [ "${UKERNEL}" = "Darwin" ]; then
@@ -42,7 +42,9 @@ elif [ "${UKERNEL}" = "Darwin" ]; then
     NUMCORE=$(system_profiler SPHardwareDataType | grep Cores |
       sed 's/^.*Cores: //')
 ##  NUMCORE=$(sysctl -n hw.ncpu)
-    NUMCORE=2	# Force set to Core=2
+    if [ ${NUMCORE} -gt 2 ]; then
+      NUMCORE=2		# Force CPU=2
+    fi
   else
     NUMCORE=1
   fi

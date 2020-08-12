@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 ARG NUMCORE=${NUMCORE:-4}
 ARG CMAKE_BUILD_TYPE=Release
@@ -14,12 +14,12 @@ RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y --no-install-recommends install \
     automake build-essential ca-certificates ccache \
     git libssl-dev rsync zlib1g-dev libcurl4-openssl-dev \
-    python3 python-software-properties curl \
+    python3 curl \
  && apt-get -y clean
 
 # install cmake 3.11.4
 RUN git clone https://gitlab.kitware.com/cmake/cmake.git /tmp/cmake \
- && (cd /tmp/cmake; git checkout 316bd45439ad8ced6b31bcb10303a788038387ef) \
+ && (cd /tmp/cmake; git checkout bf02d625325535f485512eba307cff54c08bb257) \
  && (cd /tmp/cmake; /tmp/cmake/bootstrap --system-curl --parallel=${NUMCORE} --enable-ccache) \
  && make -j${NUMCORE} -C /tmp/cmake \
  && make -C /tmp/cmake install \
