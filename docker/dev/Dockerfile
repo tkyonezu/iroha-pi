@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 ARG NUMCORE=${NUMCORE:-4}
 ARG CMAKE_BUILD_TYPE=Release
