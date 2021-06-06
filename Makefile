@@ -22,7 +22,7 @@
 # - iroha-up      - running iroha container by docker-compose
 # - iroha-down    - stop and remove iroha container by docker-compose
 #---------------------------------------------------------------
-# Copyright (c) 2017-2019 Takeshi Yonezu
+# Copyright (c) 2017-2021 Takeshi Yonezu
 # All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -107,7 +107,8 @@ else
   endif
 endif
 
-all: iroha-dev iroha-bld iroha-rel iroha
+all: vcpkg-build iroha
+## all: iroha-dev iroha-bld iroha-rel iroha
 
 help:
 	@echo "help          - show make targets"
@@ -136,6 +137,9 @@ ifeq ($(UMACHINE),x86_64)
 testup: iroha-testup
 endif
 
+vcpkg-build:
+	bash scripts/vcpkg-build.sh
+
 iroha-dev:
 	cd docker/dev && docker build --rm --build-arg NUMCORE=$(NUMCORE) -t $(IROHA_PRJ)/$(IROHA_IMG)-dev .
 
@@ -149,6 +153,9 @@ iroha-rel:
 	sudo rm -fr ${BUILD_HOME}/docker/iroha
 
 iroha:
+	mkdir -p docker/rel/iroha
+	rsync -av ${BUILD_HOME}/build/bin docker/rel/iroha
+	strip docker/rel/iroha/bin/*
 	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) .
 	@scripts/build-no.sh
 
@@ -156,11 +163,9 @@ iroha-up:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 
 iroha-down:
-	docker-compose -p $(COMPOSE_PROJECT_NAME) down
-	docker volume prune -f
+	docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
 
 up4:
-	@cd example/node4; if ! test -d block_store1; then for i in $$(seq 4); do mkdir block_store$$((i-1)); sudo chown $(id -u):$(id -g) block_store$$((i-1)); done; fi
 ifeq ($(UMACHINE),armv7l)
 	cd example/node4; COMPOSE_HTTP_TIMEOUT=120 docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 else
@@ -168,8 +173,7 @@ else
 endif
 
 down4:
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) down
-	docker volume prune -f
+	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
 
 ifeq ($(UMACHINE),x86_64)
 iroha-testup:
@@ -196,6 +200,7 @@ endif
 	-sudo rm -fr $(BUILD_HOME)/external
 	-sudo rm -fr $(BUILD_HOME)/build
 	-sudo rm -fr $(BUILD_HOME)/cmake-build-debug
+	-sudo rm -fr ${BUILD_HOME}/vcpkg/vcpkg
 
 version:
 	docker inspect -f {{.Config.Labels}} $(IROHA_PRJ)/$(IROHA_IMG)

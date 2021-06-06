@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2019 Takeshi Yonezu
+# Copyright (c) 2017-2021 Takeshi Yonezu
 # All Rights Reserved.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -22,7 +22,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres:12.1
+    image: postgres:13.2-alpine
     environment:
       - POSTGRES_USER=iroha
       - POSTGRES_PASSWORD=HelloW0rld

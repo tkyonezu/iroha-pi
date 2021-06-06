@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2019 Takeshi Yonezu
+# Copyright (c) 2017-2021 Takeshi Yonezu
 # All Rights Reserved.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -9,27 +9,31 @@ version: '3'
 services:
   node:
     image: ${IROHA_PRJ}/${IROHA_IMG}
+    container_name: iroha_node_1
     restart: always
     ports:
       - "50051:50051"
       - "10001:10001"
     environment:
-      - IROHA_NODEKEY=node0
+      - IROHA_NODEKEY=node1
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
-      - ${PWD}/block_store:/tmp/block_store
+      - ${PWD}/iroha/tmp/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
     depends_on:
       - postgres
 
   postgres:
-    image: postgres:12.1
+    image: postgres:13.2-alpine
+    container_name: iroha_postgres_1
     restart: always
     environment:
       - POSTGRES_USER=iroha
       - POSTGRES_PASSWORD=HelloW0rld
+    volumes:
+      - ${PWD}/iroha/var/lib/postgresql/data:/var/lib/postgresql/data
 
 volumes:
   ccache-data:
