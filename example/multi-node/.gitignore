@@ -1,4 +1,4 @@
 !.env
 /iroha/
-docker-compose.yml
 genesis.block
+docker-compose.yml
