@@ -1,10 +1,10 @@
 #!/bin/bash
 # 
-# Copyright (c) 2017-2019 Takeshi Yonezu
+# Copyright (c) 2017-2021 Takeshi Yonezu
 # All Rights Reserved.
 #
 
-CONTAINER_NAME="iroha-node0"
+CONTAINER_NAME="iroha_node_1"
 
 IROHA_IP=0.0.0.0
 IROHA_PORT=50051
@@ -35,6 +35,10 @@ EOF
     if cat /tmp/st | grep -q "error"; then
       echo
       cat /tmp/st | grep "error" | sed 's/^>.*: //'
+      break
+    elif cat /tmp/st | grep -q "rejected"; then
+      echo
+      cat /tmp/st | grep "rejected" | sed 's/^>.*: //'
       break
     fi
     sleep 1

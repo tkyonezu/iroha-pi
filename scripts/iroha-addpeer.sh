@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Copyright (c) 2019 Takeshi Yonezu
+# Copyright (c) 2021 Takeshi Yonezu
 # All Rights Reserved.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -42,14 +42,14 @@ case "$1" in
 
     exit 0;;
   clean)
-    echo "$ rm -f block_store/0*"
-    rm -f block_store/0*
+    echo "$ rm -f iroha/block_store/0*"
+    rm -f iroha/block_store/0*
     exit 0;;
 esac
 
 echo "Cleanup current block_store data:"
-echo "$ rm -f block_store/0*"
-rm -f block_store/0*
+echo "$ rm -f iroha/block_store/0*"
+rm -f iroha/block_store/0*
 
 cat docker-compose.yml.in |
   sed -e "s/IROHA_NODEKEY=.*/IROHA_NODEKEY=${1}/" >docker-compose.yml

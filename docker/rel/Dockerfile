@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2019 Takeshi Yonezu
+# Copyright (c) 2017-2021 Takeshi Yonezu
 # All Rights Reserved.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -24,17 +24,17 @@ COPY iroha ${IROHA_HOME}
 
 RUN apt update \
  && apt upgrade -y \
- && useradd -ms /bin/bash iroha \
  && mkdir ${IROHA_HOME}/key
 
 COPY entrypoint.sh wait-for-it.sh ${IROHA_HOME}/bin/
 
-RUN chown -R iroha:iroha ${IROHA_HOME} \
- && chmod 755 ${IROHA_HOME}/bin/* \
- && groupadd -g 998 vboxsf \
- && usermod -aG vboxsf iroha
-
-USER iroha
+## RUN useradd -ms /bin/bash iroha \
+## && chown -R iroha:iroha ${IROHA_HOME} \
+##  && chmod 755 ${IROHA_HOME}/bin/* \
+##  && groupadd -g 998 vboxsf \
+##  && usermod -aG vboxsf iroha
+## 
+## USER iroha
 
 WORKDIR ${IROHA_HOME}/config
 
