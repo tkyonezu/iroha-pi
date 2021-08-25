@@ -22,7 +22,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres:13.2-alpine
+    image: postgres:13-alpine
     environment:
       - POSTGRES_USER=iroha
       - POSTGRES_PASSWORD=HelloW0rld
