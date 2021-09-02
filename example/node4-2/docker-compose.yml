@@ -1,0 +1,118 @@
+# Copyright (c) 2017-2021 Takeshi Yonezu
+# All Rights Reserved.
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+version: '3'
+
+services:
+
+  node21:
+    image: ${IROHA_PRJ}/${IROHA_IMG}
+    container_name: iroha_node_21
+    restart: always
+    ports:
+      - "50052:50051"
+    environment:
+      - IROHA_CONF=iroha1.conf
+      - IROHA_NODEKEY=node1
+      - CCACHE_DIR=/tmp/ccache
+    volumes:
+      - ${PWD}:/opt/iroha/config
+      - ${PWD}/iroha1/tmp/block_store:/tmp/block_store
+      - ccache-data:/tmp/ccache
+    working_dir: /opt/iroha/config
+    depends_on:
+      - postgres1
+
+  node22:
+    image: ${IROHA_PRJ}/${IROHA_IMG}
+    container_name: iroha_node_22
+    restart: always
+    environment:
+      - IROHA_CONF=iroha2.conf
+      - IROHA_NODEKEY=node2
+      - CCACHE_DIR=/tmp/ccache
+    volumes:
+      - ${PWD}:/opt/iroha/config
+      - ${PWD}/iroha2/tmp/block_store:/tmp/block_store
+      - ccache-data:/tmp/ccache
+    working_dir: /opt/iroha/config
+    depends_on:
+      - postgres2
+
+  node23:
+    image: ${IROHA_PRJ}/${IROHA_IMG}
+    container_name: iroha_node_23
+    restart: always
+    environment:
+      - IROHA_CONF=iroha3.conf
+      - IROHA_NODEKEY=node3
+      - CCACHE_DIR=/tmp/ccache
+    volumes:
+      - ${PWD}:/opt/iroha/config
+      - ${PWD}/iroha3/tmp/block_store:/tmp/block_store
+      - ccache-data:/tmp/ccache
+    working_dir: /opt/iroha/config
+    depends_on:
+      - postgres3
+
+  node24:
+    image: ${IROHA_PRJ}/${IROHA_IMG}
+    container_name: iroha_node_24
+    restart: always
+    environment:
+      - IROHA_CONF=iroha4.conf
+      - IROHA_NODEKEY=node4
+      - CCACHE_DIR=/tmp/ccache
+    volumes:
+      - ${PWD}:/opt/iroha/config
+      - ${PWD}/iroha4/tmp/block_store:/tmp/block_store
+      - ccache-data:/tmp/ccache
+    working_dir: /opt/iroha/config
+    depends_on:
+      - postgres4
+
+  postgres21:
+    image: postgres:13-alpine
+    container_name: iroha_postgres_21
+    restart: always
+    environment:
+      - POSTGRES_USER=iroha
+      - POSTGRES_PASSWORD=HelloW0rld
+    volumes:
+      - ${PWD}/iroha1/var/lib/postgresql/data:/var/lib/postgresql/data
+
+  postgres22:
+    image: postgres:13-alpine
+    container_name: iroha_postgres_22
+    restart: always
+    environment:
+      - POSTGRES_USER=iroha
+      - POSTGRES_PASSWORD=HelloW0rld
+    volumes:
+      - ${PWD}/iroha2/var/lib/postgresql/data:/var/lib/postgresql/data
+
+  postgres23:
+    image: postgres:13-alpine
+    container_name: iroha_postgres_23
+    restart: always
+    environment:
+      - POSTGRES_USER=iroha
+      - POSTGRES_PASSWORD=HelloW0rld
+    volumes:
+      - ${PWD}/iroha3/var/lib/postgresql/data:/var/lib/postgresql/data
+
+  postgres24:
+    image: postgres:13-alpine
+    container_name: iroha_postgres_24
+    restart: always
+    environment:
+      - POSTGRES_USER=iroha
+      - POSTGRES_PASSWORD=HelloW0rld
+    volumes:
+      - ${PWD}/iroha4/var/lib/postgresql/data:/var/lib/postgresql/data
+
+volumes:
+  ccache-data:
