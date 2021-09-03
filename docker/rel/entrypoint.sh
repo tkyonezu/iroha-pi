@@ -14,7 +14,8 @@ if [ ! -f ${IROHA_BLOCK}0000000000000001 ]; then
 
   irohad --config ${IROHA_CONF} \
     --genesis_block ${IROHA_GENESIS} \
-    --keypair_name ${IROHA_NODEKEY}
+    --keypair_name ${IROHA_NODEKEY} \
+    --drop_state
 elif [ ! -f ${IROHA_BLOCK}0000000000000002 ]; then
   echo "$ irohad --config ${IROHA_CONF} --genesis_block ${IROHA_GENESIS} --keypair_name ${IROHA_NODEKEY}"
 
