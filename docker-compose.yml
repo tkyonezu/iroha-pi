@@ -12,19 +12,12 @@ services:
     ports:
       - "50051:50051"
     environment:
+      - IROHA_CONF=iroha.conf
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}/example:/opt/iroha/config
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:13-alpine
-    environment:
-      - POSTGRES_USER=iroha
-      - POSTGRES_PASSWORD=HelloW0rld
 
 volumes:
   ccache-data:
