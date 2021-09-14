@@ -39,7 +39,8 @@ echo ">>> Build cmake 3.14.0"
 if ! which cmake >/dev/null; then
   git clone https://gitlab.kitware.com/cmake/cmake.git /tmp/cmake
   cd /tmp/cmake
-  git checkout bf02d625325535f485512eba307cff54c08bb257
+##git checkout bf02d625325535f485512eba307cff54c08bb257
+  git checkout e8dbfcf6797a270ed5be8550248f7fe4fe5dec79
   ./bootstrap --system-curl --parallel=${NUMCORE} --enable-ccache
   make -j${NUMCORE}
   sudo make install
@@ -93,13 +94,13 @@ EOF
     patch -p1 <${IROHA_VCPKG}/patches/0000-tbb-arm.patch 
   fi
 
-  ${VCPKG_PATH}/bootstrap-vcpkg.sh -useSystemBinaries
+  ${VCPKG_PATH}/bootstrap-vcpkg.sh -disableMetrics -useSystemBinaries
 
   export VCPKG_DISABLE_METRICS=1
   export VCPKG_FORCE_SYSTEM_BINARIES=1
 
   cat ${IROHA_VCPKG}/VCPKG_DEPS_LIST      | xargs ${VCPKG_PATH}/vcpkg install
-  cat ${IROHA_VCPKG}/VCPKG_HEAD_DEPS_LIST | xargs ${VCPKG_PATH}/vcpkg install --head
+# cat ${IROHA_VCPKG}/VCPKG_HEAD_DEPS_LIST | xargs ${VCPKG_PATH}/vcpkg install --head
 fi
 
 echo ">>> Build protoc-gen-go"
