@@ -17,7 +17,6 @@ LABEL BUILD_NO="${BUILD_NO}"
 LABEL BUILD_HOST="${BUILD_HOST}"
 
 ENV IROHA_HOME=/opt/iroha
-ENV LD_LIBRARY_PATH=${IROHA_HOME}/lib
 ENV PATH PATH=${PATH}:${IROHA_HOME}/bin
 
 COPY iroha ${IROHA_HOME}
@@ -26,7 +25,7 @@ RUN apt update \
  && apt upgrade -y \
  && mkdir ${IROHA_HOME}/key
 
-COPY entrypoint.sh wait-for-it.sh ${IROHA_HOME}/bin/
+COPY entrypoint.sh ${IROHA_HOME}/bin/
 
 ## RUN useradd -ms /bin/bash iroha \
 ## && chown -R iroha:iroha ${IROHA_HOME} \

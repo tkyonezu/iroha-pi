@@ -19,21 +19,8 @@ services:
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
-      - ${PWD}/iroha/tmp/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    depends_on:
-      - postgres
-
-  postgres:
-    image: postgres:13-alpine
-    container_name: iroha_postgres_1
-    restart: always
-    environment:
-      - POSTGRES_USER=iroha
-      - POSTGRES_PASSWORD=HelloW0rld
-    volumes:
-      - ${PWD}/iroha/var/lib/postgresql/data:/var/lib/postgresql/data
 
 volumes:
   ccache-data:
