@@ -107,7 +107,8 @@ else
   endif
 endif
 
-all: vcpkg-build iroha
+all: iroha
+## all: vcpkg-build iroha
 ## all: iroha-dev iroha-bld iroha-rel iroha
 
 help:
@@ -153,11 +154,13 @@ iroha-rel:
 	sudo rm -fr ${BUILD_HOME}/docker/iroha
 
 iroha:
-	mkdir -p docker/rel/iroha
-	rsync -av ${BUILD_HOME}/build/bin docker/rel/iroha
-	strip docker/rel/iroha/bin/*
 	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) .
 	@scripts/build-no.sh
+## 	mkdir -p docker/rel/iroha
+## 	rsync -av ${BUILD_HOME}/build/bin docker/rel/iroha
+## 	strip docker/rel/iroha/bin/*
+## 	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) .
+## 	@scripts/build-no.sh
 
 iroha-up:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
