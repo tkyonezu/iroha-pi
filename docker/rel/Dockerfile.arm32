@@ -16,7 +16,7 @@ RUN apt update && apt upgrade -y \
 ENV PATH ${HOME}/go/bin:/usr/local/go/bin:$PATH
 ENV GOPATH ${HOME}/go
 
-RUN curl -fsSL https://golang.org/dl/go1.15.15.linux-amd64.tar.gz | tar -C /usr/local -xzf - \
+RUN curl -fsSL https://golang.org/dl/go1.15.15.linux-armv6l.tar.gz | tar -C /usr/local -xzf - \
  && (cd ${HOME}; mkdir go/src; cd go/src; \
       go get -u google.golang.org/protobuf/cmd/protoc-gen-go; \
       go install google.golang.org/protobuf/cmd/protoc-gen-go)
