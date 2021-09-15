@@ -38,9 +38,7 @@ WORKDIR /iroha/build
 ## URSA=OFF, BURROW=OFF
 ## RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF -DCMAKE_TOOLCHAIN_FILE=/vcpkg-build/scripts/buildsystems/vcpkg.cmake \
 ## URSA=ON, BURROW=ON
-## RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF -DUSE_LIBURSA=ON -DUSE_BURROW=ON -DCMAKE_TOOLCHAIN_FILE=/vcpkg-build/scripts/buildsystems/vcpkg.cmake \
-## URSA=OFF, BURROW=ON
-RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF -DUSE_BURROW=ON -DCMAKE_TOOLCHAIN_FILE=/vcpkg-build/scripts/buildsystems/vcpkg.cmake \
+RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF -DUSE_LIBURSA=ON -DUSE_BURROW=ON -DCMAKE_TOOLCHAIN_FILE=/vcpkg-build/scripts/buildsystems/vcpkg.cmake \
  && cmake --build . -- -j$(nproc)
 
 FROM ubuntu:20.04
@@ -60,9 +58,9 @@ ENV IROHA_HOME=/opt/iroha
 ENV PATH PATH=${PATH}:${IROHA_HOME}/bin
 
 RUN apt update && apt upgrade -y \
- && apt install -y moreutils jq python3 python3-pip \
- && pip install iroha \
- && apt purge -y $(apt -s purge python3-pip | grep '^ ' | tr -d '*') \
+## && apt install -y moreutils jq python3 python3-pip \
+## && pip install iroha \
+## && apt purge -y $(apt -s purge python3-pip | grep '^ ' | tr -d '*') \
  && apt clean -y \
  && rm -fr /var/lib/apt/lists/*
 

@@ -154,7 +154,7 @@ iroha-rel:
 	sudo rm -fr ${BUILD_HOME}/docker/iroha
 
 iroha:
-	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) -f ${DOCKERFILE}
+	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) -f ${DOCKERFILE} .
 	@scripts/build-no.sh
 ## 	mkdir -p docker/rel/iroha
 ## 	rsync -av ${BUILD_HOME}/build/bin docker/rel/iroha
