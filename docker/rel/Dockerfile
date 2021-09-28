@@ -7,42 +7,44 @@
 FROM ubuntu:20.04 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
+ENV IROHA_VERSION=1.2.1
+ENV GO_VERSION=1.15.15
+
+ENV HOME=/root
+ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
+ENV GOPATH=${HOME}/go
+
+ENV BUILD_HOME=/iroha
+ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
+ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
+
 RUN apt update && apt upgrade -y \
  && apt install -y --no-install-recommends \
       file build-essential ninja-build git ca-certificates tar curl unzip \
-      cmake pkg-config zip \
- && curl https://sh.rustup.rs -sSf | sh -s -- -y
+      cmake pkg-config zip
 
-ENV HOME /root
-ENV PATH ${HOME}/go/bin:/usr/local/go/bin:${PATH}
-ENV GOPATH ${HOME}/go
-
-ENV BUILD_HOME /iroha
-ENV IROHA_VCPKG ${BUILD_HOME}/vcpkg
-ENV VCPKG_PATH ${BUILD_HOME}/vcpkg-build
-
-RUN curl -fsSL https://golang.org/dl/go1.15.15.linux-amd64.tar.gz | tar -C /usr/local -xzf - \
- && (cd ${HOME}; mkdir go/src; cd go/src; \
+RUN curl -fsSL https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz | tar -C /usr/local -xzf - \
+ && (cd ${HOME}; mkdir -p go/src; cd go/src; \
       go get -u google.golang.org/protobuf/cmd/protoc-gen-go; \
       go install google.golang.org/protobuf/cmd/protoc-gen-go)
 
-ENV PATH ${HOME}/.cargo/bin:${PATH}
+ENV PATH=${HOME}/.cargo/bin:${PATH}
 
-RUN apt install -y libssl-dev \
+RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
+ && apt install -y libssl-dev \
  && cargo install cargo-edit \
  && git clone https://github.com/sagiegurari/cargo-make.git ${HOME} \
  && cd ${HOME}/cargo-make; cargo install --force cargo-make
 
-RUN git clone https://github.com/hyperledger/iroha.git -b 1.2.1 \
+RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
  && ${IROHA_VCPKG}/build_iroha_deps.sh ${VCPKG_PATH} \
  && ${VCPKG_PATH}/vcpkg integrate install
 
 WORKDIR ${BUILD_HOME}/build
 
-## URSA=OFF, BURROW=OFF
-## RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
-## URSA=ON, BURROW=ON
-RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF -DUSE_LIBURSA=ON -DUSE_BURROW=ON -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
+RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
+      -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
+      -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
  && cmake --build . -- -j$(nproc)
 
 FROM ubuntu:20.04
@@ -58,8 +60,7 @@ LABEL BUILD_DATE="${BUILD_DATE}"
 LABEL BUILD_NO="${BUILD_NO}"
 LABEL BUILD_HOST="${BUILD_HOST}"
 
-ENV BUILD_HOME /iroha
-
+ENV BUILD_HOME=/iroha
 ENV IROHA_HOME=/opt/iroha
 
 RUN apt update && apt upgrade -y \
@@ -71,11 +72,11 @@ RUN apt update && apt upgrade -y \
 
 COPY --from=builder ${BUILD_HOME}/build/bin/irohad /usr/bin/irohad
 COPY --from=builder ${BUILD_HOME}/build/bin/iroha-cli /usr/bin/iroha-cli
-COPY --from=builder ${BUILD_HOME}/example/ ${IROHA_HOME}/config/
 COPY wait-for-it.sh /
 COPY entrypoint.sh /
 
-RUN chmod +x /wait-for-it.sh /entrypoint.sh
+RUN chmod +x /wait-for-it.sh /entrypoint.sh \
+ && mkdir -p ${IROHA_HOME}/config
 
 WORKDIR ${IROHA_HOME}/config
 
