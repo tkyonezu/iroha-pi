@@ -68,23 +68,26 @@ URELEASE := $(shell uname -r)
 
 ifeq ($(UKERNEL),Linux)
   ifeq ($(UMACHINE),x86_64)
-    DOCKER := Dockerfile
+    DOCKERFILE := Dockerfile
     COMPOSE_TEST := docker-compose-test.yml
   endif
   ifeq ($(UMACHINE),armv7l)
-    DOCKER := Dockerfile
+    DOCKERFILE := Dockerfile.arm32
   endif
   ifeq ($(UMACHINE),aarch64)
-    DOCKER := Dockerfile
+    DOCKERFILE := Dockerfile.arm64
   endif
 endif
 
 ifeq ($(UKERNEL),Darwin)
-  DOCKER := Dockerfile
+  DOCKERFILE := Dockerfile
   COMPOSE_TEST := docker-compose-test.yml
+  ifeq ($(UMACHINE),arm64)
+    DOCKERFILE := Dockerfile.arm64
+  endif
 endif
 
-ifeq ($(DOCKER), )
+ifeq ($(DOCKERFILE), )
 $(error This platform "$(UKERNEL)/$(UMACHINE)" is not supported.)
 endif
 
@@ -154,7 +157,7 @@ iroha-rel:
 	sudo rm -fr ${BUILD_HOME}/docker/iroha
 
 iroha:
-	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) .
+	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) -f $(DOCKERFILE) .
 	@scripts/build-no.sh
 ## 	mkdir -p docker/rel/iroha
 ## 	rsync -av ${BUILD_HOME}/build/bin docker/rel/iroha
