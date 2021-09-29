@@ -47,7 +47,7 @@ RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
 
 WORKDIR ${BUILD_HOME}/build
 
-RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
+RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
       -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
       -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
  && cmake --build . -- -j$(nproc)
