@@ -48,9 +48,14 @@ COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
 BUILD_DATE := $(shell echo "`env LC_ALL=C date`")
 BUILD_HOST := $(shell hostname)
 
-ifeq ("$(wildcard $(BUILD_HOME))","")
-  $(error $(BUILD_HOME) does'nt exist. Please clone it.)
-endif
+## Since I changed to Docker's multi-stage build method, Iroha clones and
+## builds inside the Docker container. Therefore, it is no longer necessary
+## to check the existence of the Iroha repository.
+## 2021/09/29 by Takeshi Yonezu
+##
+## ifeq ("$(wildcard $(BUILD_HOME))","")
+##   $(error $(BUILD_HOME) does'nt exist. Please clone it.)
+## endif
 
 ifeq ("$(wildcard .buildno)","")
   $(shell echo "1000" >.buildno)
