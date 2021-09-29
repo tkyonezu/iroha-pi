@@ -8,11 +8,12 @@ FROM ubuntu:20.04 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV IROHA_VERSION=1.2.1
+
 ENV GO_VERSION=1.15.15
+ENV GO_OS=linux
+ENV GO_ARCH=amd64
 
 ENV HOME=/root
-ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
-ENV GOPATH=${HOME}/go
 
 ENV BUILD_HOME=/iroha
 ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
@@ -23,7 +24,10 @@ RUN apt update && apt upgrade -y \
       file build-essential ninja-build git ca-certificates tar curl unzip \
       cmake pkg-config zip
 
-RUN curl -fsSL https://golang.org/dl/go${GO_VERSION}.linux-amd64.tar.gz | tar -C /usr/local -xzf - \
+ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
+ENV GOPATH=${HOME}/go
+
+RUN curl -fsSL https://golang.org/dl/go${GO_VERSION}.${GO_OS}-${GO_ARCH}.tar.gz | tar -C /usr/local -xzf - \
  && (cd ${HOME}; mkdir -p go/src; cd go/src; \
       go get -u google.golang.org/protobuf/cmd/protoc-gen-go; \
       go install google.golang.org/protobuf/cmd/protoc-gen-go)
@@ -42,7 +46,7 @@ RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
 
 WORKDIR ${BUILD_HOME}/build
 
-RUN cmake -B. -S..  -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
+RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
       -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
       -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
  && cmake --build . -- -j$(nproc)
@@ -72,7 +76,7 @@ RUN apt update && apt upgrade -y \
 
 COPY --from=builder ${BUILD_HOME}/build/bin/irohad /usr/bin/irohad
 COPY --from=builder ${BUILD_HOME}/build/bin/iroha-cli /usr/bin/iroha-cli
-COPY wait-for-it.sh /
+COPY --from=builder ${BUILD_HOME}/docker/release/wait-for-it.sh /
 COPY entrypoint.sh /
 
 RUN chmod +x /wait-for-it.sh /entrypoint.sh \
