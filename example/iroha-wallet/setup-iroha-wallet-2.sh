@@ -4,7 +4,7 @@
 # All Rights Reserved.
 #
 
-CONTAINER_NAME="iroha_node_21"
+CONTAINER_NAME="iroha-node-21"
 
 IROHA_IP=0.0.0.0
 IROHA_PORT=50052

@@ -10,7 +10,7 @@ services:
 
   node1:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    container_name: iroha_node_1
+    container_name: iroha-node-1
     restart: always
     ports:
       - "50051:50051"
@@ -26,7 +26,7 @@ services:
 
   node2:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    container_name: iroha_node_2
+    container_name: iroha-node-2
     restart: always
     environment:
       - IROHA_NODEKEY=node2
@@ -39,7 +39,7 @@ services:
 
   node3:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    container_name: iroha_node_3
+    container_name: iroha-node-3
     restart: always
     environment:
       - IROHA_NODEKEY=node3
@@ -52,7 +52,7 @@ services:
 
   node4:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    container_name: iroha_node_4
+    container_name: iroha-node-4
     restart: always
     environment:
       - IROHA_NODEKEY=node4
