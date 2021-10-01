@@ -7,7 +7,7 @@
 # - down          - stop and remove iroha container by docker-compose
 # - testup        - running iroha for test container by docker-compose
 # - test          - exec all test commands
-# - logs          - show logs of iroha_node_1 container
+# - logs          - show logs of iroha-node-1 container
 # - up4           - running iroha container by docker-compose 4 nodes
 # - down4         - stop and remove iroha container by docker-compose 4 ndoes
 # - logs4         - show logs of iroha-node[1-4] containers
@@ -129,7 +129,7 @@ ifneq ($(UMACHINE),armv7l)
 	@echo "testup        - running iroha for test container by docker-compose"
 	@echo "test          - exec all test commands"
 endif
-	@echo "logs          - show logs of iroha_node_1 container"
+	@echo "logs          - show logs of iroha-node-1 container"
 	@echo "up4           - running iroha container by docker-compose 4 nodes"
 	@echo "down4         - stop and remove iroha container by docker-compose 4 ndoes"
 	@echo "logs4         - show logs of iroha-node[1-4] containers"
@@ -195,7 +195,7 @@ test:
 endif
 
 logs:
-	docker logs -f iroha_node_1
+	docker logs -f iroha-node-1
 
 logs4:
 	cd example/node4; bash logs4.sh

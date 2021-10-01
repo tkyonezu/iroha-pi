@@ -9,6 +9,7 @@ version: '3'
 services:
   node:
     image: ${IROHA_PRJ}/${IROHA_IMG}
+    container_name: iroha-node-1
     ports:
       - "50051:50051"
     environment:
@@ -22,6 +23,7 @@ services:
 
   postgres:
     image: postgres:13-alpine
+    container_name: iroha-postgres-1
     environment:
       - POSTGRES_USER=iroha
       - POSTGRES_PASSWORD=HelloW0rld

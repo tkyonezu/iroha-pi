@@ -9,7 +9,7 @@ version: '3'
 services:
   node:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    container_name: iroha_node_1
+    container_name: iroha-node-1
     restart: always
     ports:
       - "50051:50051"
@@ -26,8 +26,8 @@ services:
       - postgres
 
   postgres:
-    image: postgres:13.2-alpine
-    container_name: iroha_postgres_1
+    image: postgres:13-alpine
+    container_name: iroha-postgres-1
     restart: always
     environment:
       - POSTGRES_USER=iroha

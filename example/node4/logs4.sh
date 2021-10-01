@@ -7,7 +7,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-IROHA_NODE="iroha_node_"
+IROHA_NODE="iroha-node-"
 TTY="/dev/pts/"
 
 if [ "$(uname -s)" = "Darwin" ]; then
