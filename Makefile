@@ -87,6 +87,9 @@ endif
 ifeq ($(UKERNEL),Darwin)
   DOCKERFILE := Dockerfile
   COMPOSE_TEST := docker-compose-test.yml
+  ifeq ($(UMACHINE),arm64)
+    DOCKERFILE := Dockerfile.arm64
+  endif
 endif
 
 ifeq ($(DOCKERFILE), )
