@@ -17,11 +17,12 @@ ENV HOME=/root
 ENV GO_VERSION=1.15.15
 ENV GO_OS=linux
 ENV GO_ARCH=arm64
+ENV GO_RELEASE=go${GO_VERSION}.${GO_OS}-${GO_ARCH}
 
 ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
 ENV GOPATH=${HOME}/go
 
-RUN curl -fsSL https://golang.org/dl/go${GO_VERSION}.${GO_OS}-${GO_ARCH}.tar.gz | tar -C /usr/local -xzf - \
+RUN curl -fsSL https://golang.org/dl/${GO_RELEASE}.tar.gz | tar -C /usr/local -xzf - \
  && (cd ${HOME}; mkdir -p go/src; cd go/src; \
       go get -u google.golang.org/protobuf/cmd/protoc-gen-go; \
       go install google.golang.org/protobuf/cmd/protoc-gen-go)
