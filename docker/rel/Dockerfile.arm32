@@ -7,18 +7,12 @@
 FROM ubuntu:20.04 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV IROHA_VERSION=1.3.0-rc.1
-
-ENV HOME=/root
-
-ENV BUILD_HOME=/iroha
-ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
-ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
-
 RUN apt update && apt upgrade -y \
  && apt install -y --no-install-recommends \
       file build-essential ninja-build git ca-certificates tar curl unzip \
-      pkg-config zip
+      pkg-config zip rsync
+
+ENV HOME=/root
 
 ENV GO_VERSION=1.15.15
 ENV GO_OS=linux
@@ -41,17 +35,28 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
  && git clone https://github.com/sagiegurari/cargo-make.git ${HOME} \
  && cd ${HOME}/cargo-make; cargo install --force cargo-make
 
-ENV VCPKG_DISABLE_METRICS=1
-ENV VCPKG_FORCE_SYSTEM_BINARIES=1
-
 # cmake 3.17 or higher is required to build libpq
 ENV CMAKE_VERSION=3.21.3
+ENV CMAKE_OS=linux
+ENV CMAKE_ARCH=aarch64
+ENV CMAKE_RELEASE=cmake-${CMAKE_VERSION}-${CMAKE_OS}-${CMAKE_ARCH}
 
-RUN git clone https://github.com/Kitware/CMake.git -b v${CMAKE_VERSION} /tmp/cmake \
- && (cd /tmp/cmake; /tmp/cmake/bootstrap --system-curl --parallel=$(nproc) --enable-ccache) \
- && make -j$(nproc) -C /tmp/cmake \
- && make -C /tmp/cmake install \
- && rm -fr /tmp/cmake
+RUN curl -fsSL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_RELEASE}.tar.gz -o /tmp/${CMAKE_RELEASE}.tar.gz \
+ && (cd /tmp; \
+     tar zxf ${CMAKE_RELEASE}.tar.gz; \
+     cd ${CMAKE_RELEASE}; \
+     rsync -a . /usr/local; \
+     cd ..; \
+     rm -fr ${CMAKE_RELEASE}.tar.gz ${CMAKE_RELEASE})
+
+ENV IROHA_VERSION=1.3.0-rc.1
+
+ENV BUILD_HOME=/iroha
+ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
+ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
+
+ENV VCPKG_DISABLE_METRICS=1
+ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 
 RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
  && sed -i 's/^ *arm\*/&|aarch64/' ${IROHA_VCPKG}/build_iroha_deps.sh \
