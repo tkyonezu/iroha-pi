@@ -7,23 +7,16 @@
 FROM ubuntu:20.04 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV IROHA_VERSION=1.2.1
-ENV VCPKG_VERSION=2020.11-1
-
-ENV GO_VERSION=1.15.15
-ENV GO_OS=linux
-ENV GO_ARCH=armv6l
-
-ENV HOME=/root
-
-ENV BUILD_HOME=/iroha
-ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
-ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
-
 RUN apt update && apt upgrade -y \
  && apt install -y --no-install-recommends \
       file build-essential ninja-build git ca-certificates tar curl unzip \
       cmake pkg-config zip
+
+ENV HOME=/root
+
+ENV GO_VERSION=1.15.15
+ENV GO_OS=linux
+ENV GO_ARCH=armv6l
 
 ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
 ENV GOPATH=${HOME}/go
@@ -41,17 +34,20 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
  && git clone https://github.com/sagiegurari/cargo-make.git ${HOME} \
  && cd ${HOME}/cargo-make; cargo install --force cargo-make
 
+ENV IROHA_VERSION=1.2.1
+ENV VCPKG_VERSION=2020.11-1
+
+ENV BUILD_HOME=/iroha
+ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
+ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
+
 RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION}
 
-COPY 0000-tbb-arm.patch ${IROHA_VCPKG}/patches
+RUN git clone https://github.com/microsoft/vcpkg.git -b ${VCPKG_VERSION} ${VCPKG_PATH} \
+ && (cd ${VCPKG_PATH}; cat ${IROHA_VCPKG}/patches/0001*.patch | patch -p1) \
+ && sed -i '/^Supports:/s/|arm|arm64//' ${VCPKG_PATH}/ports/tbb/CONTROL \
+ && sed -i '/^vcpkg_fail_port_install/d' ${VCPKG_PATH}/ports/tbb/portfile.cmake
 
-## COPY build_iroha_deps.sh ${IROHA_VCPKG}
-## RUN chmod +x ${IROHA_VCPKG}/build_iroha_deps.sh \
-##  && ${IROHA_VCPKG}/build_iroha_deps.sh ${VCPKG_PATH}
-
-RUN git clone https://github.com/microsoft/vcpkg.git -b ${VCPKG_VERSION} ${VCPKG_PATH}
-RUN (cd ${VCPKG_PATH}; for i in ${IROHA_VCPKG}/patches/0001*.patch; do patch -p1 <$i; done; \
-      patch -p1 <${IROHA_VCPKG}/patches/0000-tbb-arm.patch)
 RUN ${VCPKG_PATH}/bootstrap-vcpkg.sh -disableMetrics -useSystemBinaries
 
 ENV VCPKG_DISABLE_METRICS=1

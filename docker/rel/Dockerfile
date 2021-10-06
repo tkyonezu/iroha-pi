@@ -7,22 +7,16 @@
 FROM ubuntu:20.04 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV IROHA_VERSION=1.2.1
-
-ENV GO_VERSION=1.15.15
-ENV GO_OS=linux
-ENV GO_ARCH=amd64
-
-ENV HOME=/root
-
-ENV BUILD_HOME=/iroha
-ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
-ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
-
 RUN apt update && apt upgrade -y \
  && apt install -y --no-install-recommends \
       file build-essential ninja-build git ca-certificates tar curl unzip \
       cmake pkg-config zip
+
+ENV HOME=/root
+
+ENV GO_VERSION=1.15.15
+ENV GO_OS=linux
+ENV GO_ARCH=amd64
 
 ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
 ENV GOPATH=${HOME}/go
@@ -39,6 +33,12 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
  && cargo install cargo-edit \
  && git clone https://github.com/sagiegurari/cargo-make.git ${HOME} \
  && cd ${HOME}/cargo-make; cargo install --force cargo-make
+
+ENV IROHA_VERSION=1.2.1
+
+ENV BUILD_HOME=/iroha
+ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
+ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
 
 RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
  && ${IROHA_VCPKG}/build_iroha_deps.sh ${VCPKG_PATH} \
