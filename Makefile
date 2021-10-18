@@ -140,7 +140,15 @@ docker: iroha-rel iroha
 
 up: iroha-up
 
+upp: iroha-up-postgres
+
+upb: iroha-up-blockstore
+
 down: iroha-down
+
+downp: iroha-down-postgres
+
+downb: iroha-down-blockstore
 
 ifeq ($(UMACHINE),x86_64)
 testup: iroha-testup
@@ -173,8 +181,20 @@ iroha:
 iroha-up:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 
+iroha-up-postgres:
+	docker compose -f docker-compose-postgres.yml up -d
+
+iroha-up-blockstore:
+	docker compose -f docker-compose-blockstore.yml up -d
+
 iroha-down:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
+
+iroha-down-postgres:
+	docker compose -f docker-compose-postgres.yml down -v
+
+iroha-down-blockstore:
+	docker compose -f docker-compose-blockstore.yml down -v
 
 up4:
 ifeq ($(UMACHINE),armv7l)
@@ -183,8 +203,20 @@ else
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 endif
 
+up4p:
+	cd example/node4; docker compose -f docker-compose-postgres.yml up -d
+
+up4b:
+	cd example/node4; docker compose -f docker-compose-blockstore.yml up -d
+
 down4:
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
+
+down4p:
+	cd example/node4; docker compose -f docker-compose-postgres.yml down -v
+
+down4b:
+	cd example/node4; docker compose -f docker-compose-blockstore.yml down -v
 
 ifeq ($(UMACHINE),x86_64)
 iroha-testup:
