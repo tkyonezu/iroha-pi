@@ -204,6 +204,9 @@ else
 endif
 
 up4p:
+ifeq ($(UMACHINE),arm64)
+	cd example/node4; mkdir -p iroha1; mkdir -p iroha2; mkdir -p iroha3; mkdir -p iroha4
+endif
 	cd example/node4; docker compose -f docker-compose-postgres.yml up -d
 
 up4b:
