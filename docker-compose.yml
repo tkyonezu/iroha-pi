@@ -19,7 +19,6 @@ services:
       - ${PWD}/example:/opt/iroha/config
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint.sh
 
 volumes:
   ccache-data:

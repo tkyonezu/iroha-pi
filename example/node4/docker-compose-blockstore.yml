@@ -23,7 +23,6 @@ services:
       - ${PWD}/iroha1/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint-postgres.sh
     depends_on:
       - postgres1
 
@@ -40,7 +39,6 @@ services:
       - ${PWD}/iroha2/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint-postgres.sh
     depends_on:
       - postgres2
 
@@ -57,7 +55,6 @@ services:
       - ${PWD}/iroha3/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint-postgres.sh
     depends_on:
       - postgres3
 
@@ -74,7 +71,6 @@ services:
       - ${PWD}/iroha4/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint-postgres.sh
     depends_on:
       - postgres4
 

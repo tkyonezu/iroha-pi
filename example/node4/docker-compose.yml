@@ -23,7 +23,6 @@ services:
       - ${PWD}/iroha1/wsv:/tmp/wsv
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint.sh
 
   node2:
     image: ${IROHA_PRJ}/${IROHA_IMG}
@@ -38,7 +37,6 @@ services:
       - ${PWD}/iroha2/wsv:/tmp/wsv
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint.sh
 
   node3:
     image: ${IROHA_PRJ}/${IROHA_IMG}
@@ -53,7 +51,6 @@ services:
       - ${PWD}/iroha3/wsv:/tmp/wsv
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint.sh
 
   node4:
     image: ${IROHA_PRJ}/${IROHA_IMG}
@@ -68,7 +65,6 @@ services:
       - ${PWD}/iroha4/wsv:/tmp/wsv
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint.sh
 
 volumes:
   ccache-data:

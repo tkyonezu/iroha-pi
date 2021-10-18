@@ -19,7 +19,6 @@ services:
       - ${PWD}/example:/opt/iroha/config
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
-    entrypoint: /opt/iroha/config/entrypoint-postgres.sh
     depends_on:
       - postgres
 
