@@ -183,8 +183,14 @@ else
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 endif
 
+up4b:
+	cd example/node4; docker compose -f docker-compose-blockstore.yml up -d
+
 down4:
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
+
+down4b:
+	cd example/node4; docker compose -f docker-compose-blockstore.yml down -v
 
 ifeq ($(UMACHINE),x86_64)
 iroha-testup:

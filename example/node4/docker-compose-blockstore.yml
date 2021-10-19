@@ -15,12 +15,13 @@ services:
     ports:
       - "50051:50051"
     environment:
-      - IROHA_CONF=iroha1.conf
+      - IROHA_CONF=iroha-blockstore-1.conf
       - IROHA_NODEKEY=node1
       - IROHA_DROP_STATE=${IROHA_DROP_STATE}
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
+      - ${PWD}/iroha1/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
     entrypoint: /opt/iroha/config/entrypoint.sh
@@ -32,12 +33,13 @@ services:
     container_name: iroha-node-2
     restart: always
     environment:
-      - IROHA_CONF=iroha2.conf
+      - IROHA_CONF=iroha-blockstore-2.conf
       - IROHA_NODEKEY=node2
       - IROHA_DROP_STATE=${IROHA_DROP_STATE}
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
+      - ${PWD}/iroha2/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
     entrypoint: /opt/iroha/config/entrypoint.sh
@@ -49,12 +51,13 @@ services:
     container_name: iroha-node-3
     restart: always
     environment:
-      - IROHA_CONF=iroha3.conf
+      - IROHA_CONF=iroha-blockstore-3.conf
       - IROHA_NODEKEY=node3
       - IROHA_DROP_STATE=${IROHA_DROP_STATE}
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
+      - ${PWD}/iroha3/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
     entrypoint: /opt/iroha/config/entrypoint.sh
@@ -66,12 +69,13 @@ services:
     container_name: iroha-node-4
     restart: always
     environment:
-      - IROHA_CONF=iroha4.conf
+      - IROHA_CONF=iroha-blockstore-4.conf
       - IROHA_NODEKEY=node4
       - IROHA_DROP_STATE=${IROHA_DROP_STATE}
       - CCACHE_DIR=/tmp/ccache
     volumes:
       - ${PWD}:/opt/iroha/config
+      - ${PWD}/iroha4/block_store:/tmp/block_store
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
     entrypoint: /opt/iroha/config/entrypoint.sh
