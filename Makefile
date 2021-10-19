@@ -172,6 +172,7 @@ iroha-rel:
 iroha:
 	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) -f ${DOCKERFILE} .
 	@scripts/build-no.sh
+
 ## 	mkdir -p docker/rel/iroha
 ## 	rsync -av ${BUILD_HOME}/build/bin docker/rel/iroha
 ## 	strip docker/rel/iroha/bin/*
@@ -204,8 +205,9 @@ else
 endif
 
 up4p:
-ifeq ($(UMACHINE),arm64)
-	cd example/node4; mkdir -p iroha1; mkdir -p iroha2; mkdir -p iroha3; mkdir -p iroha4
+# For Mac OS, need to create a directory for PostgreSQL first.
+ifeq ($(UKERNEL),Darwin)
+	@cd example/node4; mkdir -p iroha1; mkdir -p iroha2; mkdir -p iroha3; mkdir -p iroha4
 endif
 	cd example/node4; docker compose -f docker-compose-postgres.yml up -d
 
