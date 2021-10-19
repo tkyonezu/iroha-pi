@@ -13,7 +13,7 @@ services:
     ports:
       - "50051:50051"
     environment:
-      - IROHA_CONF=iroha.conf
+      - IROHA_CONF=iroha-blockstore.conf
       - IROHA_DROP_STATE=${IROHA_DROP_STATE}
       - CCACHE_DIR=/tmp/ccache
     volumes:

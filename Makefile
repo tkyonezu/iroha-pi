@@ -173,8 +173,14 @@ iroha:
 iroha-up:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 
+upb:
+	docker compose -f docker-compose-blockstore.yml up -d
+
 iroha-down:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
+
+downb:
+	docker compose -f docker-compose-blockstore.yml down -v
 
 up4:
 ifeq ($(UMACHINE),armv7l)
