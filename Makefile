@@ -211,6 +211,13 @@ ifeq ($(UKERNEL),Darwin)
 endif
 	cd example/node4; docker compose -f docker-compose-postgres.yml up -d
 
+up4pb:
+# For Mac OS, need to create a directory for PostgreSQL first.
+ifeq ($(UKERNEL),Darwin)
+	@cd example/node4; mkdir -p iroha1; mkdir -p iroha2; mkdir -p iroha3; mkdir -p iroha4
+endif
+	cd example/node4; docker compose -f docker-compose-postgres-burrow.yml up -d
+
 up4b:
 	cd example/node4; docker compose -f docker-compose-blockstore.yml up -d
 
@@ -219,6 +226,9 @@ down4:
 
 down4p:
 	cd example/node4; docker compose -f docker-compose-postgres.yml down -v
+
+down4pb:
+	cd example/node4; docker compose -f docker-compose-postgres-burrow.yml down -v
 
 down4b:
 	cd example/node4; docker compose -f docker-compose-blockstore.yml down -v
