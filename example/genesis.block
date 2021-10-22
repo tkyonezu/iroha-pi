@@ -33,7 +33,7 @@
                                 "can_get_roles",
                                 "can_read_assets",
                                 "can_remove_signatory",
-                                "can_set_quorum"
+                                "can_set_quorum",
                                 "can_call_engine",
                                 "can_get_all_engine_receipts"
                              ]
