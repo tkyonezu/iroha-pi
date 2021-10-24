@@ -50,7 +50,8 @@ WORKDIR ${BUILD_HOME}/build
 RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
       -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
       -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
- && cmake --build . -- -j$(nproc)
+ && cmake --build . -- -j$(nproc) \
+ && strip ${BUILD_HOME}/build/iroha ${BUILD_HOME}/build/iroha-cli ${BUILD_HOME}/irohad/migration-tool/migration-tool
 
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
@@ -77,7 +78,7 @@ RUN apt update && apt upgrade -y \
 
 COPY --from=builder ${BUILD_HOME}/build/bin/irohad /usr/bin/irohad
 COPY --from=builder ${BUILD_HOME}/build/bin/iroha-cli /usr/bin/iroha-cli
-COPY --from=builder ${BUILD_HOME}/build/irohad/migration-tool /usr/bin/iroha-migration-tool
+COPY --from=builder ${BUILD_HOME}/build/irohad/migration-tool/migration-tool /usr/bin/iroha-migration-tool
 COPY --from=builder ${BUILD_HOME}/docker/release/wait-for-it.sh /
 COPY entrypoint.sh /
 
