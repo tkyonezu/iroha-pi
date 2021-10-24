@@ -64,7 +64,7 @@ RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
       -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
       -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
  && cmake --build . -- -j$(nproc) \
- && strip ${BUILD_HOME}/build/iroha ${BUILD_HOME}/build/iroha-cli ${BUILD_HOME}/irohad/migration-tool/migration-tool
+ && strip ${BUILD_HOME}/build/bin/irohad ${BUILD_HOME}/build/bin/iroha-cli ${BUILD_HOME}/build/irohad/migration-tool/migration-tool ${BUILD_HOME}/build/irohad/migration-tool/migration-tool
 
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
