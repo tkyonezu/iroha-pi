@@ -62,7 +62,8 @@ WORKDIR ${BUILD_HOME}/build
 RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
       -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
       -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
- && cmake --build . -- -j$(nproc)
+ && cmake --build . -- -j$(nproc) \
+ && (cd ${BUILD_HOME}/build/bin; strip irohad iroha-cli)
 
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
