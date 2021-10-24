@@ -77,6 +77,7 @@ RUN apt update && apt upgrade -y \
 
 COPY --from=builder ${BUILD_HOME}/build/bin/irohad /usr/bin/irohad
 COPY --from=builder ${BUILD_HOME}/build/bin/iroha-cli /usr/bin/iroha-cli
+COPY --from=builder ${BUILD_HOME}/build/irohad/migration-tool /usr/bin/iroha-migration-tool
 COPY --from=builder ${BUILD_HOME}/docker/release/wait-for-it.sh /
 COPY entrypoint.sh /
 
