@@ -15,4 +15,10 @@ docker run -it --rm --name iroha-node-1 \
   hyperledger/iroha-pi \
     --pg_opt "dbname=iroha_default host=iroha-postgres-1 port=5432 user=iroha password=HelloW0rld" --rocksdb_path /tmp/wsv
 
+echo
+
+docker stop iroha-postgres-1 >/dev/null
+
+docker network rm iroha_default >/dev/null
+
 exit 0
