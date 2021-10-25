@@ -12,6 +12,7 @@ docker run -it --rm --name iroha-node-1 \
   --network iroha_default \
   --entrypoint iroha-wsv-checker \
   -v $(pwd)/example/node4/iroha1/wsv:/tmp/wsv \
+  -v $(pwd)/example/node4/iroha1:/opt/iroha/config \
   hyperledger/iroha-pi \
     --pg_opt "dbname=iroha_default host=iroha-postgres-1 port=5432 user=iroha password=HelloW0rld" --rocksdb_path /tmp/wsv
 
