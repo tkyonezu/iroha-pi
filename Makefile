@@ -227,6 +227,9 @@ down4:
 down4p:
 	cd example/node4; docker compose -f docker-compose-postgres.yml down -v
 
+down4pb:
+	cd example/node4; docker compose -f docker-compose-postgres-blockstore.yml down -v
+
 down4b:
 	cd example/node4; docker compose -f docker-compose-blockstore.yml down -v
 
