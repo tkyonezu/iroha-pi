@@ -69,7 +69,7 @@ RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
       -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
       -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
  && cmake --build . -- -j$(nproc) \
- && (cd ${BUILD_HOME}/build/bin; strip iroha-cli irohad migration-tool wsv_checker)
+ && (cd ${BUILD_HOME}/build/bin; strip iroha-cli irohad iroha_migrate iroha_wsv_diff)
 
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
@@ -96,8 +96,8 @@ RUN apt update && apt upgrade -y \
 
 COPY --from=builder ${BUILD_HOME}/build/bin/irohad /usr/bin/irohad
 COPY --from=builder ${BUILD_HOME}/build/bin/iroha-cli /usr/bin/iroha-cli
-COPY --from=builder ${BUILD_HOME}/build/bin/migration-tool /usr/bin/iroha-migration-tool
-COPY --from=builder ${BUILD_HOME}/build/bin/wsv_checker /usr/bin/iroha-wsv-checker
+COPY --from=builder ${BUILD_HOME}/build/bin/iroha_migrate /usr/bin/iroha-migrate
+COPY --from=builder ${BUILD_HOME}/build/bin/iroha_wsv_diff /usr/bin/iroha-wsv-diff
 COPY --from=builder ${BUILD_HOME}/docker/release/wait-for-it.sh /
 COPY entrypoint.sh /
 
