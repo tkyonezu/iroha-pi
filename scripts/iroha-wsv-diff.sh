@@ -10,7 +10,7 @@ docker run -d --rm --name iroha-postgres-1 \
 
 docker run -it --rm --name iroha-node-1 \
   --network iroha_default \
-  --entrypoint iroha-wsv-diff \
+  --entrypoint iroha_wsv_diff \
   -v $(pwd)/example/node4/iroha1/wsv:/tmp/wsv \
   -v $(pwd)/example/node4/iroha1:/opt/iroha/config \
   hyperledger/iroha-pi \

@@ -74,16 +74,6 @@ RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
 
-ARG GITLOG="${GITLOG}"
-ARG BUILD_DATE="${BUILD_DATE}"
-ARG BUILD_NO="${BUILD_NO}"
-ARG BUILD_HOST="${BUILD_HOST}"
-
-LABEL GITLOG="${GITLOG}"
-LABEL BUILD_DATE="${BUILD_DATE}"
-LABEL BUILD_NO="${BUILD_NO}"
-LABEL BUILD_HOST="${BUILD_HOST}"
-
 ENV BUILD_HOME=/iroha
 ENV IROHA_HOME=/opt/iroha
 
@@ -96,8 +86,8 @@ RUN apt update && apt upgrade -y \
 
 COPY --from=builder ${BUILD_HOME}/build/bin/irohad /usr/bin/irohad
 COPY --from=builder ${BUILD_HOME}/build/bin/iroha-cli /usr/bin/iroha-cli
-COPY --from=builder ${BUILD_HOME}/build/bin/iroha_migrate /usr/bin/iroha-migrate
-COPY --from=builder ${BUILD_HOME}/build/bin/iroha_wsv_diff /usr/bin/iroha-wsv-diff
+COPY --from=builder ${BUILD_HOME}/build/bin/iroha_migrate /usr/bin/iroha_migrate
+COPY --from=builder ${BUILD_HOME}/build/bin/iroha_wsv_diff /usr/bin/iroha_wsv_diff
 COPY --from=builder ${BUILD_HOME}/docker/release/wait-for-it.sh /
 COPY entrypoint.sh /
 
