@@ -12,6 +12,8 @@ services:
     container_name: iroha-node-1
     ports:
       - "50051:50051"
+      - "7001:7001"
+      - "50508:50508"
     environment:
       - IROHA_CONF=iroha-blockstore.conf
       - CCACHE_DIR=/tmp/ccache
