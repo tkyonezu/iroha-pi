@@ -14,6 +14,7 @@ services:
     ports:
       - "50051:50051"
       - "10001:10001"
+      - "7001:7001"
     environment:
       - IROHA_NODEKEY=node1
       - CCACHE_DIR=/tmp/ccache

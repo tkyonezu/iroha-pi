@@ -11,6 +11,7 @@ services:
     image: ${IROHA_PRJ}/${IROHA_IMG}
     ports:
       - "50051:50051"
+      - "7001:7001"
     environment:
       - CCACHE_DIR=/tmp/ccache
     volumes:

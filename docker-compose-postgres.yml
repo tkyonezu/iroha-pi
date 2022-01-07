@@ -12,6 +12,7 @@ services:
     container_name: iroha-node-1
     ports:
       - "50051:50051"
+      - "7001:7001"
     environment:
       - IROHA_CONF=iroha-postgres.conf
       - CCACHE_DIR=/tmp/ccache

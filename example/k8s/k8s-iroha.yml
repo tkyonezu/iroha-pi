@@ -8,6 +8,7 @@ spec:
   clusterIP: None
   ports:
   - port: 50051
+  - port: 7001
   selector:
     app: iroha
 ---

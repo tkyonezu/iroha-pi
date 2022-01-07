@@ -14,6 +14,7 @@ services:
     restart: always
     ports:
       - "50052:50051"
+      - "7002:7001"
     environment:
       - IROHA_NODEKEY=node1
       - CCACHE_DIR=/tmp/ccache
