@@ -7,20 +7,26 @@
 FROM ubuntu:20.04 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
+ENV IROHA_VERSION=v1.2.1-patch-2
+
+ENV HOME=/root
+
+ENV BUILD_HOME=/iroha
+ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
+ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
+
 RUN apt update && apt upgrade -y \
  && apt install -y --no-install-recommends \
       file build-essential ninja-build git ca-certificates tar curl unzip \
-      cmake pkg-config zip
-
-ENV HOME=/root
+      pkg-config zip rsync
 
 ENV GO_VERSION=1.15.15
 ENV GO_OS=linux
 ENV GO_ARCH=amd64
 ENV GO_RELEASE=go${GO_VERSION}.${GO_OS}-${GO_ARCH}
 
-ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
 ENV GOPATH=${HOME}/go
+ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
 
 RUN curl -fsSL https://golang.org/dl/${GO_RELEASE}.tar.gz | tar -C /usr/local -xzf - \
  && (cd ${HOME}; mkdir -p go/src; cd go/src; \
@@ -35,13 +41,29 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
  && git clone https://github.com/sagiegurari/cargo-make.git ${HOME} \
  && cd ${HOME}/cargo-make; cargo install --force cargo-make
 
-ENV IROHA_VERSION=1.2.1
+ENV VCPKG_DISABLE_METRICS=1
+ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 
-ENV BUILD_HOME=/iroha
-ENV IROHA_VCPKG=${BUILD_HOME}/vcpkg
-ENV VCPKG_PATH=${BUILD_HOME}/vcpkg-build
+# cmake 3.17 or higher is required to build libpq
+ENV CMAKE_VERSION=3.22.1
+ENV CMAKE_OS=linux
+ENV CMAKE_ARCH=x86_64
+ENV CMAKE_RELEASE=cmake-${CMAKE_VERSION}-${CMAKE_OS}-${CMAKE_ARCH}
 
-RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
+RUN curl -fsSL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSION}/${CMAKE_RELEASE}.tar.gz -o /tmp/${CMAKE_RELEASE}.tar.gz \
+ && (cd /tmp; \
+     tar zxf ${CMAKE_RELEASE}.tar.gz; \
+     cd ${CMAKE_RELEASE}; \
+     rsync -a . /usr/local; \
+     cd ..; \
+     rm -fr ${CMAKE_RELEASE}.tar.gz ${CMAKE_RELEASE})
+
+RUN git clone https://github.com/hyperledger/iroha.git -b 1.4.0-rc.1 \
+ && cd iroha; rsync -av vcpkg /var/tmp; cd ..; rm -fr iroha \
+ && git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
+ && cd iroha; rm -fr vcpkg; rsync -av /var/tmp/vcpkg . \
+ && sed -i '/gtest/itbb' ${IROHA_VCPKG}/VCPKG_DEPS_LIST \
+ && sed -i 's/^ *arm\*/&|aarch64/' ${IROHA_VCPKG}/build_iroha_deps.sh \
  && ${IROHA_VCPKG}/build_iroha_deps.sh ${VCPKG_PATH} \
  && ${VCPKG_PATH}/vcpkg integrate install
 
@@ -51,20 +73,10 @@ RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
       -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
       -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
  && cmake --build . -- -j$(nproc) \
- && (cd ${BUILD_HOME}/build/bin; strip irohad iroha-cli)
+ && (cd ${BUILD_HOME}/build/bin; strip iroha-cli irohad)
 
 FROM ubuntu:20.04
 ARG DEBIAN_FRONTEND=noninteractive
-
-ARG GITLOG="${GITLOG}"
-ARG BUILD_DATE="${BUILD_DATE}"
-ARG BUILD_NO="${BUILD_NO}"
-ARG BUILD_HOST="${BUILD_HOST}"
-
-LABEL GITLOG="${GITLOG}"
-LABEL BUILD_DATE="${BUILD_DATE}"
-LABEL BUILD_NO="${BUILD_NO}"
-LABEL BUILD_HOST="${BUILD_HOST}"
 
 ENV BUILD_HOME=/iroha
 ENV IROHA_HOME=/opt/iroha
