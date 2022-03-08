@@ -7,7 +7,7 @@
 FROM ubuntu:20.04 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV IROHA_VERSION=v1.2.1-patch-4
+ENV IROHA_VERSION=v1.2.1-patch-6
 
 ENV HOME=/root
 
