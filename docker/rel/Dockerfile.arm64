@@ -58,7 +58,7 @@ RUN curl -fsSL https://github.com/Kitware/CMake/releases/download/v${CMAKE_VERSI
      cd ..; \
      rm -fr ${CMAKE_RELEASE}.tar.gz ${CMAKE_RELEASE})
 
-RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
+RUN git clone https://github.com/hyperledger/iroha.git --depth 1 -b ${IROHA_VERSION} \
  && sed -i 's/^ *arm\*/&|aarch64/' ${IROHA_VCPKG}/build_iroha_deps.sh \
  && ${IROHA_VCPKG}/build_iroha_deps.sh ${VCPKG_PATH} \
  && ${VCPKG_PATH}/vcpkg integrate install

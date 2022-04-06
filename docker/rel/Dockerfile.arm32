@@ -47,13 +47,13 @@ ENV VCPKG_FORCE_SYSTEM_BINARIES=1
 # cmake 3.17 or higher is required to build libpq
 ENV CMAKE_VERSION=3.21.3
 
-RUN git clone https://github.com/Kitware/CMake.git -b v${CMAKE_VERSION} /tmp/cmake \
+RUN git clone https://github.com/Kitware/CMake.git --depth 1 -b v${CMAKE_VERSION} /tmp/cmake \
  && (cd /tmp/cmake; /tmp/cmake/bootstrap --system-curl --parallel=$(nproc) --enable-ccache) \
  && make -j$(nproc) -C /tmp/cmake \
  && make -C /tmp/cmake install \
  && rm -fr /tmp/cmake
 
-RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
+RUN git clone https://github.com/hyperledger/iroha.git --depth 1 -b ${IROHA_VERSION} \
  && sed -i 's/^ *arm\*/&|aarch64/' ${IROHA_VCPKG}/build_iroha_deps.sh \
  && ${IROHA_VCPKG}/build_iroha_deps.sh ${VCPKG_PATH} \
  && ${VCPKG_PATH}/vcpkg integrate install

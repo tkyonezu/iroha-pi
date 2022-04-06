@@ -40,7 +40,7 @@ RUN curl https://sh.rustup.rs -sSf | sh -s -- -y \
  && git clone https://github.com/sagiegurari/cargo-make.git ${HOME} \
  && cd ${HOME}/cargo-make; cargo install --force cargo-make
 
-RUN git clone https://github.com/hyperledger/iroha.git -b ${IROHA_VERSION} \
+RUN git clone https://github.com/hyperledger/iroha.git --depth 1 -b ${IROHA_VERSION} \
  && sed -i 's/^ *arm\*/&|aarch64/' ${IROHA_VCPKG}/build_iroha_deps.sh \
  && ${IROHA_VCPKG}/build_iroha_deps.sh ${VCPKG_PATH} \
  && ${VCPKG_PATH}/vcpkg integrate install
