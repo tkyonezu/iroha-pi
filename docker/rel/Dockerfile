@@ -7,7 +7,7 @@
 FROM ubuntu:20.04 as builder
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV IROHA_VERSION=v1.4.0-patch-2
+ENV IROHA_VERSION=v1.4.0-patch-3
 
 ENV GO_VERSION=1.15.15
 ENV GO_OS=linux
