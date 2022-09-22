@@ -53,7 +53,7 @@ function rx {
   docker exec -i ${CONTAINER_NAME} iroha-cli \
     --account_name admin@test \
     --key_path /opt/iroha/config \
-    <<EOF | grep -E '(^\[20|^Congratulation|^Its)' | sed 's/^>.*: //'
+    <<EOF | grep -E '(^\[20|^Congratulation|^Its|stateful invalid)' | sed 's/^>.*: //'
 qry
 $2
 $3
