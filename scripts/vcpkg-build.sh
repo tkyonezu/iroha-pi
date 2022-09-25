@@ -126,8 +126,8 @@ cd ${BUILD_HOME}/build
 cmake -B. -S.. \
   -DCMAKE_BUILD_TYPE=Release \
   -DTESTING=OFF \
-  -DUSE_LIBURSA=ON \
-  -DUSE_BURROW=ON \
+  -DUSE_LIBURSA=OFF \
+  -DUSE_BURROW=OFF \
   -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake
 
 echo ">>> Build Iroha"

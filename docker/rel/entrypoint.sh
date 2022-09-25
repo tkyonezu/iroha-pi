@@ -1,40 +1,23 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -e
 
-# Copyright (c) 2017-2021 Takeshi Yonezu
-# All Rights Reserved.
-
-cd ${IROHA_HOME}/config
-
-IROHA_CONF=${IROHA_CONF:-iroha.conf}
-IROHA_NODEKEY=${IROHA_NODEKEY:-node1}
-IROHA_GENESIS=${IROHA_GENESIS:-genesis.block}
-
-DB_TYPE=$(cat ${IROHA_CONF} |grep "type" | sed -e 's/^.*://' -e "s/ *\"//" -e "s/\".*,//")
-
-if [ "${DB_TYPE}" = "postgres" ]; then
-  if grep -q pg_opt ${IROHA_CONF}; then
-    PG_HOST=$(cat ${IROHA_CONF} | grep pg_opt | sed -e 's/^.*host=//' -e 's/ .*//')
-    PG_PORT=$(cat ${IROHA_CONF} | grep pg_opt | sed -e 's/^.*port=//' -e 's/ .*//')
-  else
-    PG_HOST=$(cat ${IROHA_CONF} | grep host | sed -e 's/^.*host" *: *"//' -e 's/".*//')
-    PG_PORT=$(cat ${IROHA_CONF} | grep "[^_]port" | sed -e 's/^.*port" *: *//' -e 's/,.*//')
-  fi
-
-  WAIT_FOR_IT="/wait-for-it.sh"
-
-  ${WAIT_FOR_IT} -h ${PG_HOST} -p ${PG_PORT} -t 60 -- true
-
-  # if Raspberry Pi 3B or 3B+, Wait until PostgreSQL is stabilized
-  if [ "$(uname -m)" = "armv7l" ]; then
-    # Raspberry Pi 4B does'nt need sleep
-    if ! grep ^Model /proc/cpuinfo | grep -q "Raspberry Pi 4"; then
-      sleep 30
-    fi
-  fi
+# if first arg looks like a flag, assume we want to run irohad server
+if [ "${1:0:1}" = '-' ]; then
+  set -- irohad "$@"
 fi
 
-echo "$ irohad --config ${IROHA_CONF} --genesis_block ${IROHA_GENESIS} --keypair_name ${IROHA_NODEKEY}"
+if [ "$1" = 'irohad' ]; then
+  echo key=$KEY
+  echo $PWD
+  if [ -n "$IROHA_POSTGRES_HOST" ]; then
+    echo "NOTE: IROHA_POSTGRES_HOST should match 'host' option in config file"
+    PG_PORT=${IROHA_POSTGRES_PORT:-5432}
+    /wait-for-it.sh -h $IROHA_POSTGRES_HOST -p $PG_PORT -t 30 -- true
+  else
+    echo "WARNING: IROHA_POSTGRES_HOST is not defined.
+      Do not wait for Postgres to become ready. Iroha may fail to start up"
+  fi
+	exec "$@" --genesis_block genesis.block --config config.docker --keypair_name $KEY
+fi
 
-irohad --config ${IROHA_CONF} \
-  --genesis_block ${IROHA_GENESIS} \
-  --keypair_name ${IROHA_NODEKEY}
+exec "$@"

@@ -73,10 +73,12 @@ COPY --from=builder ${BUILD_HOME}/build/bin/iroha_wsv_diff /usr/bin/iroha_wsv_di
 COPY --from=builder ${BUILD_HOME}/docker/release/wait-for-it.sh /
 COPY entrypoint.sh /
 
-RUN chmod +x /wait-for-it.sh /entrypoint.sh \
- && mkdir -p ${IROHA_HOME}/config
+## RUN chmod +x /wait-for-it.sh /entrypoint.sh \
+##  && mkdir -p ${IROHA_HOME}/config
 
-WORKDIR ${IROHA_HOME}/config
+## WORKDIR ${IROHA_HOME}/config
+WORKDIR /opt/iroha_data
+RUN chmod +x /entrypoint.sh /wait-for-it.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["irohad"]

@@ -66,7 +66,6 @@ RUN git clone https://github.com/hyperledger/iroha.git --depth 1 -b ${IROHA_VERS
 WORKDIR ${BUILD_HOME}/build
 
 RUN cmake -B. -S.. -DCMAKE_BUILD_TYPE=Release -DTESTING=OFF \
-      -DUSE_LIBURSA=ON -DUSE_BURROW=ON \
       -DCMAKE_TOOLCHAIN_FILE=${VCPKG_PATH}/scripts/buildsystems/vcpkg.cmake \
  && cmake --build . -- -j$(nproc) \
  && (cd ${BUILD_HOME}/build/bin; strip iroha-cli irohad iroha_migrate iroha_wsv_diff)
@@ -91,10 +90,12 @@ COPY --from=builder ${BUILD_HOME}/build/bin/iroha_wsv_diff /usr/bin/iroha_wsv_di
 COPY --from=builder ${BUILD_HOME}/docker/release/wait-for-it.sh /
 COPY entrypoint.sh /
 
-RUN chmod +x /wait-for-it.sh /entrypoint.sh \
- && mkdir -p ${IROHA_HOME}/config
+## RUN chmod +x /wait-for-it.sh /entrypoint.sh \
+##  && mkdir -p ${IROHA_HOME}/config
 
-WORKDIR ${IROHA_HOME}/config
+## WORKDIR ${IROHA_HOME}/config
+WORKDIR /opt/iroha_data
+RUN chmod +x /entrypoint.sh /wait-for-it.sh
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["irohad"]
