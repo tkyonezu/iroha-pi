@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2021 Takeshi Yonezu
+# Copyright (c) 2017-2022 Takeshi Yonezu
 # All Rights Reserved.
 #
 # SPDX-License-Identifier: Apache-2.0
@@ -8,19 +8,11 @@ version: '3'
 
 services:
   node:
-    image: ${IROHA_PRJ}/${IROHA_IMG}
+    image: hyperledger/iroha:1.4.0-patch-3
     container_name: iroha-node-1
     ports:
       - "50051:50051"
-      - "7001:7001"
-      - "50508:50508"
-    environment:
-      - IROHA_CONF=iroha.conf
-      - CCACHE_DIR=/tmp/ccache
     volumes:
-      - ${PWD}/example:/opt/iroha/config
-      - ccache-data:/tmp/ccache
-    working_dir: /opt/iroha/config
-
-volumes:
-  ccache-data:
+      - ${PWD}/example:/opt/iroha_data
+    working_dir: /opt/iroha_data
+    entrypoint: irohad --config iroha.conf --genesis_block genesis.block --keypair_name node1
