@@ -1,0 +1,10 @@
+{
+  "definition_id": "can_transfer_user_assets",
+  "params": {
+    "asset_id": {
+      "Id": {
+        "AssetId": "point##bob@iroha"
+      }
+    }
+  }
+}

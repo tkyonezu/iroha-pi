@@ -7,7 +7,7 @@
 # - down          - stop and remove iroha container by docker-compose
 # - testup        - running iroha for test container by docker-compose
 # - test          - exec all test commands
-# - logs          - show logs of iroha-node-1 container
+# - logs          - show logs of iroha_node_1 container
 # - up4           - running iroha container by docker-compose 4 nodes
 # - down4         - stop and remove iroha container by docker-compose 4 ndoes
 # - logs4         - show logs of iroha-node[1-4] containers
@@ -48,14 +48,9 @@ COMPOSE_PROJECT_NAME := $(shell grep COMPOSE_PROJECT_NAME .env | cut -d'=' -f2)
 BUILD_DATE := $(shell echo "`env LC_ALL=C date`")
 BUILD_HOST := $(shell hostname)
 
-## Since I changed to Docker's multi-stage build method, Iroha clones and
-## builds inside the Docker container. Therefore, it is no longer necessary
-## to check the existence of the Iroha repository.
-## 2021/09/29 by Takeshi Yonezu
-##
-## ifeq ("$(wildcard $(BUILD_HOME))","")
-##   $(error $(BUILD_HOME) does'nt exist. Please clone it.)
-## endif
+ifeq ("$(wildcard $(BUILD_HOME))","")
+  $(error $(BUILD_HOME) does'nt exist. Please clone it.)
+endif
 
 ifeq ("$(wildcard .buildno)","")
   $(shell echo "1000" >.buildno)
@@ -73,26 +68,23 @@ URELEASE := $(shell uname -r)
 
 ifeq ($(UKERNEL),Linux)
   ifeq ($(UMACHINE),x86_64)
-    DOCKERFILE := Dockerfile
+    DOCKER := Dockerfile
     COMPOSE_TEST := docker-compose-test.yml
   endif
   ifeq ($(UMACHINE),armv7l)
-    DOCKERFILE := Dockerfile.arm32
+    DOCKER := Dockerfile
   endif
   ifeq ($(UMACHINE),aarch64)
-    DOCKERFILE := Dockerfile.arm64
+    DOCKER := Dockerfile
   endif
 endif
 
 ifeq ($(UKERNEL),Darwin)
-  DOCKERFILE := Dockerfile
+  DOCKER := Dockerfile
   COMPOSE_TEST := docker-compose-test.yml
-  ifeq ($(UMACHINE),arm64)
-    DOCKERFILE := Dockerfile.arm64
-  endif
 endif
 
-ifeq ($(DOCKERFILE), )
+ifeq ($(DOCKER), )
 $(error This platform "$(UKERNEL)/$(UMACHINE)" is not supported.)
 endif
 
@@ -115,7 +107,7 @@ else
   endif
 endif
 
-all: iroha
+all: build docker
 ## all: vcpkg-build iroha
 ## all: iroha-dev iroha-bld iroha-rel iroha
 
@@ -129,26 +121,35 @@ ifneq ($(UMACHINE),armv7l)
 	@echo "testup        - running iroha for test container by docker-compose"
 	@echo "test          - exec all test commands"
 endif
-	@echo "logs          - show logs of iroha-node-1 container"
+	@echo "logs          - show logs of iroha_node_1 container"
 	@echo "up4           - running iroha container by docker-compose 4 nodes"
 	@echo "down4         - stop and remove iroha container by docker-compose 4 ndoes"
 	@echo "logs4         - show logs of iroha-node[1-4] containers"
 	@echo "clean         - cleaning protobuf schemas and build directory"
 	@echo "version       - show labels in container"
 
-docker: iroha-rel iroha
+clean:
+	cd ../iroha; rm -fr target
 
-up: iroha-up
+pull:
+	cd ../iroha; git checkout iroha2-dev; git pull
 
-upp: iroha-up-postgres
+build:
+	cd ../iroha; git checkout iroha2-dev; cargo build
+	## cd ../iroha; git checkout iroha2-dev; cargo build --release
+	## cd ../iroha; git checkout v2.0.0-pre-rc.9; cargo build --release
 
-upb: iroha-up-blockstore
+docker:
+	(cd ../iroha/target/debug; rsync -a iroha iroha_client_cli kagami kura_inspector parity_scale_decoder ../../../iroha-pi/docker/debug; strip ../../../iroha-pi/docker/debug/*)
+	docker build -f docker/Dockerfile.iroha-pi --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t iroha2:dev .
 
-down: iroha-down
+## docker: iroha-rel iroha
 
-downp: iroha-down-postgres
+up:
+	docker compose -f docker-compose-single.yml up -d
 
-downb: iroha-down-blockstore
+down:
+	docker compose -f docker-compose-single.yml down
 
 ifeq ($(UMACHINE),x86_64)
 testup: iroha-testup
@@ -170,32 +171,17 @@ iroha-rel:
 	sudo rm -fr ${BUILD_HOME}/docker/iroha
 
 iroha:
-	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) -f ${DOCKERFILE} .
+	mkdir -p docker/rel/iroha
+	rsync -av ${BUILD_HOME}/build/bin docker/rel/iroha
+	strip docker/rel/iroha/bin/*
+	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) .
 	@scripts/build-no.sh
-
-## 	mkdir -p docker/rel/iroha
-## 	rsync -av ${BUILD_HOME}/build/bin docker/rel/iroha
-## 	strip docker/rel/iroha/bin/*
-## 	cd docker/rel; docker build --rm --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t $(IROHA_PRJ)/$(IROHA_IMG) .
-## 	@scripts/build-no.sh
 
 iroha-up:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 
-iroha-up-postgres:
-	docker compose -f docker-compose-postgres.yml up -d
-
-iroha-up-blockstore:
-	docker compose -f docker-compose-blockstore.yml up -d
-
 iroha-down:
 	docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
-
-iroha-down-postgres:
-	docker compose -f docker-compose-postgres.yml down -v
-
-iroha-down-blockstore:
-	docker compose -f docker-compose-blockstore.yml down -v
 
 up4:
 ifeq ($(UMACHINE),armv7l)
@@ -204,61 +190,30 @@ else
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 endif
 
-up4p:
-# For Mac OS, need to create a directory for PostgreSQL first.
-ifeq ($(UKERNEL),Darwin)
-	@cd example/node4; mkdir -p iroha1; mkdir -p iroha2; mkdir -p iroha3; mkdir -p iroha4
-endif
-	cd example/node4; docker compose -f docker-compose-postgres.yml up -d
-
-up4pb:
-# For Mac OS, need to create a directory for PostgreSQL first.
-ifeq ($(UKERNEL),Darwin)
-	@cd example/node4; mkdir -p iroha1; mkdir -p iroha2; mkdir -p iroha3; mkdir -p iroha4
-endif
-	cd example/node4; docker compose -f docker-compose-postgres-blockstore.yml up -d
-
-up4b:
-	cd example/node4; docker compose -f docker-compose-blockstore.yml up -d
-
 down4:
 	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
 
-down4p:
-	cd example/node4; docker compose -f docker-compose-postgres.yml down -v
-
-down4pb:
-	cd example/node4; docker compose -f docker-compose-postgres-blockstore.yml down -v
-
-down4b:
-	cd example/node4; docker compose -f docker-compose-blockstore.yml down -v
-
-ifeq ($(UMACHINE),x86_64)
-iroha-testup:
-	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE_TEST) up -d
-
 test:
-	cd scripts && bash iroha-test.sh
-endif
+	cd example/configs/client_cli; bash cli.sh
 
 logs:
-	docker logs -f iroha-node-1
+	docker compose -f docker-compose-single.yml logs -f
 
 logs4:
 	cd example/node4; bash logs4.sh
 
-clean:
-	-sudo rm -fr docker/rel/iroha
-ifneq ("$(wildcard $(BUILD_HOME)/scripts/numcore.sh)","")
-	-sudo rm $(BUILD_HOME)/scripts/iroha*.sh
-	-sudo rm $(BUILD_HOME)/scripts/build-no.sh
-	-sudo rm $(BUILD_HOME)/scripts/iroha-test.lst
-	-sudo rm $(BUILD_HOME)/scripts/numcore.sh
-endif
-	-sudo rm -fr $(BUILD_HOME)/external
-	-sudo rm -fr $(BUILD_HOME)/build
-	-sudo rm -fr $(BUILD_HOME)/cmake-build-debug
-	-sudo rm -fr ${BUILD_HOME}/vcpkg/vcpkg
+## clean:
+## 	-sudo rm -fr docker/rel/iroha
+## ifneq ("$(wildcard $(BUILD_HOME)/scripts/numcore.sh)","")
+## 	-sudo rm $(BUILD_HOME)/scripts/iroha*.sh
+## 	-sudo rm $(BUILD_HOME)/scripts/build-no.sh
+## 	-sudo rm $(BUILD_HOME)/scripts/iroha-test.lst
+## 	-sudo rm $(BUILD_HOME)/scripts/numcore.sh
+## endif
+## 	-sudo rm -fr $(BUILD_HOME)/external
+## 	-sudo rm -fr $(BUILD_HOME)/build
+## 	-sudo rm -fr $(BUILD_HOME)/cmake-build-debug
+## 	-sudo rm -fr ${BUILD_HOME}/vcpkg/vcpkg
 
 version:
 	docker inspect -f {{.Config.Labels}} $(IROHA_PRJ)/$(IROHA_IMG)

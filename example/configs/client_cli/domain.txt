@@ -1,0 +1,582 @@
+User: alice@wonderland
+[
+    Domain {
+        id: Id {
+            name: "iroha",
+        },
+        accounts: {
+            Id {
+                name: "alice",
+                domain_id: Id {
+                    name: "iroha",
+                },
+            }: Account {
+                id: Id {
+                    name: "alice",
+                    domain_id: Id {
+                        name: "iroha",
+                    },
+                },
+                assets: {
+                    Id {
+                        definition_id: DefinitionId {
+                            name: "point",
+                            domain_id: Id {
+                                name: "iroha",
+                            },
+                        },
+                        account_id: Id {
+                            name: "alice",
+                            domain_id: Id {
+                                name: "iroha",
+                            },
+                        },
+                    }: Asset {
+                        id: Id {
+                            definition_id: DefinitionId {
+                                name: "point",
+                                domain_id: Id {
+                                    name: "iroha",
+                                },
+                            },
+                            account_id: Id {
+                                name: "alice",
+                                domain_id: Id {
+                                    name: "iroha",
+                                },
+                            },
+                        },
+                        value: Quantity(
+                            5000,
+                        ),
+                    },
+                },
+                signatories: {
+                    { digest: ed25519, payload: 7233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0 },
+                },
+                signature_check_condition: SignatureCheckCondition(
+                    EvaluatesTo {
+                        expression: ContainsAny(
+                            ContainsAny {
+                                collection: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "transaction_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                                elements: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "account_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                            },
+                        ),
+                        _value_type: PhantomData,
+                    },
+                ),
+                metadata: Metadata {
+                    map: {},
+                },
+                roles: {},
+            },
+            Id {
+                name: "bob",
+                domain_id: Id {
+                    name: "iroha",
+                },
+            }: Account {
+                id: Id {
+                    name: "bob",
+                    domain_id: Id {
+                        name: "iroha",
+                    },
+                },
+                assets: {
+                    Id {
+                        definition_id: DefinitionId {
+                            name: "point",
+                            domain_id: Id {
+                                name: "iroha",
+                            },
+                        },
+                        account_id: Id {
+                            name: "bob",
+                            domain_id: Id {
+                                name: "iroha",
+                            },
+                        },
+                    }: Asset {
+                        id: Id {
+                            definition_id: DefinitionId {
+                                name: "point",
+                                domain_id: Id {
+                                    name: "iroha",
+                                },
+                            },
+                            account_id: Id {
+                                name: "bob",
+                                domain_id: Id {
+                                    name: "iroha",
+                                },
+                            },
+                        },
+                        value: Quantity(
+                            5000,
+                        ),
+                    },
+                },
+                signatories: {
+                    { digest: ed25519, payload: 7233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0 },
+                },
+                signature_check_condition: SignatureCheckCondition(
+                    EvaluatesTo {
+                        expression: ContainsAny(
+                            ContainsAny {
+                                collection: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "transaction_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                                elements: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "account_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                            },
+                        ),
+                        _value_type: PhantomData,
+                    },
+                ),
+                metadata: Metadata {
+                    map: {},
+                },
+                roles: {},
+            },
+        },
+        asset_definitions: {
+            DefinitionId {
+                name: "point",
+                domain_id: Id {
+                    name: "iroha",
+                },
+            }: AssetDefinitionEntry {
+                definition: AssetDefinition {
+                    id: DefinitionId {
+                        name: "point",
+                        domain_id: Id {
+                            name: "iroha",
+                        },
+                    },
+                    value_type: Quantity,
+                    mintable: Infinitely,
+                    metadata: Metadata {
+                        map: {},
+                    },
+                },
+                registered_by: Id {
+                    name: "alice",
+                    domain_id: Id {
+                        name: "wonderland",
+                    },
+                },
+            },
+        },
+        asset_total_quantities: {
+            DefinitionId {
+                name: "point",
+                domain_id: Id {
+                    name: "iroha",
+                },
+            }: U32(
+                10000,
+            ),
+        },
+        logo: None,
+        metadata: Metadata {
+            map: {},
+        },
+    },
+    Domain {
+        id: Id {
+            name: "genesis",
+        },
+        accounts: {
+            Id {
+                name: "genesis",
+                domain_id: Id {
+                    name: "genesis",
+                },
+            }: Account {
+                id: Id {
+                    name: "genesis",
+                    domain_id: Id {
+                        name: "genesis",
+                    },
+                },
+                assets: {},
+                signatories: {
+                    { digest: ed25519, payload: 3F4E3E98571B55514EDC5CCF7E53CA7509D89B2868E62921180A6F57C2F4E255 },
+                },
+                signature_check_condition: SignatureCheckCondition(
+                    EvaluatesTo {
+                        expression: ContainsAny(
+                            ContainsAny {
+                                collection: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "transaction_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                                elements: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "account_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                            },
+                        ),
+                        _value_type: PhantomData,
+                    },
+                ),
+                metadata: Metadata {
+                    map: {},
+                },
+                roles: {},
+            },
+        },
+        asset_definitions: {},
+        asset_total_quantities: {},
+        logo: None,
+        metadata: Metadata {
+            map: {},
+        },
+    },
+    Domain {
+        id: Id {
+            name: "garden_of_live_flowers",
+        },
+        accounts: {
+            Id {
+                name: "carpenter",
+                domain_id: Id {
+                    name: "garden_of_live_flowers",
+                },
+            }: Account {
+                id: Id {
+                    name: "carpenter",
+                    domain_id: Id {
+                        name: "garden_of_live_flowers",
+                    },
+                },
+                assets: {},
+                signatories: {
+                    { digest: ed25519, payload: 7233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0 },
+                },
+                signature_check_condition: SignatureCheckCondition(
+                    EvaluatesTo {
+                        expression: ContainsAny(
+                            ContainsAny {
+                                collection: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "transaction_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                                elements: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "account_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                            },
+                        ),
+                        _value_type: PhantomData,
+                    },
+                ),
+                metadata: Metadata {
+                    map: {},
+                },
+                roles: {},
+            },
+        },
+        asset_definitions: {
+            DefinitionId {
+                name: "cabbage",
+                domain_id: Id {
+                    name: "garden_of_live_flowers",
+                },
+            }: AssetDefinitionEntry {
+                definition: AssetDefinition {
+                    id: DefinitionId {
+                        name: "cabbage",
+                        domain_id: Id {
+                            name: "garden_of_live_flowers",
+                        },
+                    },
+                    value_type: Quantity,
+                    mintable: Infinitely,
+                    metadata: Metadata {
+                        map: {},
+                    },
+                },
+                registered_by: Id {
+                    name: "genesis",
+                    domain_id: Id {
+                        name: "genesis",
+                    },
+                },
+            },
+        },
+        asset_total_quantities: {
+            DefinitionId {
+                name: "cabbage",
+                domain_id: Id {
+                    name: "garden_of_live_flowers",
+                },
+            }: U32(
+                44,
+            ),
+        },
+        logo: None,
+        metadata: Metadata {
+            map: {},
+        },
+    },
+    Domain {
+        id: Id {
+            name: "wonderland",
+        },
+        accounts: {
+            Id {
+                name: "alice",
+                domain_id: Id {
+                    name: "wonderland",
+                },
+            }: Account {
+                id: Id {
+                    name: "alice",
+                    domain_id: Id {
+                        name: "wonderland",
+                    },
+                },
+                assets: {
+                    Id {
+                        definition_id: DefinitionId {
+                            name: "cabbage",
+                            domain_id: Id {
+                                name: "garden_of_live_flowers",
+                            },
+                        },
+                        account_id: Id {
+                            name: "alice",
+                            domain_id: Id {
+                                name: "wonderland",
+                            },
+                        },
+                    }: Asset {
+                        id: Id {
+                            definition_id: DefinitionId {
+                                name: "cabbage",
+                                domain_id: Id {
+                                    name: "garden_of_live_flowers",
+                                },
+                            },
+                            account_id: Id {
+                                name: "alice",
+                                domain_id: Id {
+                                    name: "wonderland",
+                                },
+                            },
+                        },
+                        value: Quantity(
+                            44,
+                        ),
+                    },
+                    Id {
+                        definition_id: DefinitionId {
+                            name: "rose",
+                            domain_id: Id {
+                                name: "wonderland",
+                            },
+                        },
+                        account_id: Id {
+                            name: "alice",
+                            domain_id: Id {
+                                name: "wonderland",
+                            },
+                        },
+                    }: Asset {
+                        id: Id {
+                            definition_id: DefinitionId {
+                                name: "rose",
+                                domain_id: Id {
+                                    name: "wonderland",
+                                },
+                            },
+                            account_id: Id {
+                                name: "alice",
+                                domain_id: Id {
+                                    name: "wonderland",
+                                },
+                            },
+                        },
+                        value: Quantity(
+                            13,
+                        ),
+                    },
+                },
+                signatories: {
+                    { digest: ed25519, payload: 7233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0 },
+                },
+                signature_check_condition: SignatureCheckCondition(
+                    EvaluatesTo {
+                        expression: ContainsAny(
+                            ContainsAny {
+                                collection: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "transaction_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                                elements: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "account_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                            },
+                        ),
+                        _value_type: PhantomData,
+                    },
+                ),
+                metadata: Metadata {
+                    map: {
+                        "key": String(
+                            "value",
+                        ),
+                    },
+                },
+                roles: {},
+            },
+            Id {
+                name: "bob",
+                domain_id: Id {
+                    name: "wonderland",
+                },
+            }: Account {
+                id: Id {
+                    name: "bob",
+                    domain_id: Id {
+                        name: "wonderland",
+                    },
+                },
+                assets: {},
+                signatories: {
+                    { digest: ed25519, payload: 7233BFC89DCBD68C19FDE6CE6158225298EC1131B6A130D1AEB454C1AB5183C0 },
+                },
+                signature_check_condition: SignatureCheckCondition(
+                    EvaluatesTo {
+                        expression: ContainsAny(
+                            ContainsAny {
+                                collection: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "transaction_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                                elements: EvaluatesTo {
+                                    expression: ContextValue(
+                                        ContextValue {
+                                            value_name: "account_signatories",
+                                        },
+                                    ),
+                                    _value_type: PhantomData,
+                                },
+                            },
+                        ),
+                        _value_type: PhantomData,
+                    },
+                ),
+                metadata: Metadata {
+                    map: {
+                        "key": String(
+                            "value",
+                        ),
+                    },
+                },
+                roles: {},
+            },
+        },
+        asset_definitions: {
+            DefinitionId {
+                name: "rose",
+                domain_id: Id {
+                    name: "wonderland",
+                },
+            }: AssetDefinitionEntry {
+                definition: AssetDefinition {
+                    id: DefinitionId {
+                        name: "rose",
+                        domain_id: Id {
+                            name: "wonderland",
+                        },
+                    },
+                    value_type: Quantity,
+                    mintable: Infinitely,
+                    metadata: Metadata {
+                        map: {},
+                    },
+                },
+                registered_by: Id {
+                    name: "genesis",
+                    domain_id: Id {
+                        name: "genesis",
+                    },
+                },
+            },
+        },
+        asset_total_quantities: {
+            DefinitionId {
+                name: "rose",
+                domain_id: Id {
+                    name: "wonderland",
+                },
+            }: U32(
+                13,
+            ),
+        },
+        logo: None,
+        metadata: Metadata {
+            map: {
+                "key": String(
+                    "value",
+                ),
+            },
+        },
+    },
+]
