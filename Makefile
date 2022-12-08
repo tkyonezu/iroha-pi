@@ -185,13 +185,13 @@ iroha-down:
 
 up4:
 ifeq ($(UMACHINE),armv7l)
-	cd example/node4; COMPOSE_HTTP_TIMEOUT=120 docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
+	COMPOSE_HTTP_TIMEOUT=120 docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 else
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
+	docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
 endif
 
 down4:
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
+	docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
 
 test:
 	cd example/configs/client_cli; bash cli.sh
