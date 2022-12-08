@@ -69,8 +69,8 @@
 #   role register --id "staff_that_does_stuff_in_genesis" --permission "allowed_to_do_stuff"
 #----------------------------------------------------------------------#
 
-## CLI="../../../docker/release/iroha_client_cli"
-CLI="../../../../iroha/target/release/iroha_client_cli"
+CLI="../../../docker/release/iroha_client_cli"
+## CLI="../../../../iroha/target/release/iroha_client_cli"
 
 function cli ()
 {
@@ -84,7 +84,7 @@ cli account register --id "bob@iroha" --key "ed01207233bfc89dcbd68c19fde6ce61582
 cli asset mint --account "alice@iroha" --asset "point#iroha" --quantity 5000
 cli asset mint --account "bob@iroha" --asset "point#iroha" --quantity 5000
 
-cli account grant --id "bob@iroha" --permission perms.json
-cli asset transfer --from bob@iroha --to alice@iroha --asset-id point#iroha --quantity 5
+## cli account grant --id "bob@iroha" --permission perms.json
+## cli asset transfer --from bob@iroha --to alice@iroha --asset-id point#iroha --quantity 5
 
 exit 0
