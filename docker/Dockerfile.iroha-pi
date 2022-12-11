@@ -1,12 +1,4 @@
-FROM alpine:3.16
-
-ARG STORAGE=/storage
-ARG TARGET_DIR=/iroha/target/x86_64-unknown-linux-musl/deploy
-ENV BIN_PATH=/usr/local/bin/
-ENV CONFIG_DIR=/config
-ENV IROHA2_CONFIG_PATH=$CONFIG_DIR/config.json
-ENV IROHA2_GENESIS_PATH=$CONFIG_DIR/genesis.json
-ENV KURA_BLOCK_STORE_PATH=$STORAGE
+FROM ubuntu:22.04
 
 ARG GITLOG="${GITLOG}"
 ARG BUILD_DATE="${BUILD_DATE}"
@@ -18,16 +10,13 @@ LABEL BUILD_DATE="${BUILD_DATE}"
 LABEL BUILD_NO="${BUILD_NO}"
 LABEL BUILD_HOST="${BUILD_HOST}"
 
-RUN mkdir -p config
-
 COPY docker/release/* /usr/local/bin
 
-RUN apk --update add curl ca-certificates \
- && adduser --disabled-password iroha --shell /bin/bash --home /home/iroha \
- && mkdir -p ${CONFIG_DIR} \
- && mkdir ${STORAGE} \
- && chown iroha:iroha ${STORAGE}
+RUN apt update \
+ && apt install -y --no-install-recommends libssl-dev \
+ && rm -rf /var/lib/apt/lists/*
 
-USER iroha
+ENV IROHA2_CONFIG_PATH=config/config.json
+ENV IROHA2_GENESIS_PATH=config/genesis.json
 
 CMD ./iroha

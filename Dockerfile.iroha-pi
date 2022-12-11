@@ -10,8 +10,6 @@ LABEL BUILD_DATE="${BUILD_DATE}"
 LABEL BUILD_NO="${BUILD_NO}"
 LABEL BUILD_HOST="${BUILD_HOST}"
 
-RUN mkdir -p config
-
 COPY docker/release/* /usr/local/bin
 
 RUN apt update \

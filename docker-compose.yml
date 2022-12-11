@@ -1,8 +1,7 @@
 version: "3.8"
 services:
   iroha0:
-    image: hyperledger/iroha2:dev
-    platform: linux/x86_64
+    image: ${IROHA_PRJ}/${IROHA_IMG}
     container_name: iroha0
     privileged: true
     environment:
@@ -24,8 +23,7 @@ services:
     command: iroha --submit-genesis
 
   iroha1:
-    image: hyperledger/iroha2:dev
-    platform: linux/x86_64
+    image: ${IROHA_PRJ}/${IROHA_IMG}
     container_name: iroha1
     privileged: true
     environment:
@@ -45,8 +43,7 @@ services:
     init: true
 
   iroha2:
-    image: hyperledger/iroha2:dev
-    platform: linux/x86_64
+    image: ${IROHA_PRJ}/${IROHA_IMG}
     container_name: iroha2
     privileged: true
     environment:
@@ -66,8 +63,7 @@ services:
     init: true
 
   iroha3:
-    image: hyperledger/iroha2:dev
-    platform: linux/x86_64
+    image: ${IROHA_PRJ}/${IROHA_IMG}
     container_name: iroha3
     privileged: true
     environment:
