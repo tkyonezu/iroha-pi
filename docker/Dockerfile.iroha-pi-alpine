@@ -1,0 +1,37 @@
+FROM alpine:3.16
+
+ARG STORAGE=/storage
+ARG TARGET_DIR=/iroha/target/x86_64-unknown-linux-musl/deploy
+ENV BIN_PATH=/usr/local/bin/
+ENV CONFIG_DIR=/config
+ENV IROHA2_CONFIG_PATH=$CONFIG_DIR/config.json
+ENV IROHA2_GENESIS_PATH=$CONFIG_DIR/genesis.json
+ENV KURA_BLOCK_STORE_PATH=$STORAGE
+
+ARG GITLOG="${GITLOG}"
+ARG BUILD_DATE="${BUILD_DATE}"
+ARG BUILD_NO="${BUILD_NO}"
+ARG BUILD_HOST="${BUILD_HOST}"
+
+LABEL GITLOG="${GITLOG}"
+LABEL BUILD_DATE="${BUILD_DATE}"
+LABEL BUILD_NO="${BUILD_NO}"
+LABEL BUILD_HOST="${BUILD_HOST}"
+
+RUN mkdir -p config \
+ && ln -s /lib/libssl.so.1.1 /lib/libssl.so.3 \
+ && ln -s /lib/libcrypto.so.1.1 /lib/libcrypto.so.3 \
+ && ln -s /lib/ld-musl-aarch64.so.1 /lib/libgcc_s.so.1 \
+ && ln -s /lib/ld-musl-aarch64.so.1 /lib/ld-linux-aarch64.so.1
+
+COPY docker/release/* /usr/local/bin
+
+RUN apk --update add curl ca-certificates \
+ && adduser --disabled-password iroha --shell /bin/bash --home /home/iroha \
+ && mkdir -p ${CONFIG_DIR} \
+ && mkdir ${STORAGE} \
+ && chown iroha:iroha ${STORAGE}
+
+USER iroha
+
+CMD ./iroha
