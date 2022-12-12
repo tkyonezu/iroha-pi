@@ -16,7 +16,11 @@ RUN apt update \
  && apt install -y --no-install-recommends libssl-dev \
  && rm -rf /var/lib/apt/lists/*
 
+RUN (cd /lib; \
+     ln -s aarch64-linux-gnu/libcrypto.so libcrypto.so.1.1; \
+     ln -s aarch64-linux-gnu/libssl.so    libssl.so.1.1)
+
 ENV IROHA2_CONFIG_PATH=config/config.json
 ENV IROHA2_GENESIS_PATH=config/genesis.json
 
-CMD ./iroha
+CMD iroha

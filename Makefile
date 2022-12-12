@@ -135,13 +135,12 @@ pull:
 	cd ../iroha; git checkout iroha2-dev; git pull
 
 build:
-	cd ../iroha; git checkout iroha2-dev; cargo build
-	## cd ../iroha; git checkout iroha2-dev; cargo build --release
-	## cd ../iroha; git checkout v2.0.0-pre-rc.9; cargo build --release
+	# cd ../iroha; git checkout iroha2-dev; cargo build
+	# cd ../iroha; git checkout iroha2-dev; cargo build --release
 
 docker:
-	(cd ../iroha/target/debug; rsync -a iroha iroha_client_cli kagami kura_inspector parity_scale_decoder ../../../iroha-pi/docker/debug; strip ../../../iroha-pi/docker/debug/*)
-	docker build -f docker/Dockerfile.iroha-pi --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t iroha2:dev .
+	(cd ../iroha/target/release; rsync -a iroha iroha_client_cli kagami kura_inspector parity_scale_decoder ../../../iroha-pi/docker/release; strip ../../../iroha-pi/docker/release/*)
+	docker build -f docker/Dockerfile.iroha-pi --build-arg GITLOG="$(GITLOG)" --build-arg BUILD_DATE="$(BUILD_DATE)" --build-arg BUILD_NO="$(BUILD_NO)" --build-arg BUILD_HOST="$(BUILD_HOST)" -t hyperledger/iroha2-pi:dev .
 
 ## docker: iroha-rel iroha
 
