@@ -3,6 +3,7 @@ services:
   iroha0:
     build: .
     image: ${IROHA_PRJ}/${IROHA_IMG}
+    platform: linux/${MACHINE}
     environment:
       TORII_P2P_ADDR: iroha0:1337
       TORII_API_URL: iroha0:8080
