@@ -135,8 +135,8 @@ pull:
 	cd ../iroha; git checkout iroha2-dev; git pull
 
 build:
-	# cd ../iroha; git checkout iroha2-dev; cargo build
-	# cd ../iroha; git checkout iroha2-dev; cargo build --release
+	## cd ../iroha; git checkout iroha2-dev; cargo build
+	cd ../iroha; git checkout iroha2-dev; cargo build --release
 
 docker:
 	(cd ../iroha/target/release; rsync -a iroha iroha_client_cli kagami kura_inspector parity_scale_decoder ../../../iroha-pi/docker/release; strip ../../../iroha-pi/docker/release/*)
