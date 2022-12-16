@@ -4,7 +4,6 @@ services:
     image: ${IROHA_PRJ}/${IROHA_IMG}
     platform: linux/${MACHINE}
     container_name: iroha0
-    privileged: true
     environment:
       TORII_P2P_ADDR: iroha0:1337
       TORII_API_URL: iroha0:8080
@@ -27,7 +26,6 @@ services:
     image: ${IROHA_PRJ}/${IROHA_IMG}
     platform: linux/${MACHINE}
     container_name: iroha1
-    privileged: true
     environment:
       TORII_P2P_ADDR: iroha1:1338
       TORII_API_URL: iroha1:8081
@@ -48,7 +46,6 @@ services:
     image: ${IROHA_PRJ}/${IROHA_IMG}
     platform: linux/${MACHINE}
     container_name: iroha2
-    privileged: true
     environment:
       TORII_P2P_ADDR: iroha2:1339
       TORII_API_URL: iroha2:8082
@@ -69,7 +66,6 @@ services:
     image: ${IROHA_PRJ}/${IROHA_IMG}
     platform: linux/${MACHINE}
     container_name: iroha3
-    privileged: true
     environment:
       TORII_P2P_ADDR: iroha3:1340
       TORII_API_URL: iroha3:8083
