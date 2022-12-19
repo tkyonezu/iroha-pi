@@ -1,0 +1,10 @@
+{
+  "definition_id": "can_unregister_asset_with_definition",
+  "params": {
+    "asset_definition_id": {
+      "Id": {
+        "AssetDefinitionId": "point#iroha"
+      }
+    }
+  }
+}
