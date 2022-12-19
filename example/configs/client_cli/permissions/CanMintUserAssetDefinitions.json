@@ -1,0 +1,10 @@
+{
+  "definition_id": "can_mint_user_asset_definitions",
+  "params": {
+    "asset_definition_id": {
+      "Id": {
+        "AssetDefinitionId": "point#iroha"
+      }
+    }
+  }
+}
