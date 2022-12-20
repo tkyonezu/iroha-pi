@@ -2,7 +2,6 @@ version: "3.8"
 services:
   iroha0:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    platform: linux/${MACHINE}
     container_name: iroha0
     environment:
       TORII_P2P_ADDR: iroha0:1337
@@ -24,7 +23,6 @@ services:
 
   iroha1:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    platform: linux/${MACHINE}
     container_name: iroha1
     environment:
       TORII_P2P_ADDR: iroha1:1338
@@ -44,7 +42,6 @@ services:
 
   iroha2:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    platform: linux/${MACHINE}
     container_name: iroha2
     environment:
       TORII_P2P_ADDR: iroha2:1339
@@ -64,7 +61,6 @@ services:
 
   iroha3:
     image: ${IROHA_PRJ}/${IROHA_IMG}
-    platform: linux/${MACHINE}
     container_name: iroha3
     environment:
       TORII_P2P_ADDR: iroha3:1340
