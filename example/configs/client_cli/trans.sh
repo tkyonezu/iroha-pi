@@ -13,9 +13,9 @@ fi
 
 for i in $(seq 20); do
   if [[ ${VERBOSE} == 1 ]]; then
-    echo "$ iroha_client_cli -c config-bob.json asset transfer --from bob@iroha --to alice@iroha --asset-id point#iroha --quantity 1"
+    echo "$ iroha_client_cli -c config-bob.json asset transfer --from bob@iroha --to alice@iroha --asset-id point#iroha --quantity ${i}"
   fi
-  cli -c config-bob.json asset transfer --from bob@iroha --to alice@iroha --asset-id point#iroha --quantity 1
+  cli -c config-bob.json asset transfer --from bob@iroha --to alice@iroha --asset-id point#iroha --quantity ${i}
 done
 
 exit 0
