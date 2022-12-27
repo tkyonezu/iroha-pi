@@ -23,4 +23,14 @@ RUN (cd /lib; \
 ENV IROHA2_CONFIG_PATH=config/config.json
 ENV IROHA2_GENESIS_PATH=config/genesis.json
 
+ARG  STORAGE=/storage
+ENV  CONFIG_DIR=/config
+
+RUN adduser --disabled-password iroha --shell /bin/bash --home /app \
+ && mkdir -p ${CONFIG_DIR} \
+ && mkdir ${STORAGE} \
+ && chown iroha:iroha ${STORAGE}
+
+USER iroha
+
 CMD iroha
