@@ -107,7 +107,8 @@ else
   endif
 endif
 
-all: build docker
+all: docker
+## all: build docker
 ## all: vcpkg-build iroha
 ## all: iroha-dev iroha-bld iroha-rel iroha
 
