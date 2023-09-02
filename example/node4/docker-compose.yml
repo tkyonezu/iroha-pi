@@ -25,6 +25,7 @@ services:
       - ${PWD}/iroha1/wsv:/tmp/wsv
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
+    entrypoint: irohad --config iroha.conf --genesis_block genesis.block --keypair_name node1
 
   node2:
     image: ${IROHA_PRJ}/${IROHA_IMG}
@@ -39,6 +40,7 @@ services:
       - ${PWD}/iroha2/wsv:/tmp/wsv
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
+    entrypoint: irohad --config iroha.conf --genesis_block genesis.block --keypair_name node2
 
   node3:
     image: ${IROHA_PRJ}/${IROHA_IMG}
@@ -53,6 +55,7 @@ services:
       - ${PWD}/iroha3/wsv:/tmp/wsv
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
+    entrypoint: irohad --config iroha.conf --genesis_block genesis.block --keypair_name node3
 
   node4:
     image: ${IROHA_PRJ}/${IROHA_IMG}
@@ -67,6 +70,7 @@ services:
       - ${PWD}/iroha4/wsv:/tmp/wsv
       - ccache-data:/tmp/ccache
     working_dir: /opt/iroha/config
+    entrypoint: irohad --config iroha.conf --genesis_block genesis.block --keypair_name node4
 
 volumes:
   ccache-data:
