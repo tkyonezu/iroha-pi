@@ -3,13 +3,13 @@
 #
 # - all (default) - buid iroha-build container, and build iroha
 # - docker        - build iroha runtime container
-# - up            - running iroha container by docker-compose
-# - down          - stop and remove iroha container by docker-compose
-# - testup        - running iroha for test container by docker-compose
+# - up            - running iroha container by docker compose
+# - down          - stop and remove iroha container by docker compose
+# - testup        - running iroha for test container by docker compose
 # - test          - exec all test commands
 # - logs          - show logs of iroha-node-1 container
-# - up4           - running iroha container by docker-compose 4 nodes
-# - down4         - stop and remove iroha container by docker-compose 4 ndoes
+# - up4           - running iroha container by docker compose 4 nodes
+# - down4         - stop and remove iroha container by docker compose 4 ndoes
 # - logs4         - show logs of iroha-node[1-4] containers
 # - clean         - cleaning protobuf schemas and build directory
 # - version       - show labels in container
@@ -19,8 +19,8 @@
 # - iroha-rel     - extract binaries, libraries from iroha build
 # - iroha         - build iroha runtime container
 #
-# - iroha-up      - running iroha container by docker-compose
-# - iroha-down    - stop and remove iroha container by docker-compose
+# - iroha-up      - running iroha container by docker compose
+# - iroha-down    - stop and remove iroha container by docker compose
 #---------------------------------------------------------------
 # Copyright (c) 2017-2021 Takeshi Yonezu
 # All Rights Reserved.
@@ -180,7 +180,7 @@ iroha:
 ## 	@scripts/build-no.sh
 
 iroha-up:
-	docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
+	docker compose -p $(COMPOSE_PROJECT_NAME) up -d
 
 iroha-up-postgres:
 	docker compose -f docker-compose-postgres.yml up -d
@@ -189,7 +189,7 @@ iroha-up-blockstore:
 	docker compose -f docker-compose-blockstore.yml up -d
 
 iroha-down:
-	docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
+	docker compose -p $(COMPOSE_PROJECT_NAME) down -v
 
 iroha-down-postgres:
 	docker compose -f docker-compose-postgres.yml down -v
@@ -199,9 +199,9 @@ iroha-down-blockstore:
 
 up4:
 ifeq ($(UMACHINE),armv7l)
-	cd example/node4; COMPOSE_HTTP_TIMEOUT=120 docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
+	cd example/node4; COMPOSE_HTTP_TIMEOUT=120 docker compose -p $(COMPOSE_PROJECT_NAME) up -d
 else
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) up -d
+	cd example/node4; docker compose -p $(COMPOSE_PROJECT_NAME) up -d
 endif
 
 up4p:
@@ -222,7 +222,7 @@ up4b:
 	cd example/node4; docker compose -f docker-compose-blockstore.yml up -d
 
 down4:
-	cd example/node4; docker-compose -p $(COMPOSE_PROJECT_NAME) down -v
+	cd example/node4; docker compose -p $(COMPOSE_PROJECT_NAME) down -v
 
 down4p:
 	cd example/node4; docker compose -f docker-compose-postgres.yml down -v
@@ -235,7 +235,7 @@ down4b:
 
 ifeq ($(UMACHINE),x86_64)
 iroha-testup:
-	docker-compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE_TEST) up -d
+	docker compose -p $(COMPOSE_PROJECT_NAME) -f $(COMPOSE_TEST) up -d
 
 test:
 	cd scripts && bash iroha-test.sh
