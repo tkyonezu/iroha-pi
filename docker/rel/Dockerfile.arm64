@@ -28,7 +28,7 @@ ENV GO_RELEASE=go${GO_VERSION}.${GO_OS}-${GO_ARCH}
 ENV GOPATH=${HOME}/go
 ENV PATH=${HOME}/go/bin:/usr/local/go/bin:${PATH}
 
-RUN curl -fsSL https://go.dev/dl/go${GO_RELEASE}.tar.gz | tar -C /usr/local -xzf - \
+RUN curl -fsSL https://go.dev/dl/${GO_RELEASE}.tar.gz | tar -C /usr/local -xzf - \
  && (cd ${HOME}; mkdir -p go/src; cd go/src; \
       go get -u google.golang.org/protobuf/cmd/protoc-gen-go; \
       go install google.golang.org/protobuf/cmd/protoc-gen-go)
