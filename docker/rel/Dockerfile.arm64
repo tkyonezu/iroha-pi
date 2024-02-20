@@ -20,7 +20,8 @@ RUN apt update && apt upgrade -y \
       file build-essential ninja-build git ca-certificates tar curl unzip \
       pkg-config zip rsync
 
-ENV GO_VERSION=1.22.0
+ENV GO_VERSION=1.15.15
+## ENV GO_VERSION=1.22.0
 ENV GO_OS=linux
 ENV GO_ARCH=arm64
 ENV GO_RELEASE=go${GO_VERSION}.${GO_OS}-${GO_ARCH}
